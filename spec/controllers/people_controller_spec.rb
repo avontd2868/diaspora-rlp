@@ -74,6 +74,21 @@ describe PeopleController do
     end
   end
 
+  describe '#tag_index' do
+    it 'works for js' do
+      get :tag_index, :name => 'jellybeans', :format => :js
+      response.should be_success
+    end
+
+    it 'returns awesome people who have that tag' do
+      f = Factory(:person)
+      f.profile.tag_string = "#seeded"
+      f.profile.save
+      get :tag_index, :name => 'seeded', :format => :js
+      assigns[:people].count.should == 1
+    end
+  end
+
   describe "#show performance", :performance => true do
     before do
       require 'benchmark'
@@ -89,7 +104,7 @@ describe PeopleController do
       end
       @posts.each do |post|
         @users.each do |user|
-          user.comment "yo#{post.text}", :on => post
+          user.comment "yo#{post.text}", :post => post
         end
       end
     end
@@ -150,7 +165,7 @@ describe PeopleController do
 
       it "renders the comments on the user's posts" do
         message = @user.post :status_message, :text => 'test more', :to => @aspect.id
-        @user.comment 'I mean it', :on => message
+        @user.comment 'I mean it', :post => message
         get :show, :id => @user.person.id
         response.should be_success
       end

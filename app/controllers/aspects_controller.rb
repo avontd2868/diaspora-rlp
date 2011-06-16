@@ -15,7 +15,7 @@ class AspectsController < ApplicationController
       @aspects = current_user.aspects.where(:id => params[:a_ids])
     else
       @aspects = current_user.aspects
-      @contacts_sharing_with = current_user.contacts.sharing
+      @contacts_sharing_with = current_user.contacts.sharing.includes(:person => :profile)
     end
 
     #No aspect_listings on infinite scroll
@@ -40,7 +40,7 @@ class AspectsController < ApplicationController
     if params[:only_posts]
       render :partial => 'shared/stream', :locals => {:posts => @posts}
     else
-      @contact_count = current_user.contacts.count
+      @contact_count = current_user.contacts.receiving.count
 
       @aspect = :all unless params[:a_ids]
       @aspect ||= @aspects.first # used in mobile

@@ -145,6 +145,10 @@ ca:
       no_contacts: "Cap contacte"
       post_a_message: "publica un missatge »"
       people_sharing_with_you: "Gent amb qui compartiu"
+      cubbies:
+        heading: "Connecteu a Cubbi.es"
+        explanation: "Cubbi.es és la primera aplicació Diàspora sota desenvolupament."
+        learn_more: "Més informació"
 
 
   aspect_memberships:
@@ -163,6 +167,8 @@ ca:
 
 
   bookmarklet:
+    # XXX: Miniaplicació enllaçada és simplement horrible (TERMCAT). jm
+    heading: "Miniaplicació enllaçada del Diàspora"
     post_success: "S'ha publicat! S'està tancant!"
     post_something: "Publiqueu alguna cosa al Diàspora"
     explanation: "%{link} des de qualsevol lloc afegint aquest enllaç a les adreces d'interès."
@@ -364,9 +370,9 @@ ca:
       and_others:
         zero: "i ningú més"
         one: "i una persona més"
-        few: "i %{number} més"
-        many: "i %{number} més"
-        other: "i %{number} més"
+        few: "i %{count} més"
+        many: "i %{count} més"
+        other: "i %{count} més"
       and: "i"
     helper:
       new_notifications:
@@ -582,6 +588,7 @@ ca:
       really_disconnect: "desconnecta del %{service}?"
       connect_to_twitter: "Connect al Twitter"
       connect_to_facebook: "Connecta al Facebook"
+      connect_to_tumblr: "Connecta al Tumblr"
       edit_services: "Edita els serveis"
     create:
       success: "S'ha autenticat amb èxit."
@@ -729,7 +736,7 @@ També és la millor forma de coŀleccionar fotos en línia."
       private_message: "… rebeu un missatge privat?"
       liked: "… a algú li agradi una publicació vostra?"
       change: "Canvia"
-    destroy: "S'ha tancat el compte amb èxit."
+    destroy: "S'ha blocat el vostre compte. Trigarem fins a 20 minuts en tancar el compte. Moltes gràcies per provar Diàspora."
     getting_started:
       welcome: "Benvingut/da al Diàspora!"
       signup_steps: "Acabeu el registre completant aquests tres pasos:"

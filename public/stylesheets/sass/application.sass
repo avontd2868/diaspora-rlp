@@ -456,7 +456,24 @@ ul.dropdown
     .from
       a
         :color $blue
+.status_message_show
+  .stream_element
+    .content
+      p
+      :font
+        :size 1em
 
+  .comments
+    :padding
+      :bottom 6px
+    > li:last-child
+      :border-bottom none
+  .comment_box
+    :width 475px
+    :margin
+      :bottom 5px
+
+  
 .time,
 .timeago,
 .via
@@ -583,9 +600,20 @@ ul.dropdown
 
 
 .stream ul.comments
+  :padding
+    :bottom 6px
+    
+  > li:last-child
+    :border-bottom none
+    
   .avatar
     :width 30px
     :height 30px
+
+  .comment_box
+    :margin
+      :bottom 5px
+
 
 .submit_button
   :text
@@ -1334,9 +1362,11 @@ ul#aspect_nav
   :background-color rgb(252,252,252)
 
 .aspect
-  :margin
-    :right 20px
-
+  :margin-right 20px // overwriting default of 10px from grid
+  &.last
+    :margin-right 0
+  &.span-12
+    :width 465px // overwriting default of 470px from grid
 
 .requests
   ul.dropzone
@@ -2316,7 +2346,7 @@ ul.show_comments,
 .likes_container
   > *
     :font
-      :size smaller
+      :size 10px
       :weight bold
 
   img
@@ -2896,3 +2926,30 @@ h1.tag
 #facebox
   input[type='text'], input.text
     :width 98%
+
+.canvas
+  .image-element,
+  .stream_element
+    :border none
+    :padding 20px
+    :height 170px
+    :width 170px
+
+    :min-height 170px
+    :min-width 170px
+
+    :display inline-block
+    :vertical-align middle
+    :text-align center
+
+    img
+      :position relative
+      :max-width 100%
+      :max-height 100%
+
+    .via
+      :text-align left
+      :font-size 11px
+
+    .hold-me
+      :display inline-block

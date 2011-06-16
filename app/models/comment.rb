@@ -9,8 +9,8 @@ class Comment < ActiveRecord::Base
   include ROXML
 
   include Diaspora::Webhooks
-  include Diaspora::Relayable
   include Diaspora::Guid
+  include Diaspora::Relayable
 
   include Diaspora::Socketable
 
@@ -25,7 +25,6 @@ class Comment < ActiveRecord::Base
 
   serialize :youtube_titles, Hash
   before_save do
-    get_youtube_title text
     self.text.strip! unless self.text.nil?
   end
   def diaspora_handle

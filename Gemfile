@@ -16,8 +16,8 @@ gem 'devise', '~> 1.3.1'
 gem 'devise_invitable', '0.5.0'
 
 #Authentication
-gem 'omniauth', '0.1.6'
-gem 'twitter', :git => 'git://github.com/jnunemaker/twitter.git', :ref => 'ef122bbb280e229ed343'
+gem 'omniauth', '0.2.6'
+gem 'twitter', '1.5.0'
 
 #Views
 gem 'haml', '3.0.25'
@@ -31,7 +31,7 @@ gem 'acts-as-taggable-on', :git => 'git://github.com/diaspora/acts-as-taggable-o
 
 #Uncatagorized
 gem 'roxml', :git => 'git://github.com/Empact/roxml.git', :ref => '7ea9a9ffd2338aaef5b0'
-gem 'addressable', '2.2.2', :require => 'addressable/uri'
+gem 'addressable', '2.2.4', :require => 'addressable/uri'
 gem 'json', '1.4.6'
 gem 'http_accept_language', :git => 'git://github.com/iain/http_accept_language.git', :ref => '0b78aa7849fc90cf9e12'
 
@@ -52,6 +52,8 @@ gem 'jammit', '0.5.4'
 gem 'rest-client', '1.6.1'
 gem 'typhoeus'
 
+gem 'newrelic_rpm', :require => false
+
 #Backups
 gem 'cloudfiles', '1.4.10', :require => false
 
@@ -60,6 +62,7 @@ gem 'resque', '1.10.0'
 gem 'SystemTimer', '1.2.1' unless RUBY_VERSION.include? '1.9' || RUBY_PLATFORM =~ 'win32'
 
 group :development do
+  gem 'yard'
   gem 'capistrano', '2.5.19', :require => false
   gem 'capistrano-ext', '1.2.1', :require => false
   gem 'sod', :git => "git://github.com/MikeSofaer/sod.git", :require => false
@@ -69,7 +72,10 @@ group :test, :development do
   gem 'factory_girl_rails', :require => false
   gem 'ruby-debug-base19', '0.11.23' if RUBY_VERSION.include? '1.9.1'
   gem 'ruby-debug19' if RUBY_VERSION.include? '1.9'
-  gem 'ruby-debug' if defined?(Rubinius).nil? && RUBY_VERSION.include?('1.8')
+  if defined?(Rubinius).nil? && RUBY_VERSION.include?('1.8')
+    gem 'ruby-debug'
+    gem 'linecache', '0.43'
+  end
   gem 'launchy'
   gem 'jasmine', '1.0.2.1'
 end

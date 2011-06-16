@@ -89,6 +89,10 @@ pa:
       aspect_not_empty: "Aspect not empty"
       remove: "ਹਟਾਓ"
     index: 
+      cubbies: 
+        explanation: "Cubbi.es is the first Diaspora application under development."
+        heading: "Connect to Cubbi.es"
+        learn_more: "Learn more"
       handle_explanation: "This is your diaspora handle. Like an email address, you can give this to people to reach you."
       no_contacts: "ਕੋਈ ਸੰਪਰਕ ਨਹੀਂ"
       people_sharing_with_you: "People sharing with you"
@@ -125,6 +129,7 @@ pa:
   bookmarklet: 
     explanation: "%{link} from anywhere by bookmarking this link."
     explanation_link_text: "Post to Diaspora"
+    heading: "Diaspora Bookmarklet"
     post_something: "Post something to Diaspora"
     post_success: "Posted! Closing!"
   cancel: "ਰੱਦ ਕਰੋ"
@@ -536,6 +541,7 @@ pa:
       not_connected: "not connected"
     index: 
       connect_to_facebook: "ਫੇਸਬੁੱਕ ਨਾਲ ਕੁਨੈਕਟ ਕਰੋ"
+      connect_to_tumblr: "Connect to Tumblr"
       connect_to_twitter: "ਟਵਿੱਟਰ ਨਾਲ ਕੁਨੈਕਟ ਕਰੋ"
       disconnect: "ਕੁਨੈਕਸ਼ਨ ਖਤਮ ਕਰੋ"
       edit_services: "ਸਰਵਿਸ ਸੋਧ"

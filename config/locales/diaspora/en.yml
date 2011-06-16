@@ -142,6 +142,10 @@ en:
       no_contacts: "No contacts"
       post_a_message: "post a message >>"
       people_sharing_with_you: "People sharing with you"
+      cubbies:
+        heading: "Connect to Cubbi.es"
+        explanation: "Cubbi.es is the first Diaspora application under development."
+        learn_more: "Learn more"
 
   aspect_memberships:
     destroy:
@@ -158,6 +162,7 @@ en:
         other: "In %{count} aspects"
 
   bookmarklet:
+    heading: "Diaspora Bookmarklet"
     post_success: "Posted! Closing!"
     post_something: "Post something to Diaspora"
     explanation: "Post to Diaspora from anywhere by bookmarking %{link}."
@@ -557,8 +562,9 @@ en:
       logged_in_as: "logged in as"
       disconnect: "disconnect"
       really_disconnect: "disconnect %{service}?"
-      connect_to_twitter: "Connect to twitter"
-      connect_to_facebook: "Connect to facebook"
+      connect_to_twitter: "Connect to Twitter"
+      connect_to_facebook: "Connect to Facebook"
+      connect_to_tumblr: "Connect to Tumblr"
       edit_services: "Edit services"
     create:
       success: "Authentication successful."
@@ -698,7 +704,7 @@ en:
       private_message: "...you receive a private message?"
       liked: "...someone likes your post?"
       change: "Change"
-    destroy: "Account successfully closed."
+    destroy: "Your account has been locked.  It may take 20 minutes for us to finish closing your account.  Thank you for trying Diaspora."
     getting_started:
       welcome: "Welcome to Diaspora!"
       signup_steps: "Finish your sign up by completing these three steps:"

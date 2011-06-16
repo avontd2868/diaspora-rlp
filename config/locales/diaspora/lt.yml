@@ -89,6 +89,10 @@ lt:
       aspect_not_empty: "Aspektas netuščias"
       remove: "šalinti"
     index: 
+      cubbies: 
+        explanation: "Cubbi.es is the first Diaspora application under development."
+        heading: "Connect to Cubbi.es"
+        learn_more: "Learn more"
       handle_explanation: "Tai tavo vartotojo vardas Diasporoje. Kaip ir el. pašto adresas, jis leidžia sistemoje rasti pažįstamus."
       no_contacts: "No contacts"
       people_sharing_with_you: "People sharing with you"
@@ -125,6 +129,7 @@ lt:
   bookmarklet: 
     explanation: "%{link} from anywhere by bookmarking this link."
     explanation_link_text: "Post to Diaspora"
+    heading: "Diaspora Bookmarklet"
     post_something: "Post something to Diaspora"
     post_success: "Posted! Closing!"
   cancel: "Atšaukti"
@@ -536,6 +541,7 @@ lt:
       not_connected: "not connected"
     index: 
       connect_to_facebook: "Prijungti facebook"
+      connect_to_tumblr: "Connect to Tumblr"
       connect_to_twitter: "Prijungti twitter"
       disconnect: "atjungti"
       edit_services: "Edit services"

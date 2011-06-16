@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
 
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :timeoutable, :token_authenticatable
+         :timeoutable, :token_authenticatable, :lockable,
+         :lock_strategy => :none, :unlock_strategy => :none
 
   before_validation :strip_and_downcase_username
   before_validation :set_current_language, :on => :create
@@ -39,7 +40,6 @@ class User < ActiveRecord::Base
   has_many :services
   has_many :user_preferences
 
-  before_destroy :disconnect_everyone, :remove_mentions, :remove_person
   before_save do
     person.save if person && person.changed?
   end
@@ -153,40 +153,25 @@ class User < ActiveRecord::Base
     Salmon::SalmonSlap.create(self, post.to_diaspora_xml)
   end
 
+  def build_relayable(model, options = {})
+    r = model.new(options.merge(:author_id => self.person.id))
+    r.set_guid
+    r.initialize_signatures
+    r
+  end
+
   ######## Commenting  ########
-  def build_comment(text, options = {})
-    comment = Comment.new(:author_id => self.person.id,
-                          :text => text,
-                          :post => options[:on])
-    comment.set_guid
-    #sign comment as commenter
-    comment.author_signature = comment.sign_with_key(self.encryption_key)
-
-    if !comment.post_id.blank? && person.owns?(comment.parent)
-      #sign comment as post owner
-      comment.parent_author_signature = comment.sign_with_key(self.encryption_key)
-    end
-
-    comment
+  def build_comment(options = {})
+    build_relayable(Comment, options)
   end
 
   ######## Liking  ########
-  def build_like(positive, options = {})
-    like = Like.new(:author_id => self.person.id,
-                    :positive => positive,
-                    :post => options[:on])
-    like.set_guid
-    #sign like as liker
-    like.author_signature = like.sign_with_key(self.encryption_key)
-
-    if !like.post_id.blank? && person.owns?(like.parent)
-      #sign like as post owner
-      like.parent_author_signature = like.sign_with_key(self.encryption_key)
-    end
-
-    like
+  def build_like(options = {})
+    build_relayable(Like, options)
   end
 
+  # Check whether the user has liked a post.  Extremely inefficient if the post's likes are not loaded.
+  # @param [Post] post
   def liked?(post)
     if self.like_for(post)
       return true
@@ -194,7 +179,10 @@ class User < ActiveRecord::Base
       return false
     end
   end
-  
+
+  # Get the user's like of a post, if there is one.  Extremely inefficient if the post's likes are not loaded.
+  # @param [Post] post
+  # @return [Like]
   def like_for(post)
     [post.likes, post.dislikes].each do |likes|
       likes.each do |like|
@@ -260,9 +248,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  # This method is called when an invited user accepts his invitation
+  #
+  # @param [Hash] opts the options to accept the invitation with
+  # @option opts [String] :username The username the invited user wants.
+  # @option opts [String] :password
+  # @option opts [String] :password_confirmation
   def accept_invitation!(opts = {})
-    log_string = "event=invitation_accepted username=#{opts[:username]} uid=#{self.id} "
-    log_string << "inviter=#{invitations_to_me.first.sender.diaspora_handle} " if invitations_to_me.first
+    log_hash = {:event => :invitation_accepted, :username => opts[:username], :uid => self.id}
+    log_hash[:inviter] = invitations_to_me.first.sender.diaspora_handle if invitations_to_me.first
     begin
       if self.invited?
         self.setup(opts)
@@ -271,15 +265,15 @@ class User < ActiveRecord::Base
         self.password_confirmation = opts[:password_confirmation]
         self.save!
         invitations_to_me.each{|invitation| invitation.share_with!}
-        log_string << "success"
-        Rails.logger.info log_string
+        log_hash[:status] = "success"
+        Rails.logger.info log_hash
 
         self.reload # Because to_request adds a request and saves elsewhere
         self
       end
     rescue Exception => e
-      log_string << "failure"
-      Rails.logger.info log_string
+      log_hash[:status] =  "failure"
+      Rails.logger.info log_hash
       raise e
     end
   end
@@ -334,7 +328,11 @@ class User < ActiveRecord::Base
     AppConfig[:admins].present? && AppConfig[:admins].include?(self.username)
   end
 
-  protected
+  def remove_all_traces
+    disconnect_everyone
+    remove_mentions
+    remove_person
+  end
 
   def remove_person
     self.person.destroy
@@ -342,19 +340,17 @@ class User < ActiveRecord::Base
 
   def disconnect_everyone
     self.contacts.each do |contact|
-      unless contact.person.owner.nil?
+      if contact.person.remote?
+        self.disconnect(contact)
+      else
         contact.person.owner.disconnected_by(self.person)
         remove_contact(contact, :force => true)
-      else
-        self.disconnect(contact)
       end
     end
     self.aspects.destroy_all
   end
 
   def remove_mentions
-    Mention.where( :person_id => self.person.id).each do |mentioned_person|
-      mentioned_person.delete
-    end
+    Mention.where( :person_id => self.person.id).delete_all
   end
 end
