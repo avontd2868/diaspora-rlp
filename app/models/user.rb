@@ -40,6 +40,9 @@ class User < ActiveRecord::Base
   has_many :services, :dependent => :destroy
   has_many :user_preferences, :dependent => :destroy
 
+  has_many :authorizations, :class_name => 'OAuth2::Provider::Models::ActiveRecord::Authorization', :foreign_key => :resource_owner_id
+  has_many :applications, :through => :authorizations, :source => :client
+
   before_save do
     person.save if person && person.changed?
   end
@@ -76,6 +79,9 @@ class User < ActiveRecord::Base
     self.language = I18n.locale.to_s if self.language.blank?
   end
 
+  # This override allows a user to enter either their email address or their username into the username field.
+  # @return [User] The user that matches the username/email condition.
+  # @return [nil] if no user matches that condition.
   def self.find_for_database_authentication(conditions={})
     conditions = conditions.dup
     conditions[:username] = conditions[:username].downcase
@@ -85,6 +91,8 @@ class User < ActiveRecord::Base
     where(conditions).first
   end
 
+  # @param [Person] person
+  # @return [Boolean] whether this user can add person as a contact.
   def can_add?(person)
     return false if self.person == person
     return false if self.contact_for(person).present?
@@ -92,6 +100,7 @@ class User < ActiveRecord::Base
   end
 
   ######### Aspects ######################
+
   def move_contact(person, to_aspect, from_aspect)
     return true if to_aspect == from_aspect
     contact = contact_for(person)
@@ -184,10 +193,8 @@ class User < ActiveRecord::Base
   # @param [Post] post
   # @return [Like]
   def like_for(post)
-    [post.likes, post.dislikes].each do |likes|
-      likes.each do |like|
-        return like if like.author_id == self.person.id
-      end
+    post.likes.each do |like|
+      return like if like.author_id == self.person.id
     end
     return nil
   end

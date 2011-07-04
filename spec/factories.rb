@@ -5,7 +5,6 @@
 #For Guidance
 #http://github.com/thoughtbot/factory_girl
 # http://railscasts.com/episodes/158-factories-not-fixtures
-#This inclsion, because gpg-agent(not needed) is never run and hence never sets any env. variables on a MAC
 
 def r_str
   ActiveSupport::SecureRandom.hex(3)
@@ -14,6 +13,7 @@ end
 Factory.define :profile do |p|
   p.sequence(:first_name) { |n| "Robert#{n}#{r_str}" }
   p.sequence(:last_name)  { |n| "Grimm#{n}#{r_str}" }
+  p.birthday Date.today
 end
 
 
@@ -75,6 +75,22 @@ Factory.define(:status_message) do |m|
   end
 end
 
+Factory.define(:status_message_with_photo, :parent => :status_message) do |m|
+  m.sequence(:text) { |n| "There are #{n} ninjas in this photo." }
+  m.after_build do |m|
+    p = Factory(:photo, :author => m.author, :status_message => m, :pending => false)
+  end
+end
+
+Factory.define(:photo) do |p|
+  p.sequence(:random_string) {|n| ActiveSupport::SecureRandom.hex(10) }
+  p.after_build do |p|
+    p.unprocessed_image.store! File.open(File.join(File.dirname(__FILE__), 'fixtures', 'button.png'))
+    p.process
+    p.update_remote_path
+  end
+end
+
 Factory.define :service do |service|
   service.nickname "sirrobertking"
   service.type "Services::Twitter"
@@ -110,4 +126,23 @@ Factory.define(:activity_streams_photo, :class => ActivityStreams::Photo) do |p|
   p.actor_url "http://notcubbi.es/cubber"
   p.provider_display_name "not cubbies"
   p.public true
+end
+
+Factory.define(:app, :class => OAuth2::Provider.client_class) do |a|
+  a.sequence(:name) { |token| "Chubbies#{token}" }
+  a.sequence(:application_base_url) { |token| "http://chubbi#{token}.es/" }
+
+  a.description "The best way to chub on the net."
+  a.icon_url "/images/chubbies48.png"
+  a.permissions_overview "I will use the permissions this way!"
+  a.sequence(:public_key) {|n| OpenSSL::PKey::RSA.new(2048) }
+end
+
+Factory.define(:oauth_authorization, :class => OAuth2::Provider.authorization_class) do |a|
+  a.association(:client, :factory => :app)
+  a.association(:resource_owner, :factory => :user)
+end
+
+Factory.define(:oauth_access_token, :class => OAuth2::Provider.access_token_class) do |a|
+  a.association(:authorization, :factory => :oauth_authorization)
 end

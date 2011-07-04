@@ -1,4 +1,8 @@
 module NotificationsHelper
+  include ERB::Util
+  include ActionView::Helpers::TranslationHelper
+  include ActionView::Helpers::UrlHelper
+  include ApplicationHelper
   def object_link(note, actors)
     target_type = note.popup_translation_key
     actors_count = note.actors.count
@@ -85,3 +89,4 @@ module NotificationsHelper
     i18n[0].match(/\d/) ? i18n[1] : i18n[0]
   end
 end
+

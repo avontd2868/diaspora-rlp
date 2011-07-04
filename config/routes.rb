@@ -7,7 +7,6 @@ Diaspora::Application.routes.draw do
   # Posting and Reading
 
   resources :aspects do
-    get 'manage'                    => :manage, :on => :collection
     put 'toggle_contact_visibility' => :toggle_contact_visibility
   end
 
@@ -34,7 +33,7 @@ Diaspora::Application.routes.draw do
 
   resources :tags, :only => [:index]
   get 'tags/:name' => 'tags#show', :as => 'tag'
-  
+
   resources :apps, :only => [:show]
   # Users and people
 
@@ -68,6 +67,7 @@ Diaspora::Application.routes.draw do
     resources :photos, :controller => "photos", :only => [:create, :show, :destroy]
   end
 
+
   #Temporary token_authenticable route
   resource :token, :only => [:show, :create]
 
@@ -81,7 +81,7 @@ Diaspora::Application.routes.draw do
 
   resource :profile
 
-  resources :contacts,           :except => [:index, :update, :create] do
+  resources :contacts,           :except => [:update, :create] do
     get :sharing, :on => :collection
   end
   resources :aspect_memberships, :only   => [:destroy, :create, :update]
@@ -99,7 +99,7 @@ Diaspora::Application.routes.draw do
   end
 
 
- 
+
 
   # Federation
 
@@ -114,6 +114,13 @@ Diaspora::Application.routes.draw do
 
   # External
 
+
+  get "/oauth/authorize" => "authorizations#new"
+  post "/oauth/authorize" => "authorizations#create"
+
+  post "/oauth/token" => "authorizations#token"
+  resources :authorizations, :only => [:index, :destroy]
+
   resources :services, :only => [:index, :destroy]
   controller :services do
     match '/auth/:provider/callback' => :create
@@ -125,17 +132,7 @@ Diaspora::Application.routes.draw do
   end
 
   scope 'api/v0', :controller => :apis do
-    match 'statuses/public_timeline' => :public_timeline
-    match 'statuses/home_timeline'   => :home_timeline
-    match 'statuses/show/:guid'      => :statuses
-    match 'statuses/user_timeline'   => :user_timeline
-
-    match 'users/show'               => :users
-    match 'users/search'             => :users_search
-    match 'users/profile_image'      => :users_profile_image
-
-    match 'tags_posts/:tag'          => :tag_posts
-    match 'tags_people/:tag'         => :tag_people
+    get 'me' => :me
   end
 
 

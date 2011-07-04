@@ -48,10 +48,10 @@ Feature: sending and receiving requests
     And I add the person to my 2nd aspect
 
     When I go to the home page
-    Then I go to the manage aspects page
+    When I follow "Your Aspects"
 
-    Then I should see 1 contact in "Unicorns"
-    Then I should see 1 contact in "Besties"
+    Then I should have 1 contact in "Unicorns"
+    Then I should have 1 contact in "Besties"
 
     And I am on the home page
     Given I expand the publisher
@@ -60,8 +60,8 @@ Feature: sending and receiving requests
     Then I go to the destroy user session page
 
     When I sign in as "bob@bob.bob"
-    And I am on the manage aspects page
-    Then I should see 1 contact in "Besties"
+    When I follow "Your Aspects"
+      Then I should have 1 contacts in "Besties"
 
     And I am on the home page
     Then I should see "I am following you back"
@@ -79,19 +79,19 @@ Feature: sending and receiving requests
     And I wait for the ajax to finish
 
    When I go to the home page
-   Then I go to the manage aspects page
-   Then I should see 1 contact in "Super People"
+   When I follow "Your Aspects"
+   Then I should have 1 contact in "Super People"
    Then I go to the destroy user session page
 
    When I sign in as "bob@bob.bob"
-   And I am on the manage aspects page
-   Then I should see 1 contact in "Besties"
+   When I follow "Your Aspects"
+   Then I should have 1 contact in "Besties"
 
   Scenario: should not see "Add to aspect" and see mention if already a follower
     When I sign in as "bob@bob.bob"
     And I am on "alice@alice.alice"'s page
 
-    Then I should see "In 1 aspect"
+    Then I should see "Besties"
     Then I should see "Mention"
     Then I should not see "Message"
 

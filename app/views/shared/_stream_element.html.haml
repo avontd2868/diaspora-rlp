@@ -5,9 +5,6 @@
 .stream_element{:data=>{:guid=>post.id}}
   - if current_user && post.author.owner_id == current_user.id
     .right.controls
-      - reshare_aspects = aspects_without_post(all_aspects, post)
-      - unless reshare_aspects.empty?
-        = render 'shared/reshare', :aspects => reshare_aspects, :post => post
       = link_to image_tag('deletelabel.png'), status_message_path(post), :confirm => t('are_you_sure'), :method => :delete, :remote => true, :class => "delete stream_element_delete", :title => t('delete')
   - else
     .right.controls
@@ -19,9 +16,14 @@
     = person_image_link(post.author, :size => :thumb_small)
 
     .content
-      .from
-        = person_link(post.author, :class => 'author')
-        %time.time.timeago{:datetime => post.created_at, :integer => time_for_sort(post).to_i}
+      %div.post_initial_info
+        %span.from
+          = person_link(post.author, :class => 'author')
+          %time.time.timeago{:datetime => post.created_at, :integer => time_for_sort(post).to_i}
+        %span.details
+          \-
+          %span.timeago
+            = link_to(how_long_ago(post), object_path(post))
 
       - if post.activity_streams?
         = link_to image_tag(post.image_url), post.object_url
@@ -37,22 +39,19 @@
           %span.aspect_badges
             = aspect_badges(aspects_with_post(all_aspects, post), :link => true)
 
-        %span.timeago
-          = link_to(how_long_ago(post), object_path(post))
-
         %span.via
           - if post.activity_streams?
             = t('.via', :link => link_to("#{post.provider_display_name}", post.actor_url)).html_safe
 
         - unless (defined?(@commenting_disabled) && @commenting_disabled)
-          |
+          ·
           %span.like_action
             = like_action(post, current_user)
-          |
+          ·
           = link_to t('comments.new_comment.comment'), '#', :class => 'focus_comment_textarea'
 
       .likes
         - if post.likes.size > 0
-          = render "likes/likes", :post_id => post.id, :likes => post.likes, :dislikes => post.dislikes, :current_user => current_user
+          = render "likes/likes", :post_id => post.id, :likes => post.likes, :current_user => current_user
 
       = render "comments/comments", :post => post, :comments => post.comments, :current_user => current_user, :condensed => true, :commenting_disabled => (defined?(@commenting_disabled) && @commenting_disabled)

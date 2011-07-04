@@ -50,7 +50,7 @@ module SocketsHelper
         v = render_to_string(:partial => 'comments/comment', :locals => {:post => object.post, :comment => object, :person => object.author, :current_user => user})
 
       elsif object.is_a? Like
-        v = render_to_string(:partial => 'likes/likes', :locals => {:likes => object.post.likes, :dislikes => object.post.dislikes})
+        v = render_to_string(:partial => 'likes/likes', :locals => {:likes => object.post.likes})
 
       elsif object.is_a? Notification
         v = render_to_string(:partial => 'notifications/popup', :locals => {:note => object, :person => opts[:actor]})
@@ -59,7 +59,7 @@ module SocketsHelper
         raise "#{object.inspect} with class #{object.class} is not actionhashable." unless object.is_a? Retraction
       end
     rescue Exception => e
-      Rails.logger.error("event=socket_render status=fail user=#{user.diaspora_handle} object=#{object.id.to_s}")
+      Rails.logger.error(:event => :socket_render, :status => :fail, :user => user.diaspora_handle, :object=> object.id, :object_class => object.class)
       raise e
     end
     action_hash = {:class =>object.class.to_s.underscore.pluralize, :html => v, :post_id => obj_id(object)}

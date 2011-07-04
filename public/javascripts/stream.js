@@ -18,9 +18,17 @@ var Stream = {
     Stream.setUpAudioLinks();
     //Stream.setUpImageLinks();
 
-    // collapse long comments
+    // collapse long posts
     $(".content p", this.selector).expander({
       slicePoint: 400,
+      widow: 12,
+      expandText: Diaspora.widgets.i18n.t("show_more"),
+      userCollapse: false
+    });
+
+    // collapse long comments
+    $(".comment .content span", this.selector).expander({
+      slicePoint: 200,
       widow: 12,
       expandText: Diaspora.widgets.i18n.t("show_more"),
       userCollapse: false
@@ -41,7 +49,6 @@ var Stream = {
     });
 
     this.setUpComments();
-
   },
 
   setUpComments: function(){
@@ -70,13 +77,23 @@ var Stream = {
 
     });
 
-    $("textarea.comment_box", this.selector).live("focus blur", function(evt) {
-      var commentBox = $(this);
-      commentBox
-        .attr("rows", (evt.type === "focus") ? 2 : 1)
-        .parent().parent()
-          .toggleClass("open");
+    $("textarea.comment_box", this.selector).live("focus", function(evt) {
+      if (this.value === undefined || this.value ===  ''){
+        var commentBox = $(this);
+        commentBox
+          .parent().parent()
+            .addClass("open");
+      }
     });
+    $("textarea.comment_box", this.selector).live("blur", function(evt) {
+      if (this.value === undefined || this.value ===  ''){
+        var commentBox = $(this);
+        commentBox
+          .parent().parent()
+            .removeClass("open");
+      }
+    });
+    
   },
 
   setUpAudioLinks: function() {

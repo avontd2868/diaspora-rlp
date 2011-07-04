@@ -4,16 +4,6 @@
 */
 var View = {
   initialize: function() {
-
-    $(window).scroll(function(){
-      var header = $('header');
-      if( $(this).scrollTop() > 30){
-        header.addClass('fixit');
-      } else {
-        header.removeClass('fixit');
-      }
-    });
-
     /* Buttons */
     $("input:submit").addClass("button");
 
@@ -27,6 +17,10 @@ var View = {
     });
 
     Diaspora.widgets.subscribe("stream/scrolled", function() {
+      $('#main_stream .comments label').inFieldLabels();
+    });
+
+    Diaspora.widgets.subscribe("stream/reloaded", function() {
       $('#main_stream .comments label').inFieldLabels();
     });
 
@@ -55,11 +49,15 @@ var View = {
       .live("submit", this.newRequest.submit);
 
     /* Autoexpand textareas */
-    $('textarea')
-      .autoResize({
-        'animate': false,
-        'extraSpace': 40
-      });
+    var startAutoResize = function() {
+      $('textarea')
+        .autoResize({
+          'animate': false,
+          'extraSpace': 5
+        });
+    }
+    Diaspora.widgets.subscribe("stream/scrolled", startAutoResize)
+    Diaspora.widgets.subscribe("stream/reloaded", startAutoResize)
 
     /* Webfinger form ajaxy loading */
     $(this.webFingerForm.selector)
@@ -77,7 +75,7 @@ var View = {
     });
 
     /* facebox 'done' buttons */
-    $("a[rel*=close]").live('click', function(){ $.facebox.close(); });
+    $("*[rel*=close]").live('click', function(){ $.facebox.close(); });
 
     /* notification routing */
     $("#notification").delegate('.hard_object_link', 'click', function(evt){

@@ -46,24 +46,24 @@ describe AspectsController do
   end
 
   describe "#index" do
-    it "generates a jasmine fixture", :fixture => 'jasmine' do
+    it "generates a jasmine fixture", :fixture => true do
       get :index
       save_fixture(html_for("body"), "aspects_index")
     end
 
-    it "generates a jasmine fixture with a prefill", :fixture => 'jasmine' do
+    it "generates a jasmine fixture with a prefill", :fixture => true do
       get :index, :prefill => "reshare things"
       save_fixture(html_for("body"), "aspects_index_prefill")
     end
 
-    it 'generates a jasmine fixture with services', :fixture => 'jasmine' do
+    it 'generates a jasmine fixture with services', :fixture => true do
       alice.services << Services::Facebook.create(:user_id => alice.id)
       alice.services << Services::Twitter.create(:user_id => alice.id)
       get :index, :prefill => "reshare things"
       save_fixture(html_for("body"), "aspects_index_services")
     end
 
-    it 'generates a jasmine fixture with posts', :fixture => 'jasmine' do
+    it 'generates a jasmine fixture with posts', :fixture => true do
       message = alice.post(:status_message, :text => "hello "*800, :to => @alices_aspect_2.id)
       4.times { bob.comment("what", :post => message) }
       get :index
@@ -217,9 +217,9 @@ describe AspectsController do
         post :create, "aspect" => {"name" => "new aspect"}
         alice.reload.aspects.count.should == 3
       end
-      it "redirects to the aspect page" do
+      it "redirects to the aspect's contact page" do
         post :create, "aspect" => {"name" => "new aspect"}
-        response.should redirect_to(aspect_path(Aspect.find_by_name("new aspect")))
+        response.should redirect_to(contacts_path(:a_id => Aspect.find_by_name("new aspect").id))
       end
 
       context "with person_id param" do
@@ -252,53 +252,6 @@ describe AspectsController do
         post :create, "aspect" => {"name" => ""}
         response.should redirect_to(:back)
       end
-    end
-  end
-
-  describe "#manage" do
-    it "succeeds" do
-      get :manage
-      response.should be_success
-    end
-
-    it "performs reasonably", :performance => true do
-      require 'benchmark'
-      8.times do |n|
-        aspect = alice.aspects.create(:name => "aspect#{n}")
-        8.times do |o|
-          person = Factory(:person)
-          alice.contacts.create(:person => person, :aspects => [aspect])
-        end
-      end
-      Benchmark.realtime{
-        get :manage
-      }.should < 4.5
-    end
-
-    it "assigns aspect to manage" do
-      get :manage
-      assigns(:aspect).should == :manage
-    end
-
-    it "assigns contacts" do
-      get :manage
-      contacts = assigns(:contacts)
-      contacts.to_set.should == alice.contacts.to_set
-    end
-
-    it "succeeds" do
-      get :manage
-      response.should be_success
-    end
-
-    it "assigns aspect to manage" do
-      get :manage
-      assigns(:aspect).should == :manage
-    end
-
-    it "generates a jasmine fixture", :fixture => 'jasmine' do
-      get :manage
-      save_fixture(html_for("body"), "aspects_manage")
     end
   end
 

@@ -4,7 +4,7 @@ namespace :cruise do
     puts "Starting virtual display..."
     `sh -e /etc/init.d/xvfb start`
     puts "Starting specs..."
-    system('export DISPLAY=:99.0 && bundle exec rake')
+    system('export DISPLAY=:99.0 && CI=true bundle exec rake')
     exit_status = $?.exitstatus
     puts "Stopping virtual display..."
     `sh -e /etc/init.d/xvfb stop`
@@ -20,5 +20,13 @@ namespace :cruise do
     exit_status = $?.exitstatus
     raise "db:migrate failed!" unless exit_status == 0
   end
+
+  task :travis do
+    ["rspec spec", "rake cucumber", "jasmine:ci"].each do |cmd|
+      system('bundle exec rspec spec')
+      raise "#{cmd} failed!" unless $?.exitstatus == 0
+    end
+  end
 end
 task :cruise => "cruise:cruise"
+task :travis => "cruise:travis"

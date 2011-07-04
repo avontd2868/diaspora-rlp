@@ -4,7 +4,9 @@
 
 
 ru: 
+  _applications: "Applications"
   _comments: "Коментарии"
+  _contacts: "Contacts"
   _home: "Домашний"
   _photos: "фотографии"
   _services: "Сервисы"
@@ -60,10 +62,13 @@ ru:
       success: "Друг добавлен в аспект."
     aspect_contacts: 
       done_editing: "редактирование завершено"
+    aspect_listings: 
+      add_an_aspect: "+ Add an aspect"
     aspect_stream: 
-      activity: "активности"
-      post_time: "актуальности"
-      sort_by: "сортировать по:"
+      commented_on: "commented on"
+      posted: "posted"
+      recently: "recently:"
+      stream: "Stream"
     contacts_not_visible: "Контакты в этом аспекте не смогут видеть друг друга."
     contacts_visible: "Контакты в этом аспекте могут видеть друг друга"
     create: 
@@ -74,8 +79,8 @@ ru:
       success: "%{name} успешно удалён."
     edit: 
       add_existing: "Добавить существующий контакт"
-      aspect_list_is_not_visible: "список аспектов скрыт для других пользователей"
-      aspect_list_is_visible: "список аспект виден другим пользователям"
+      aspect_list_is_not_visible: "список аспектов скрыт от других пользователей"
+      aspect_list_is_visible: "список аспектов виден другим пользователям"
       confirm_remove_aspect: "Вы уверены, что хотите удалить этот аспект?"
       done: "Выполнено"
       make_aspect_list_visible: "сделать список аспектов видимым?"
@@ -93,17 +98,15 @@ ru:
         explanation: "Cubbi.es это первая программа по развитию диаспоры."
         heading: "Подключение к Cubbi.es"
         learn_more: "Узнать больше"
+      diaspora_id: 
+        content_1: "Your Diaspora ID is:"
+        content_2: "Give it to anyone and they'll be able to find you on Diaspora."
+        heading: "Diaspora ID"
       handle_explanation: "Это идентификатор вашей Диаспоры. Так же как адрес электронной почты, который вы можете дать людям, для связи с вами."
       no_contacts: "Контакты отсутствуют"
-      people_sharing_with_you: "Люди делятса с вами"
+      people_sharing_with_you: "Люди делятся с вами"
       post_a_message: "опубликовать сообщение>>"
-    manage: 
-      add_a_new_aspect: "Добавить новый аспект"
-      add_a_new_contact: "Добавить новый контакт"
-      drag_to_add: "Потяните для добавления в аспект"
-      manage_aspects: "Настройка аспектов"
-      no_requests: "Новых запросов нет"
-      requests: "Запросы"
+      your_aspects: "Your Aspects"
     many: "%{count} аспект[-а, -ов]"
     move_contact: 
       error: "Ошибка при перемещении контакта: %{inspect}"
@@ -114,17 +117,25 @@ ru:
       name: "Имя"
     no_posts_message: 
       start_talking: "Здесь ещё никто ничего не сказал.  Начните разговор!"
+      try_adding_some_more_contacts: "Try adding some more contacts."
     one: "1 аспект"
     other: "%{count} аспект[-а, -ов]"
     seed: 
       family: "Семья"
       work: "Работа"
+    selected_contacts: 
+      manage_your_aspects: "Manage your aspects."
+      no_contacts: "You don't have any contacts here yet."
+      view_all_contacts: "View all contacts"
     show: 
       edit_aspect: "редактировать аспект"
     update: 
       failure: "ваш аспект, %{name}, имеет слишком длинное имя для сохранения."
       success: "Ваш аспект %{name} успешно отредактирован."
     zero: "нет аспектов"
+  authorizations: 
+    index: 
+      revoke_access: "Revoke Access"
   back: "Назад"
   bookmarklet: 
     explanation: "Сообщение для диаспоры из любого места %{link}."
@@ -146,6 +157,17 @@ ru:
     create: 
       failure: "Не удалось создать контакт"
     few: "%{count} контакт[-а, -ов]"
+    index: 
+      add_a_new_aspect: "Add a new aspect"
+      all_contacts: "All Contacts"
+      edit_aspect: "Edit %{name}"
+      my_contacts: "My Contacts"
+      no_contacts: "No contacts."
+      only_sharing_with_me: "Only sharing with me"
+      remove_person_from_aspect: "Remove %{person_name} from \"%{aspect_name}\""
+      start_a_conversation: "Start a conversation"
+      title: "Contacts"
+      your_contacts: "Your Contacts"
     many: "%{count} контакт[-а, -ов]"
     one: "1 контакт"
     other: "%{count} контакт[-а, -ов]"
@@ -173,7 +195,7 @@ ru:
       no_messages: "нет сообщений"
     new: 
       send: "Отправить"
-      subject: "предмет"
+      subject: "тема"
       to: "к"
     show: 
       delete: "удалить и заблокировать разговор"
@@ -190,6 +212,7 @@ ru:
       correct_the_following_errors_and_try_again: "Исправьте ошибки и попробуйте снова."
       invalid_fields: "Недействительные поля"
   fill_me_out: "Заполнить"
+  find_people: "Find people"
   hide: "Скрыть"
   home: 
     show: 
@@ -294,7 +317,7 @@ ru:
         many: "и %{count} другим"
         one: "и еще один"
         other: "и %{count} другим"
-        zero: "и больше кикому"
+        zero: "и больше никому"
       mark_all_as_read: "Отметить все как прочитанные"
       notifications: "Уведомления"
     liked: 
@@ -437,7 +460,7 @@ ru:
       post_it: "Опубликовать!"
     new_photo: 
       empty: "{file} пуст, выберите пожалуйста файл повторно."
-      invalid_ext: "{file} имеет не допустимое расширение. Разрешены только {extensions}."
+      invalid_ext: "{file} имеет недопустимое расширение. Разрешены только {extensions}."
       size_error: "{file} слишком большой, максимальный размер файла {sizeLimit}."
     new_profile_photo: 
       or_select_one: "или выбрать один из существующих"
@@ -556,10 +579,11 @@ ru:
   settings: "Настройки"
   shared: 
     add_contact: 
+      add_new_contact: "Add a new contact"
       create_request: "Поиск по Диаспоре"
       diaspora_handle: "diaspora@handle.org"
       enter_a_diaspora_username: "Введите имя пользователя Диаспоры:"
-      know_email: "Знаете из email адреса? Вы должны предложить им присоединится к Диаспоре "
+      know_email: "Знаете их email адреса? Вы должны предложить им присоединится к Диаспоре "
       your_diaspora_username_is: "Ваше имя пользователя Диаспоры: %{diaspora_handle}"
     contact_list: 
       all_contacts: "Все контакты"
@@ -570,7 +594,7 @@ ru:
       by_email: "по электронной почте"
       dont_have_now: "У вас больше нет приглашений, но новые будут уже скоро!"
       from_facebook: "из Facebook"
-      invitations_left: "%{count} слева"
+      invitations_left: "осталось %{count}"
       invite_someone: "Пригласить кого-нибудь"
       invite_your_friends: "Пригласить своих друзей"
       invites: "Приглашения"
@@ -583,17 +607,18 @@ ru:
       outside: "Публичные сообщения доступны для чтения всем, даже за пределами вашей Диаспоры."
       title: "Настройка подключенных услуг"
     publisher: 
-      add_photos: "добавить фотографии"
       all: "все"
       all_contacts: "все контакты"
       click_to_share_with: "Нажмите, чтобы поделиться с:"
+      discard_post: "Discard post"
       make_public: "сделать публичным"
       post_a_message_to: "Опубликовать сообщение для %{aspect}"
       posting: "Отправка..."
-      public: "Общеее"
+      public: "Общее"
       publishing_to: "публикация в:"
       share: "Поделиться"
       share_with: "поделиться с"
+      upload_photos: "Upload photos"
       whats_on_your_mind: "о чём вы думаете?"
     reshare: 
       reshare: "Поделиться повторно"
@@ -623,7 +648,7 @@ ru:
       zero: "сократите пожалуйста ваше сообщение до %{count} символов"
   stream_helper: 
     hide_comments: "скрыть комментарии"
-    show_comments: "комментарии"
+    show_more_comments: "Show %{number} more comments"
   tags: 
     show: 
       nobody_talking: "Никто пока не говорил о %{tag}."
@@ -656,7 +681,7 @@ ru:
       change_language: "Изменить язык"
       change_password: "Сменить пароль"
       close_account: "Закрыть аккаунт"
-      comment_on_post: "... кто-то комментарии на ваше сообщение?"
+      comment_on_post: "... кто-то прокомментировал ваше сообщение?"
       current_password: "Текущий пароль"
       download_photos: "Скачать мои фотографии"
       download_xml: "Скачать мою информацию в xml"
@@ -667,7 +692,7 @@ ru:
       new_password: "Новый пароль"
       private_message: "... Вы получаете личное сообщение?"
       receive_email_notifications: "Получать извещение электронной почтой (email), если..."
-      started_sharing: "... кто-то начинает делится с вами?"
+      started_sharing: "... кто-то начинает делиться с вами?"
       your_email: "Ваш адрес электронной почты (email)"
       your_handle: "Ваше управление Диаспорой"
     getting_started: 
@@ -677,7 +702,7 @@ ru:
       edit_profile: "Отредактировать профиль"
       finished: "Готово!"
       save_and_continue: "Сохранить и продолжить"
-      signup_steps: "Для заверщения вашей регистрации выполните эти три шага:"
+      signup_steps: "Для завершения вашей регистрации выполните эти три шага:"
       skip: "пропускать при старте"
       step_2: 
         find_your_friends_on_diaspora: "Хотели бы Вы найти своих Facebook друзей в диаспоре?"

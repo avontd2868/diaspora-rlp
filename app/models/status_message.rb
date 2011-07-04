@@ -25,6 +25,7 @@ class StatusMessage < Post
   serialize :youtube_titles, Hash
 
   before_create :build_tags
+  after_create :create_mentions
 
   def text(opts = {})
     self.formatted_message(opts)
@@ -46,9 +47,9 @@ class StatusMessage < Post
   end
 
   def format_mentions(text, opts = {})
-    people = self.mentioned_people
     regex = /@\{([^;]+); ([^\}]+)\}/
     form_message = text.gsub(regex) do |matched_string|
+      people = self.mentioned_people
       person = people.detect{ |p|
         p.diaspora_handle == $~[2] unless p.nil?
       }
@@ -109,32 +110,12 @@ class StatusMessage < Post
       XML
   end
 
-  def as_json(opts={})
-    opts ||= {}
-    if(opts[:format] == :twitter)
-      {
-        :id => self.guid,
-        :text => self.formatted_message(:plain_text => true),
-        :entities => {
-            :urls => [],
-            :hashtags => self.tag_list,
-            :user_mentions => self.mentioned_people.map{|p| p.diaspora_handle},
-          },
-        :source => 'diaspora',
-        :created_at => self.created_at,
-        :user => self.author.as_json(opts)
-      }
-    else
-      super(opts)
-    end
-  end
-
   def socket_to_user(user_or_id, opts={})
     unless opts[:aspect_ids]
       user_id = user_or_id.instance_of?(Fixnum) ? user_or_id : user_or_id.id
-      aspect_ids = AspectMembership.connection.execute(
+      aspect_ids = AspectMembership.connection.select_values(
         AspectMembership.joins(:contact).where(:contacts => {:user_id => user_id, :person_id => self.author_id}).select('aspect_memberships.aspect_id').to_sql
-      ).map{|r| r.first}
+      )
       opts.merge!(:aspect_ids => aspect_ids)
     end
     super(user_or_id, opts)

@@ -4,7 +4,9 @@
 
 
 ro: 
+  _applications: "Applications"
   _comments: "Comentarii"
+  _contacts: "Contacts"
   _home: "Acasă"
   _photos: "Fotografii"
   _services: "Servicii"
@@ -60,10 +62,13 @@ ro:
       success: "Contactul a fost adăugat cu succes la aspect."
     aspect_contacts: 
       done_editing: "terminat de editat"
+    aspect_listings: 
+      add_an_aspect: "+ Add an aspect"
     aspect_stream: 
-      activity: "activitate"
-      post_time: "post time"
-      sort_by: "sort by:"
+      commented_on: "commented on"
+      posted: "posted"
+      recently: "recently:"
+      stream: "Stream"
     contacts_not_visible: "Contacts in this aspect will not be able to see each other."
     contacts_visible: "Contacts in this aspect will be able to see each other."
     create: 
@@ -93,17 +98,15 @@ ro:
         explanation: "Cubbi.es is the first Diaspora application under development."
         heading: "Connect to Cubbi.es"
         learn_more: "Learn more"
+      diaspora_id: 
+        content_1: "Your Diaspora ID is:"
+        content_2: "Give it to anyone and they'll be able to find you on Diaspora."
+        heading: "Diaspora ID"
       handle_explanation: "This is your diaspora handle.  Like an email address, you can give this to people to reach you."
       no_contacts: "No contacts"
       people_sharing_with_you: "People sharing with you"
       post_a_message: "post a message >>"
-    manage: 
-      add_a_new_aspect: "Adaugă un nou aspect"
-      add_a_new_contact: "Adaugă un contact nou"
-      drag_to_add: "Glisaţi pentru a adăuga persoane"
-      manage_aspects: "Gestionează aspectele"
-      no_requests: "Nici o cerere nouă"
-      requests: "Cereri"
+      your_aspects: "Your Aspects"
     many: "%{count} aspects"
     move_contact: 
       error: "Error moving contact: %{inspect}"
@@ -114,17 +117,25 @@ ro:
       name: "Name"
     no_posts_message: 
       start_talking: "Nimeni nu a spus nimic deocamdată. Începe tu o conversaţie!"
+      try_adding_some_more_contacts: "Try adding some more contacts."
     one: "1 aspect"
     other: "%{count} aspects"
     seed: 
       family: "Familie"
       work: "Lucru"
+    selected_contacts: 
+      manage_your_aspects: "Manage your aspects."
+      no_contacts: "You don't have any contacts here yet."
+      view_all_contacts: "View all contacts"
     show: 
       edit_aspect: "Editează aspect"
     update: 
       failure: "Your aspect, %{name}, had too long name to be saved."
       success: "Aspectul, %{name}, a fost editat cu succes."
     zero: "no aspects"
+  authorizations: 
+    index: 
+      revoke_access: "Revoke Access"
   back: "Înapoi"
   bookmarklet: 
     explanation: "%{link} from anywhere by bookmarking this link."
@@ -146,6 +157,17 @@ ro:
     create: 
       failure: "Failed to create contact"
     few: "%{count} contacts"
+    index: 
+      add_a_new_aspect: "Add a new aspect"
+      all_contacts: "All Contacts"
+      edit_aspect: "Edit %{name}"
+      my_contacts: "My Contacts"
+      no_contacts: "No contacts."
+      only_sharing_with_me: "Only sharing with me"
+      remove_person_from_aspect: "Remove %{person_name} from \"%{aspect_name}\""
+      start_a_conversation: "Start a conversation"
+      title: "Contacts"
+      your_contacts: "Your Contacts"
     many: "%{count} contacts"
     one: "1 contact"
     other: "%{count} contacte"
@@ -190,6 +212,7 @@ ro:
       correct_the_following_errors_and_try_again: "Corectaţi următoarele erori şi încercaţi din nou."
       invalid_fields: "Câmpuri invalide"
   fill_me_out: "Umple-mă"
+  find_people: "Find people"
   hide: "Hide"
   home: 
     show: 
@@ -556,6 +579,7 @@ ro:
   settings: "Setări"
   shared: 
     add_contact: 
+      add_new_contact: "Add a new contact"
       create_request: "Find by Diaspora handle"
       diaspora_handle: "Diaspora handle"
       enter_a_diaspora_username: "Enter a Diaspora username:"
@@ -583,10 +607,10 @@ ro:
       outside: "Mesajele publice vor fi disponibile pentru cei ce nu fac parte din Diaspora."
       title: "Sunteţi pe cale de a publica un mesaj public!"
     publisher: 
-      add_photos: "adaugă fotografii"
       all: "toate"
       all_contacts: "toate contactele"
       click_to_share_with: "Click to share with: "
+      discard_post: "Discard post"
       make_public: "make public"
       post_a_message_to: "Post a message to %{aspect}"
       posting: "Posting..."
@@ -594,6 +618,7 @@ ro:
       publishing_to: "publishing to: "
       share: "Distribuie"
       share_with: "Share with %{aspect}"
+      upload_photos: "Upload photos"
       whats_on_your_mind: "what's on your mind?"
     reshare: 
       reshare: "Reshare"
@@ -623,7 +648,7 @@ ro:
       zero: "please make your status messages less than %{count} characters"
   stream_helper: 
     hide_comments: "ascunde comentariile"
-    show_comments: "show comments"
+    show_more_comments: "Show %{number} more comments"
   tags: 
     show: 
       nobody_talking: "Nobody is talking about %{tag} yet."
