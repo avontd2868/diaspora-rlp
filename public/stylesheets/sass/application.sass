@@ -25,6 +25,8 @@ h1
   :position relative
   :font
     :weight bold
+  :letter
+    :spacing -1px
 
 h1, h2, h3, h4
   :margin
@@ -145,6 +147,7 @@ header
 
   a
     :color #CCC
+    :color rgb(147,147,147)
 
     &:hover
       :background none
@@ -156,12 +159,11 @@ header
     :height 40px
 
   ul#user_menu
-    @include border-radius(5px)
-
     :overflow hidden
     :white-space nowrap
     :text-overflow ellipsis
     :text-shadow 0 1px 0 #000
+    :color rgb(147,147,147)
 
     :width auto
 
@@ -169,19 +171,23 @@ header
 
     :z-index 10
     :padding 5px 0
-      :left 30px
-      :right 5px
+      :left 32px
+      :right 7px
     :margin 0
       :top -2px
       :right -5px
 
     :background
-      :color #000
+      :color rgba(24,20,20,0.5)
+
+    :border
+      :left 1px solid #333
+      :right 1px solid #333
 
     :position absolute
     :display inline
 
-    :top 0
+    :top -4px
     :right 0
 
     &:hover
@@ -200,10 +206,10 @@ header
             :decoration none
 
       &:first-child
+        :padding 5px 0
         a
           :padding
             :right 15px
-          :color #CCC
           &:hover
             :background
               :color #222
@@ -213,21 +219,21 @@ header
           :right 5px
 
     &.active
-      @include box-shadow(0,1px,2px,#333)
+      @include dropdown-shadow
 
       :margin
         :top -3px
-        :right -6px
+        :right -5px
       :background
-        :color #000
+        :color rgb(34,30,30)
       :border 1px solid #999
 
     .avatar
       :height 20px
       :width 20px
       :position absolute
-      :left 2px
-      :top 2px
+      :left 4px
+      :top 5px
       :display block
 
 //////////////////////////////////
@@ -250,6 +256,15 @@ ul.dropdown
     li
       :display block
 
+//////////////////////////////////
+//hacks for tagging plugin...
+ul.as-selections 
+  :width 100% !important
+  >li.as-original
+    :width 100% !important
+    >input
+      :width 100% !important
+      :color #999
 //////////////////////////////////
 
 .unread
@@ -287,10 +302,10 @@ ul.dropdown
       :height 370px
       :width 500px
 
-    time
-      :font
-        :weight normal
-        :size smaller
+    .comment
+      .comment_info
+        :font
+          :size smaller
 
 .from
   a
@@ -386,7 +401,7 @@ ul.dropdown
 
     p
       :margin
-        :top 4px
+        :top 0
         :bottom 10px
       :font
         :size 12px
@@ -433,7 +448,7 @@ ul.dropdown
           :top -1px
 
   .delete
-    @include opacity(0.6)
+    @include opacity(0.3)
     :padding 5px
 
     &:hover
@@ -444,7 +459,8 @@ ul.dropdown
     :right 12px
 
   .controls
-    :display none
+    @include transition(opacity)
+    @include opacity(0)
     :z-index 6
     :color #999
     a
@@ -454,7 +470,7 @@ ul.dropdown
 
   &:hover, .comment:hover
     > .controls
-      :display inline
+      @include opacity(1)
 
     .from
       a
@@ -466,20 +482,20 @@ ul.dropdown
       :font
         :size 1em
 
-  .comments
-    :padding
-      :bottom 6px
-    > li:last-child
-      :border-bottom none
   .comment_box
     :width 475px
     :margin
       :bottom 5px
 
-
 .post_initial_info
-  .details
-    :color #aaa
+  :margin
+    :bottom 5px
+
+.details
+  :color #aaa
+
+.post_scope
+  :cursor default
 
 .time,
 .timeago,
@@ -532,23 +548,6 @@ ul.dropdown
       :background none
       :border none
 
-
-.stream ul.comments
-  :padding
-    :bottom 6px
-
-  > li:last-child
-    :border-bottom none
-
-  .avatar
-    :width 30px
-    :height 30px
-
-  .comment_box
-    :margin
-      :bottom 5px
-
-
 .submit_button
   :text
     :align right
@@ -556,8 +555,12 @@ ul.dropdown
 ul.comments,
 ul.show_comments,
 .likes_container
+
+  .avatar
+    :width 30px
+    :height 30px
+
   :margin 0
-    :top 0.5em
   :padding 0
 
   :font
@@ -567,13 +570,6 @@ ul.show_comments,
 
   :position relative
 
-  textarea
-    :width 365px
-    :height 21px
-
-  input
-    :display none
-
   li
     :list
       :style none
@@ -581,12 +577,6 @@ ul.show_comments,
 
     :border
       :bottom 1px dotted #aaa
-
-    .new_comment
-      :min-height 35px
-      p
-        :margin
-          :bottom 0
 
     .from
       :font
@@ -600,16 +590,13 @@ ul.show_comments,
       :width 400px
 
     .content
-      :color #666
       :margin
         :top 0px
         :bottom -2px
       :padding
         :left 36px
         :right 10px
-      .from
-        a
-          :color rgb(85,80,80)
+
       p
         :margin
           :bottom 0
@@ -618,45 +605,102 @@ ul.show_comments,
     .right
       :right 4px
 
-    form
-      :margin
-        :top -5px
-        :bottom -4px
-      :font
-        :size 1em
-
-      .submit_button
-        input
-          :margin
-            :right 0
-
-      textarea
-        :font
-          :size 1em
-        :margin
-          :bottom -3px
-
-      p
-        :position relative
-        :left 35px
-
     .avatar
       :position absolute
       :display inline
 
-    form.open
-      .submit_button
-        :display block
-        :margin
-          :top 5px
-          :bottom 2px
-          :right 2px
-      input
-        :display inline-block
+ul.show_comments
+  :padding
+    :bottom 6px
+  :margin
+    :top 6px
 
-.comments
-  .timeago
-    :color #999
+form.new_comment
+  :padding 8px 5px
+  .avatar
+    :position absolute
+    :display inline
+    :width 30px
+    :height 30px
+
+  :min-height 35px
+
+  input
+    :display none
+
+  :margin
+    :bottom -4px
+
+  :font
+    :size 1em
+
+  .submit_button
+    input
+      :margin
+        :right 0
+
+  textarea
+    :width 365px
+    :height 21px
+
+    :font
+      :size 1em
+    :margin
+      :top 0
+      :bottom -3px
+
+  p
+    :margin
+      :bottom 0
+      :top -10px
+    :position relative
+    :left 35px
+
+  &.open
+    .submit_button
+      :display block
+      :margin
+        :top 5px
+        :bottom 2px
+        :right 2px
+
+    input
+      :display inline-block
+
+
+.comment
+  .like_action
+    @include transition(opacity)
+    @include opacity(0)
+
+    &:before
+      :content " · "
+
+  &:hover
+    .like_action
+      @include opacity(1)
+
+  .likes,
+  .likes_container
+    :display inline
+    :padding 0
+    :margin 0
+    :font
+      :size 10px
+    a
+      :font
+        :weight normal
+
+    img
+      :margin 0
+      :height 9px
+      :width 9px
+      :top 1px
+
+  .likes
+    :margin
+      :left 5px
+
 
 .stream.show
   ul.comments
@@ -803,6 +847,7 @@ label
     :cursor pointer
 
 #publisher
+
   :z-index 0
   :color #999
   :position relative
@@ -1044,17 +1089,14 @@ img.scaled_full
 #thumbnails
   a
     :display inline-block
-    :width 100px
-    :min-width 100px
-    :height 100px
+    :height 140px
     :min-height 100px
     :margin
-      :bottom 15px
-      :right 15px
+      :bottom 5px
+      :right 2px
 
     img
-      :height 100px
-      :width 100px
+      :height 140px
 
 #global_search
   :display inline
@@ -1672,38 +1714,48 @@ ul#request_result
       :bottom 2.5em
       :padding 0
 
+.contact_list_controls
+  :height 30px
+  :margin
+    :bottom 5px
+  :vertical-align middle
+
+#contact_list_search
+  :width 200px
+  :margin
+    :top 0
+  :float right
+
 .contact_list,
 .aspect_list
-  :height 450px
-  :max-height 450px
+  @include border-radius(3px)
+
+  :height 300px
+  :max-height 300px
 
   :overflow-y auto
   :overflow-x hidden
 
-  :border 2px solid #eee
+  :border 1px solid #bbb
 
   :background
     :color rgb(252,252,252)
 
   .name
     :position absolute
-    :left 70px
+    :left 65px
     :top 10px
+
+  .diaspora_id
+    :color #777
+    :font
+      :size smaller
 
   .avatar
     :position absolute
     :left 6px
     :height 50px
     :width 50px
-
-  :-webkit-border-radius 0 0 5px 5px
-  :-moz-border-radius 0 0 5px 5px
-  :border-radius 0 0 5px 5px
-
-  input.contact_list_search
-    :width 100%
-    :margin
-      :top 0
 
   .button.share
     :padding
@@ -1714,31 +1766,50 @@ ul#request_result
 
   > ul
     :margin 0
-    :padding 0
+    :padding 5px
+      :right 0
 
     > li
-      :position relative
-      :height 50px
-      :padding 4px
-      :border
-        :bottom 1px solid #eee
+      @include border-radius(3px)
+      :background
+        :color #fff
 
-      &:last-child
+      :position relative
+      :display inline-block
+
+      &.hidden
+        :display none
+
+      :height 50px
+      :width 170px
+
+      :margin
+        :bottom 5px
+        :right 5px
+
+      :padding 8px
+      :border 1px solid #ccc
+
+      > .right
+        :right -5px
+        :bottom 2px
+
+      &.remote_friend
+        :width 260px
+
+      a.button
+        @include box-shadow(0,0,0)
+
         :border
           :bottom none
 
-      &:hover
-        :background
-          :color rgb(245,245,245)
+        :height 12px !important
+        :width 12px !important
 
-      > .right
-        :right 8px
-        :top 12px
-
-      a.button
         :padding
           :right 4px
           :left 4px
+
         &.added
           @include linear-gradient(rgb(158,255,153), rgb(92,199,86))
 
@@ -2085,22 +2156,11 @@ h3,h4
 .stream
   .avatar
     :float left
-  .arrow,
-
-  .stream_element
-    .aspect_badges
-      @include opacity(0.5)
-
-    &:hover
-      .aspect_badges
-        @include opacity(1)
 
   .aspect_badge
     :position relative
     :margin
       :bottom 0
-  .arrow
-    :top -0.1em
   .aspect_badge
     :top -0.2em
 
@@ -2176,10 +2236,13 @@ h3,h4
 
 
 ul.show_comments
-  :margin
-    :bottom -0.5em
   :border
     :top 1px dotted #aaa
+
+ul.show_comments,
+.likes_container
+  a
+    :color #999
 
 .likes_container
   :margin
@@ -2188,29 +2251,18 @@ ul.show_comments
 
 ul.show_comments,
 .likes_container
-  *
-    :font
-      :weight bold
-    :color #999
-
-  li
-    :border
-      :bottom 1px solid #ccc
-
   img
     :position relative
-    :top 3px
+    :top 2px
     :height 12px
     :width 12px
-    :margin
-      :left 0.5em
 
 .mark_all_read
   :position relative
   :top 10px
 
 #aspect_edit_pane
-  :width 400px
+  :width 810px
   .person_tiles
     .tile
       @include border-radius(2px)
@@ -2379,14 +2431,21 @@ ul.show_comments,
   :margin
     :bottom 10px
 
-  :-webkit-box-shadow 0 3px 3px -3px #333
-  :-moz-box-shadow 0 3px 3px -3px #333
-  :box-shadow 0 3px 3px -3px #333
+  :-webkit-box-shadow 0 2px 3px -3px #666
+  :-moz-box-shadow 0 2px 3px -3px #666
+  :box-shadow 0 2px 3px -3px #666
+
+  .right
+    :top 118px
+    :right 5px
 
   h3
     :margin 0
       :top 6px
       :bottom 0px
+    :padding
+      :bottom 10px
+
   .avatar
     :height 30px
     :width 30px
@@ -2403,10 +2462,11 @@ ul.show_comments,
       :bottom 10px
 
   :border
-    :bottom 1px solid #666
-  :padding 20px
-    :top 110px
+    :bottom 1px solid #ddd
+  :padding 15px
+    :top 101px
     :bottom 10px
+  :width 560px
   :margin
     :top -100px
 
@@ -2497,20 +2557,10 @@ ul.show_comments,
   :height 100%
   :overflow-y auto
   :overflow-x none
-  :background
-    :color #f3f3f3
 
 #left_pane
   :position fixed
-  :width 320px
-  :background
-    :color #ddd
-
-  :-webkit-box-shadow 2px 2px 5px -1px #999
-
-  :border
-    :right 1px solid #999
-  :z-index 4
+  :width 337px
 
   h3
     :padding
@@ -2520,7 +2570,7 @@ ul.show_comments,
 
   #left_pane_header
     :padding 10px
-    :height 22px
+    :height 55px
     :border
       :bottom 1px solid #ddd
 
@@ -2710,11 +2760,6 @@ h1.tag
       :bottom 12px
     :vertical-align top
 
-.cubbies-credentials
-  :background
-    :color #eee
-  :padding 15px
-
 .cubbies-settings-image
   @include box-shadow(3px, 3px, 15px, #333)
   :margin
@@ -2792,6 +2837,7 @@ ul#requested-scopes
 
 ul.left_nav
   :margin 0
+    :bottom 20px
   :padding 0
 
   li
@@ -2799,11 +2845,16 @@ ul.left_nav
     :width 100%
 
   a.aspect_selector,
-  a.home_selector
+  a.home_selector,
+  a.tag_selector,
+  .root_element
     :display block
     :width 100%
     :padding 3px 7px
 
+  a.aspect_selector,
+  a.home_selector,
+  a.tag_selector
     &:hover
       @include border-radius(2px)
 
@@ -2847,8 +2898,10 @@ ul.left_nav
     :margin 0
     li
       :width 155px
+
     a.aspect_selector,
-    a.new_aspect
+    .new_aspect,
+    a.tag_selector
       :padding
         :left 15px
       :width 182px
@@ -2868,7 +2921,8 @@ ul.left_nav
       :width 140px
 
       a.aspect_selector,
-      a.new_aspect
+      .new_aspect,
+      a.tag_selector
         :width 140px
 
       li:hover
@@ -2988,7 +3042,8 @@ ul.left_nav
 
 
 #notification_dropdown
-  @include box-shadow(0,0px,13px,rgba(20,20,20,0.5))
+  @include dropdown-shadow
+
   :background white
   :border solid #888 1px
   :position absolute
@@ -3023,7 +3078,7 @@ ul.left_nav
     :padding 10px 
     :min-height 30px
 
-    img
+    > img
       :height 30px
       :width 30px
       :float left
@@ -3047,3 +3102,20 @@ ul.left_nav
     :left 0px
   :padding
     :bottom 10px
+
+.cubbies_collage
+  :position absolute
+  :right 50px
+  :top -50px
+  :z-index -1
+
+.cubbies_screenshot
+  :position absolute
+  :right -20px
+  :z-index 1
+
+.cubbies_infographic
+  :height 450px
+  :margin
+    :top 30px
+

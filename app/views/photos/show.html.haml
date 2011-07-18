@@ -42,14 +42,14 @@
       %p
         = markdownify(photo.status_message.text)
       %span{:style=>'font-size:smaller'}
-        =link_to t('.collection_permalink'), photo.status_message
+        =link_to t('.collection_permalink'), post_path(photo.status_message)
       %br
       %br
 
     .span-7.prepend-1
       .show_photo_attachments
         - for photo in additional_photos
-          = link_to (image_tag photo.url(:thumb_small), :class => 'thumb_small'), object_path(photo)
+          = link_to (image_tag photo.url(:thumb_small), :class => 'thumb_small'), photo_path(photo)
 
 
     #photo_edit_options
@@ -65,5 +65,5 @@
   #photo_stream.stream.show
     %div{:data=>{:guid=>parent.id}}
       .likes_container
-        = render "likes/likes", :post_id => parent.id, :likes => parent.likes
+        = render "likes/likes_container", :post_id => parent.id, :likes_count => parent.likes_count
       = render "comments/comments", :post => parent, :comments => parent.comments, :always_expanded => true

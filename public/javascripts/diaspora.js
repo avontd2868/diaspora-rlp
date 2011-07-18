@@ -10,46 +10,61 @@
 
   var Diaspora = { };
 
-  Diaspora.WidgetCollection = function() {
-    this.initialized = false;
-    this.collection = { };
-    this.eventsContainer = $({});
-  };
+  Diaspora.EventBroker = {
+    extend: function(obj) {
+      obj.eventsContainer = $({});
 
-  Diaspora.WidgetCollection.prototype.add = function(widgetId, widget) {
-    this[widgetId] = this.collection[widgetId] = new widget();
-    if(this.initialized) {
-      this.collection[widgetId].start();
+      obj.subscribe = Diaspora.EventBroker.subscribe;
+      obj.publish = Diaspora.EventBroker.publish;
+
+      obj.publish = $.proxy(function(eventId, args) {
+	this.eventsContainer.trigger(eventId, args);
+      }, obj);
+
+      obj.subscribe = $.proxy(function(eventIds, callback, context) {
+	var eventIds = eventIds.split(" ");
+      
+	for(var eventId in eventIds) {
+	  this.eventsContainer.bind(eventIds[eventId], $.proxy(callback, context));
+	}
+      }, obj);
+
+      return obj;
     }
   };
 
-  Diaspora.WidgetCollection.prototype.remove = function(widgetId) {
-    delete this.collection[widgetId];
-  };
+  Diaspora.widgets = {
+    initialize: false,
+    collection: {},
+    constructors: {},
 
-  Diaspora.WidgetCollection.prototype.init = function() {
-    this.initialized = true;
+    initialize: function() {
+      this.initialized = true;
+      Diaspora.EventBroker.extend(this);
 
-    for(var widgetId in this.collection) {
-      if(typeof this.collection[widgetId].start !== "undefined") {
-        this.collection[widgetId].start();
+      for(var widgetId in this.collection) {
+	this.collection[widgetId].publish("widget/ready");
       }
-    };
-  
-  };
+    },
 
-  Diaspora.WidgetCollection.prototype.subscribe = function(id, callback, context) {
-    this.eventsContainer.bind(id, $.proxy(callback, context));
-  };
+    add: function(widgetId, Widget) {
+      $.extend(Widget.prototype, Diaspora.EventBroker.extend({}));
 
-  Diaspora.WidgetCollection.prototype.publish = function(id) {
-    this.eventsContainer.trigger(id);
-  };
+      this[widgetId] = this.collection[widgetId] = new Widget();
+      if(this.initialized) {
+	this.collection[widgetId].publish("widget/ready");
+      }
+    },
 
-  Diaspora.widgets = new Diaspora.WidgetCollection();
+    remove: function(widgetId) {
+      delete this.collection[widgetId];
+    }
+  };
 
   window.Diaspora = Diaspora;
 })();
 
 
-$(document).ready(function() { Diaspora.widgets.init(); });
+$(function() {
+  Diaspora.widgets.initialize();
+});

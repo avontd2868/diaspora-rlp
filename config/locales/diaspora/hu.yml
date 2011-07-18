@@ -104,8 +104,12 @@ hu:
         heading: "Diaspora ID"
       handle_explanation: "Ez a Te Diaspora felhasználóneved. Megadhatod elérhetőségként, mint egy email címet."
       no_contacts: "Nincs ismerős"
-      people_sharing_with_you: "People sharing with you"
+      people_sharing_with_you: "Ismerőseid"
       post_a_message: "üzenet küldése >>"
+      services: 
+        content: "You can connect the following services to Diaspora:"
+        heading: "Connect Services"
+      tags_following: "Followed Tags"
       your_aspects: "Your Aspects"
     many: "%{count} csoport"
     move_contact: 
@@ -113,8 +117,8 @@ hu:
       failure: "nem működött: %{inspect}"
       success: "Más csoportba tett téged."
     new: 
-      create: "Create"
-      name: "Name"
+      create: "Létrehoz"
+      name: "Név"
     no_posts_message: 
       start_talking: "Mindenki hallgat. Kezd el te a beszélgetést."
       try_adding_some_more_contacts: "Try adding some more contacts."
@@ -161,6 +165,7 @@ hu:
       add_a_new_aspect: "Add a new aspect"
       all_contacts: "All Contacts"
       edit_aspect: "Edit %{name}"
+      many_people_are_you_sure: "Are you sure you want to start a private conversation with more than %{suggested_limit} contacts? Posting to this aspect may be a better way to contact them."
       my_contacts: "My Contacts"
       no_contacts: "No contacts."
       only_sharing_with_me: "Only sharing with me"
@@ -194,6 +199,7 @@ hu:
       no_conversation_selected: "nincs beszélgetés kiválasztva"
       no_messages: "nincs üzenet"
     new: 
+      abandon_changes: "Abandon changes?"
       send: "Küldés"
       subject: "tárgy"
       to: "címzett"
@@ -267,6 +273,7 @@ hu:
       logout: "kijelentkezés"
       profile: "profil"
       settings: "beállítások"
+      view_all: "View all"
   likes: 
     likes: 
       people_dislike_this: 
@@ -281,6 +288,7 @@ hu:
         one: "1 személy kedveli"
         other: "%{count} személy kedveli"
         zero: "senki nem kedveli"
+  limited: "Limited"
   more: "Bővebben"
   next: "következő"
   no_results: "Nincs eredmény"
@@ -369,9 +377,9 @@ hu:
     diaspora: "A diaspora email robot"
     hello: "Szia %{name}!"
     liked: 
-      liked: "%{name} has just liked your post: "
+      liked: "%{name} kedveli a bejegyzésedet:"
       sign_in: "Sign to view it"
-      subject: "%{name} has just liked your post"
+      subject: "%{name} kedveli a bejegyzésed"
     love: "Szeretettel,"
     manage_your_email_settings: "Kezeld az email beállításaidat"
     mentioned: 
@@ -474,7 +482,6 @@ hu:
       edit_delete_photo: "Kép leírás szerkesztése / kép törlése"
       make_profile_photo: "beállítás profilképnek"
       original_post: "Eredeti bejegyzés"
-      permalink: "permalink"
       update_photo: "Kép frissítése"
       view: "nézet"
     update: 
@@ -484,7 +491,10 @@ hu:
     update: 
       post_hidden: "%{name} bejegyzése elrejtve."
   posts: 
-    doesnt_exist: "ez a bejegyzés nem létezik!"
+    show: 
+      destroy: "Delete"
+      not_found: "Sorry, we couldn't find that post."
+      permalink: "permalink"
   previous: "előző"
   profile: "Profil"
   profiles: 
@@ -507,6 +517,7 @@ hu:
     update: 
       failed: "Profil frissítése sikertelen"
       updated: "Profil frissítve"
+  public: "Public"
   registrations: 
     closed: "A regisztráció zárva ezen a Diaspora kiszolgálón."
     create: 
@@ -569,6 +580,7 @@ hu:
       disconnect: "Megszakít"
       edit_services: "Szolgáltatások szerkesztése"
       logged_in_as: "Bejelentkezve, mint"
+      no_services: "You have not connected any services yet."
       really_disconnect: "Megszakítod a kapcsolatot ezzel: %{service}?"
     inviter: 
       click_link_to_accept_invitation: "Kattints a linkre, hogy elfogadd a meghívást."
@@ -625,8 +637,10 @@ hu:
     stream_element: 
       dislike: "Nem tetszik"
       like: "Tetszik"
-      unlike: "Unlike"
+      shared_with: "Shared with: %{aspect_names}"
+      unlike: "Nem tetszik"
       via: "via %{link}"
+      viewable_to_anyone: "This post is viewable to anyone on the web"
   status_messages: 
     create: 
       success: "Megemlítetted: %{names}"
@@ -636,10 +650,6 @@ hu:
       no_message_to_display: "Nincs üzenet."
     new: 
       mentioning: "Megemlít: %{person}"
-    show: 
-      destroy: "Töröl"
-      not_found: "Bocsánat, nem találjuk a bejegyzést."
-      permalink: "permalink"
     too_long: 
       few: "please make your status messages less than %{count} characters"
       many: "please make your status messages less than %{count} characters"
@@ -649,28 +659,34 @@ hu:
   stream_helper: 
     hide_comments: "hozzászólások elrejtése"
     show_more_comments: "Show %{number} more comments"
+  tag_followings: 
+    create: 
+      failure: "Failed to follow: #%{name}"
+      success: "Successfully following: #%{name}"
+    destroy: 
+      failure: "Failed to stop following: #%{name}"
+      success: "Successfully stopped following: #%{name}"
   tags: 
     show: 
+      follow: "Follow #%{tag}"
+      following: "Following #%{tag}"
       nobody_talking: "Senki nem beszélt még erről: %{tag}."
       people_tagged_with: "Személy felcímkézve: %{tag}"
       posts_tagged_with: "Bejegyzések felcímkézve: #%{tag}"
-  the_world: "a világ"
+      stop_following: "Stop Following #%{tag}"
   tokens: 
     show: 
       connect_to_cubbies: "Connect to Cubbi.es"
       connecting_is_simple: "Connecting your Diaspora account is as simple as filling out two fields on your Cubbi.es account page."
       daniels_account: "Daniel's Diaspora account"
-      generate_a_token: "Generate a token"
+      log_in_with_diaspora_is_comming: "Pretty soon, you'll be able to connect to a new application without creating an account separate from your one on Diaspora."
       love_to_try: "We'd love for you to try it out."
       making_the_connection: "Making the Connection"
       screenshot_explanation: "%{link1}.  This particular cubby is linked to %{link2}."
       sign_up_today: "Sign up today!"
       typical_userpage: "A typical cubbi.es userpage"
       via: "(via %{link})"
-      were_working_hard: "We're working hard on delivering easy connectivity between Diaspora pods and applications.  In the meantime, connecting you Diaspora account with Cubbi.es means copying and pasting two fields."
       what_is_cubbies: "Cubbi.es is the world's first Diaspora application.  It's also the best way to collect photos online."
-      your_diaspora_handle: "Your Diaspora Handle:"
-      your_diaspora_token: "Your Diaspora Token:"
   undo: "Visszavonod?"
   username: "Felhasználónév"
   users: 
@@ -687,7 +703,7 @@ hu:
       download_xml: "Saját XML letöltése"
       edit_account: "Fiók szerkesztése"
       export_data: "Adatok exportálása"
-      liked: "...someone likes your post?"
+      liked: "... valakinek tetszik a bejegyzésed?"
       mentioned: "...meg vagy említve egy bejegyzésben?"
       new_password: "Új jelszó"
       private_message: "...privát üzenetet kaptál?"

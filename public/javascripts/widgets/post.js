@@ -5,37 +5,47 @@
 
 (function() {
   var Post = function() {
-    this.likesSelector = ".like_it, .dislike_it";
-    this.expandLikesSelector = "a.expand_likes, a.expand_dislikes";
-    this.start = function() {
-      //timeago
-      //set up ikes
-      //comments
-      //audio video links
-      //embedder
-      //
+    var self = this;
+    //timeago //set up ikes //comments //audio video links //embedder //
 
-
-      this.setUpLikes();
-    };
+    this.subscribe("widget/ready", function() {
+      $.extend(self, {
+        likes: {
+          actions: $(".like_it, .dislike_it"),
+          expanders: $("a.expand_likes, a.expand_dislikes"),
+        }
+      });
+      self.setUpLikes();
+    });
 
     this.setUpLikes = function() {
-      $(this.expandLikesSelector).live("click", function(evt) {
-        evt.preventDefault();
-        $(this).siblings(".likes_list")
-          .fadeToggle("fast");
+      self.likes.expanders.live("click", self.expandLikes);
+      self.likes.actions.live("ajax:loading", function() {
+        $(this).parent().fadeOut(100);
       });
 
-      var likeIt = $(this.likesSelector);
-
-      likeIt.live("ajax:loading", function() {
-        $(this).parent().fadeOut("fast");
-      });
-
-      likeIt.live("ajax:failure", function() {
+      self.likes.actions.live("ajax:failure", function() {
         Diaspora.widgets.alert.alert(Diaspora.widgets.i18n.t("failed_to_like"));
-        $(this).parent().fadeIn("fast");
+        $(this).parent().fadeIn(100);
       });
+    };
+
+    this.expandLikes = function(evt){
+      evt.preventDefault();
+      var likesList = $(this).siblings(".likes_list");
+      if(likesList.children().length == 0) {
+        likesList.append("<img alt='loading' src='/images/ajax-loader.gif' />");
+        $.ajax({
+          url: this.href,
+          success: function(data){
+            likesList.html(data)
+            	.fadeToggle(100);
+          }
+        });
+      }
+      else {
+        likesList.fadeToggle(100);
+      }
     };
   };
 

@@ -17,6 +17,8 @@ Background:
   Scenario: someone shares with me
     When I sign in as "alice@alice.alice"
     And I follow "notifications" in the header
+    And I wait for the ajax to finish
+    And I follow "View all"
 
   Then I should see "started sharing with you"
 

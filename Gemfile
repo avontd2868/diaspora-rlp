@@ -5,6 +5,7 @@ gem 'mysql2', '0.2.6'
 #gem 'sqlite3'
 gem 'rails', '3.0.3'
 gem 'foreigner', '0.9.1'
+gem 'activerecord-import'
 
 gem 'bundler', '>= 1.0.0'
 gem 'chef', '0.9.12', :require => false
@@ -34,7 +35,8 @@ gem 'faraday-stack'
 gem 'haml', '3.0.25'
 gem 'will_paginate', '3.0.pre2'
 
-#Inflected translations
+#Localization
+gem 'rails-i18n'
 gem 'i18n-inflector-rails', '~> 1.0'
 
 #Tags

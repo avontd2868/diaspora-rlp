@@ -65,7 +65,7 @@ describe AspectsController do
 
     it 'generates a jasmine fixture with posts', :fixture => true do
       message = alice.post(:status_message, :text => "hello "*800, :to => @alices_aspect_2.id)
-      4.times { bob.comment("what", :post => message) }
+      3.times { bob.comment("what", :post => message) }
       get :index
       save_fixture(html_for("body"), "aspects_index_with_posts")
 
@@ -88,6 +88,18 @@ describe AspectsController do
       it 'does not redirect ajax to getting_started' do
         get :index, :format => :js
         response.should_not be_redirect
+      end
+    end
+
+    context 'with no aspects' do
+      before do
+        alice.aspects.each { |aspect| aspect.destroy }
+        alice.reload
+      end
+
+      it 'redirects to the new aspect page' do
+        get :index
+        response.should redirect_to new_aspect_path
       end
     end
 
@@ -329,6 +341,25 @@ describe AspectsController do
 
       get :toggle_contact_visibility, :format => 'js', :aspect_id => @alices_aspect_1.id
       @alices_aspect_1.reload.contacts_visible.should be_false
+    end
+  end
+
+  context 'helper methods' do
+    before do
+      @tag = ActsAsTaggableOn::Tag.create!(:name => "partytimeexcellent")
+      TagFollowing.create!(:tag => @tag, :user => alice )
+      alice.should_receive(:followed_tags).once.and_return([42])
+    end
+
+    describe 'tags' do
+      it 'queries current_users tag if there are tag_followings' do
+        @controller.tags.should == [42]
+      end
+
+      it 'does not query twice' do
+        @controller.tags.should == [42]
+        @controller.tags.should == [42]
+      end
     end
   end
 end

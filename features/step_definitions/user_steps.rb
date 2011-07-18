@@ -70,12 +70,6 @@ Given /^I have one follower$/ do
   @me.reload
 end
 
-Then /^aspect "([^"]*)" should (not )?be selected$/ do |aspect_name, not_selected|
-  link_is_selected = evaluate_script("$('a:contains(\"#{aspect_name}\")').parent('li').hasClass('selected');")
-  expected_value = !not_selected
-  link_is_selected.should == expected_value
-end
-
 Given /^a user with email "([^"]*)" is connected with "([^"]*)"$/ do |arg1, arg2|
   user1 = User.where(:email => arg1).first
   user2 = User.where(:email => arg2).first
@@ -112,6 +106,7 @@ Given /^many posts from alice for bob$/ do
   end
 end
 
+
 Then /^I should have (\d) contacts? in "([^"]*)"$/ do |n_contacts, aspect_name|
   @me.aspects.where(:name => aspect_name).first.contacts.count.should == n_contacts.to_i
 end
@@ -127,7 +122,6 @@ When /^I (add|remove|toggle) the person (to|from) my ([\d])(nd|rd|st|th) aspect$
   steps %Q{
     And I press the first ".toggle.button"
     And I press the #{aspect_number}#{nd} "li" within ".dropdown.active .dropdown_list"
-    And I wait for the ajax to finish
     And I press the first ".toggle.button"
   }
 end
@@ -144,6 +138,11 @@ When /^I add the person to a new aspect called "([^\"]*)"$/ do |aspect_name|
     And I press the first ".toggle.button"
   }
 end
+
+When /^I post a status with the text "([^\"]*)"$/ do |text|
+  @me.post(:status_message, :text => text, :public => true, :to => 'all')
+end
+
 
 And /^I follow the "([^\"]*)" link from the Devise.mailer$/ do |link_text|
   doc = Nokogiri(Devise.mailer.deliveries.first.body.to_s)

@@ -106,6 +106,10 @@ ar:
       no_contacts: "لا أعضاء"
       people_sharing_with_you: "أعضاء يتشاركون معك"
       post_a_message: "انشر رسالة >>"
+      services: 
+        content: "You can connect the following services to Diaspora:"
+        heading: "Connect Services"
+      tags_following: "Followed Tags"
       your_aspects: "Your Aspects"
     many: "%{count} فئات"
     move_contact: 
@@ -161,6 +165,7 @@ ar:
       add_a_new_aspect: "Add a new aspect"
       all_contacts: "All Contacts"
       edit_aspect: "Edit %{name}"
+      many_people_are_you_sure: "Are you sure you want to start a private conversation with more than %{suggested_limit} contacts? Posting to this aspect may be a better way to contact them."
       my_contacts: "My Contacts"
       no_contacts: "No contacts."
       only_sharing_with_me: "Only sharing with me"
@@ -194,6 +199,7 @@ ar:
       no_conversation_selected: "لم تحدد أية محادثة"
       no_messages: "لا يوجد رسائل"
     new: 
+      abandon_changes: "Abandon changes?"
       send: "إرسال"
       subject: "العنوان"
       to: "إلى"
@@ -267,6 +273,7 @@ ar:
       logout: "خروج"
       profile: "الصفحة الشخصية"
       settings: "إعدادات"
+      view_all: "View all"
   likes: 
     likes: 
       people_dislike_this: 
@@ -281,6 +288,7 @@ ar:
         one: "1 أعجبه هذا"
         other: "%{count} أشخاص أعجبهم هذا"
         zero: "لا أحد أحب هذا"
+  limited: "Limited"
   more: "أكثر"
   next: "التالي"
   no_results: "لا نتائج موجودة"
@@ -474,7 +482,6 @@ ar:
       edit_delete_photo: "تعديل وصف الصورة / حذف الصورة"
       make_profile_photo: "اجعلها صورة شخصية"
       original_post: "منشور أصلي"
-      permalink: "رابط دائم"
       update_photo: "تحديث صورة"
       view: "مشاهدة"
     update: 
@@ -484,7 +491,10 @@ ar:
     update: 
       post_hidden: "تم إخفاء مشاركة %{name}"
   posts: 
-    doesnt_exist: "هذه المشاركة غير موجودة"
+    show: 
+      destroy: "Delete"
+      not_found: "Sorry, we couldn't find that post."
+      permalink: "permalink"
   previous: "السابق"
   profile: "الصفحة الشخصية"
   profiles: 
@@ -507,6 +517,7 @@ ar:
     update: 
       failed: "فشل في تحديث حسابك الشخصي"
       updated: "تم تحديث حسابك الشخصي"
+  public: "Public"
   registrations: 
     closed: "التسجيلات مغلقة على هذه المنصة"
     create: 
@@ -569,6 +580,7 @@ ar:
       disconnect: "فصل الإتصال"
       edit_services: "تعديل الخدمات"
       logged_in_as: "متصل بحساب"
+      no_services: "You have not connected any services yet."
       really_disconnect: "فصل إتصال %{service}?"
     inviter: 
       click_link_to_accept_invitation: "إضغط على هذا الرابط لقبول دعوتك"
@@ -625,8 +637,10 @@ ar:
     stream_element: 
       dislike: "لم يعجبني"
       like: "أعجبني"
+      shared_with: "Shared with: %{aspect_names}"
       unlike: "إلغاء إعجابي"
       via: "بواسطة %{link}"
+      viewable_to_anyone: "This post is viewable to anyone on the web"
   status_messages: 
     create: 
       success: "ذكرت بنجاح: %{names}"
@@ -636,10 +650,6 @@ ar:
       no_message_to_display: "لا يوجد رسائل لعرضها"
     new: 
       mentioning: "إشارة إلى: %{person}"
-    show: 
-      destroy: "إزالة"
-      not_found: "للأسف، لم نجد هذا المنشور"
-      permalink: "رابط دائم"
     too_long: 
       few: "رجاء لا تتجاوز في منشوراتك حد %{count} حرفا"
       many: "رجاء لا تتجاوز في منشوراتك حد %{count} حرفا"
@@ -649,28 +659,34 @@ ar:
   stream_helper: 
     hide_comments: "إخفاء التعليقات"
     show_more_comments: "Show %{number} more comments"
+  tag_followings: 
+    create: 
+      failure: "Failed to follow: #%{name}"
+      success: "Successfully following: #%{name}"
+    destroy: 
+      failure: "Failed to stop following: #%{name}"
+      success: "Successfully stopped following: #%{name}"
   tags: 
     show: 
+      follow: "Follow #%{tag}"
+      following: "Following #%{tag}"
       nobody_talking: "لا أحد يتكلم %{tag} بعد"
       people_tagged_with: "أشخاص tagged بـ %{tag}"
       posts_tagged_with: "رسائل tagged بـ #%{tag}"
-  the_world: "العالم"
+      stop_following: "Stop Following #%{tag}"
   tokens: 
     show: 
       connect_to_cubbies: "اتصل بـ Cubbi.es"
       connecting_is_simple: "صِل حساب دياسبرا خاصتك عن طريق ملأ حقلين بـصفحة حساب Cubbi.es خاصتك."
       daniels_account: "حساب دياسبرا الخاص بدانييل"
-      generate_a_token: "أنشئ إقليدا"
+      log_in_with_diaspora_is_comming: "Pretty soon, you'll be able to connect to a new application without creating an account separate from your one on Diaspora."
       love_to_try: "نحبذ أن تجربه."
       making_the_connection: "جارِ الإتصال"
       screenshot_explanation: "%{link1}.  هذا الـ cubby خاص بـ %{link2}."
       sign_up_today: "سجل الآن!"
       typical_userpage: "حساب cubbi.es نموذجي"
       via: "(بواسطة %{link})"
-      were_working_hard: "نحن نعمل بكد لخلق اتصال سلس وسهل بين منصات دياسبرا مع برمجيات أخرى.  على سبيل المثال, وصل حساب دياسبرا بـ Cubbi.es يعني نسخ ولصق حقلين فقط"
       what_is_cubbies: "Cubbi.es هو أول برنامج خاص بدياسبرا في العالم.  وأيضا أفضل وسيلة لتجميع الصور على الويب."
-      your_diaspora_handle: "وسيط دياسبرا خاصتك:"
-      your_diaspora_token: "إقليد دياسبرا خاصتك:"
   undo: "تراجع؟"
   username: "معرف"
   users: 

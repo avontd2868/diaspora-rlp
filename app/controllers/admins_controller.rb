@@ -28,4 +28,10 @@ class AdminsController < ApplicationController
     flash[:notice] = "invitation sent to #{params[:identifier]}"
     redirect_to user_search_path
   end
+
+  def stats
+    @popular_tags = ActsAsTaggableOn::Tagging.joins(:tag).limit(15).count(:group => :tag, :order => 'count(taggings.id) DESC')
+    @new_posts = Post.where(:type => ['StatusMessage','ActivityStreams::Photo'],
+                            :public => true).order('created_at DESC').limit(15).all
+  end
 end

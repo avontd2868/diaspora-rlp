@@ -15,6 +15,22 @@
   .section
     = render 'aspects/aspect_listings'
 
+  .section
+    %ul.left_nav
+      %li
+        %div.root_element
+          = t('aspects.index.tags_following')
+
+        %ul.sub_nav
+          - if tags.size > 0
+            - for tg in tags
+              %li
+                = link_to "##{tg.name}", tag_path(:name => tg.name), :class => "tag_selector"
+          - else
+            %li
+              %span.new_aspect
+                No tags
+
 .span-13.append-1
   #aspect_stream_container.stream_container
     = render 'aspect_stream',
@@ -54,14 +70,27 @@
       = t('.cubbies.explanation')
       = link_to t('.cubbies.learn_more'), token_path
 
-  - if @invites > 0
+  .section
+    .title
+      = image_tag('/images/icons/monotone_wrench_settings.png')
+      %h5
+        = t('.services.heading')
+    .content
+      = t('.services.content')
+      - AppConfig.configured_services.each do |service|
+        - unless current_user.services.any?{|x| x.provider == service}
+          %br= link_to service.titleize, "/auth/#{service}" 
+
+
+  - unless AppConfig[:invites_off]
     .section
       .title
 
         = image_tag('/images/icons/plus.png')
         %h5
-          .right
-            = t('shared.invitations.invitations_left', :count => @invites)
+          - unless AppConfig[:open_invitations]
+            .right
+              = t('shared.invitations.invitations_left', :count => @invites)
           = t('shared.invitations.invite_your_friends')
       .content
         = render "shared/invitations", :invites => @invites

@@ -26,7 +26,8 @@ en:
   are_you_sure: "Are you sure?"
   fill_me_out: "Fill me out"
   back: "Back"
-  the_world: "the world"
+  public: "Public"
+  limited: "Limited"
   search: "Search"
   find_people: "Find people"
   _home: "Home"
@@ -143,8 +144,9 @@ en:
     seed:
       family: "Family"
       work: "Work"
-    index:
+    index: 
       your_aspects: "Your Aspects"
+      tags_following: "Followed Tags"
       handle_explanation: "This is your diaspora id. Like an email address, you can give this to people to reach you."
       no_contacts: "No contacts"
       post_a_message: "post a message >>"
@@ -157,7 +159,9 @@ en:
         heading: "Diaspora ID"
         content_1: "Your Diaspora ID is:"
         content_2: "Give it to anyone and they'll be able to find you on Diaspora."
-
+      services:
+        heading: "Connect Services"
+        content: "You can connect the following services to Diaspora:"
   aspect_memberships:
     destroy:
       success: "Successfully removed person from aspect"
@@ -210,6 +214,7 @@ en:
       all_contacts: "All Contacts"
       only_sharing_with_me: "Only sharing with me"
       remove_person_from_aspect: "Remove %{person_name} from \"%{aspect_name}\""
+      many_people_are_you_sure: "Are you sure you want to start a private conversation with more than %{suggested_limit} contacts? Posting to this aspect may be a better way to contact them." 
 
   conversations:
     index:
@@ -226,6 +231,7 @@ en:
       to: "to"
       subject: "subject"
       send: "Send"
+      abandon_changes: "Abandon changes?"
     helper:
       new_messages: 
         zero: "No new messages"
@@ -276,7 +282,7 @@ en:
       send_an_invitation: "Send an invitation"
       send_invitation: "Send invitation"
       aspect: "Aspect"
-      already_invited: "Already invited"
+      already_invited: "The following people have not accepted your invitation:"
       resend: "Resend"
     check_token:
       not_found: "Invitation token not found"
@@ -293,6 +299,7 @@ en:
       code: "code"
       admin: "admin"
       view_all: "View all"
+      recent_notifications: "Recent notifications"
     application:
       powered_by: "POWERED BY DIASPORA*"
       whats_new: "what's new?"
@@ -383,47 +390,36 @@ en:
         other: "and %{count} others"
       and: 'and'
     helper:
-        new_notifications:
-          zero: "No new notifications"
-          one: "1 new notifications"
-          few: "%{count} new notifications"
-          many: "%{count} new notifications"
-          other: "%{count} new notifications"
+      new_notifications:
+        zero: "No new notifications"
+        one: "1 new notifications"
+        few: "%{count} new notifications"
+        many: "%{count} new notifications"
+        other: "%{count} new notifications"
 
   notifier:
+    email_sent_by_diaspora: "This email was sent by Diaspora.  If you'd like to stop getting emails like this,"
+    click_here: "click here"
     hello: "Hello %{name}!"
-    love: "love,"
     thanks: "Thanks,"
-    diaspora: "the diaspora email robot"
-    manage_your_email_settings: "manage your email settings"
+    to_change_your_notification_settings: "to change your notification settings"
     single_admin:
         subject: "A message about your Diaspora account:"
         admin: "Your Diaspora administrator"
     started_sharing:
-        subject: "%{name} has started sharing with you on Diaspora*"
+        subject: "%{name} started sharing with you on Diaspora*"
         sharing: "has started sharing with you!"
-        sign_in: "Sign in here"
+        view_profile: "View %{name}'s profile"
     comment_on_post:
-        subject: "%{name} has commented on your post."
-        commented: "has commented on your post:"
-        sign_in: "Sign in to view it."
-    also_commented:
-        subject: "%{name} has also commented on %{post_author}'s post."
-        commented: "has also commented on %{post_author}'s post:"
-        sign_in: "Sign in to view it."
+        reply: "Reply or view %{name}'s post >"
     mentioned:
         subject: "%{name} has mentioned you on Diaspora*"
         mentioned: "mentioned you in a post:"
-        sign_in: "Sign in to view it."
     private_message:
-        subject: "%{name} has sent you a private message on Diaspora*"
-        private_message: "has sent you a private message:"
-        message_subject: "Subject: %{subject}"
-        sign_in: "Sign in to view it."
+        reply_to_or_view: "Reply to or view this conversation >"
     liked:
-        subject: "%{name} has just liked your post"
-        liked: "%{name} has just liked your post: "
-        sign_in: "Sign in to view it"
+        liked: "%{name} just liked your post"
+        view_post: "View post >"
 
   people:
     zero: "no people"
@@ -484,7 +480,6 @@ en:
       view: "view"
       edit: "edit"
       edit_delete_photo: "Edit photo description / delete photo"
-      permalink: "permalink"
       collection_permalink: "collection permalink"
       original_post: "Original Post"
     edit:
@@ -513,7 +508,10 @@ en:
       or_select_one: "or select one from your already existing"
 
   posts:
-    doesnt_exist: "that post does not exist!"
+    show:
+      destroy: "Delete"
+      permalink: "permalink"
+      not_found: "Sorry, we couldn't find that post."
 
   post_visibilites:
     update:
@@ -589,6 +587,7 @@ en:
       connect_to_facebook: "Connect to Facebook"
       connect_to_tumblr: "Connect to Tumblr"
       edit_services: "Edit services"
+      no_services: 'You have not connected any services yet.'
     create:
       success: "Authentication successful."
     destroy:
@@ -654,10 +653,12 @@ en:
     contact_list:
       all_contacts: "All contacts"
     stream_element:
+      viewable_to_anyone: "This post is viewable to anyone on the web"
       via: "via %{link}"
       like: "Like"
       unlike: "Unlike"
       dislike: "Dislike"
+      shared_with: "Shared with: %{aspect_names}"
     footer:
       logged_in_as: "logged in as %{name}"
       your_aspects: "your aspects"
@@ -666,10 +667,6 @@ en:
       mentioning: "Mentioning: %{person}"
     create:
       success: "Successfully mentioned: %{names}"
-    show:
-      destroy: "Delete"
-      permalink: "permalink"
-      not_found: "Sorry, we couldn't find that post."
     helper:
       no_message_to_display: "No message to display."
     destroy:
@@ -690,6 +687,17 @@ en:
       posts_tagged_with: "Posts tagged with #%{tag}"
       nobody_talking: "Nobody is talking about %{tag} yet."
       people_tagged_with: "People tagged with %{tag}"
+      follow: "Follow #%{tag}"
+      following: "Following #%{tag}"
+      stop_following: "Stop Following #%{tag}"
+
+  tag_followings:
+    create:
+      success: "Successfully following: #%{name}"
+      failure: "Failed to follow: #%{name}"
+    destroy:
+      success: "Successfully stopped following: #%{name}"
+      failure: "Failed to stop following: #%{name}"
 
   tokens:
     show:
@@ -701,11 +709,8 @@ en:
       typical_userpage: "A typical cubbi.es userpage"
       daniels_account: "Daniel's Diaspora account"
       making_the_connection: "Making the Connection"
-      connecting_is_simple: "Connecting your Diaspora account is as simple as filling out two fields on your Cubbi.es account page."
-      were_working_hard: "We're working hard on delivering easy connectivity between Diaspora pods and applications.  In the meantime, connecting you Diaspora account with Cubbi.es means copying and pasting two fields."
-      your_diaspora_handle: "Your Diaspora ID:"
-      your_diaspora_token: "Your Diaspora Token:"
-      generate_a_token: "Generate a token"
+      connecting_is_simple: "Connecting your Diaspora account is simple!  Just enter your Diaspora ID (<b>%{diaspora_id}</b>) from your cubbies <a href='%{href_link}'>settings page</a> and hit connect."
+      log_in_with_diaspora_is_comming: "Pretty soon, you'll be able to connect to a new application without creating an account separate from your one on Diaspora."
       via: "(via %{link})"
 
   authorizations:

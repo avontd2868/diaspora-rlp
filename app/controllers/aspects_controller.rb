@@ -10,6 +10,9 @@ class AspectsController < ApplicationController
   respond_to :html, :js
   respond_to :json, :only => [:show, :create]
 
+  helper_method :tags, :tag_followings
+  helper_method :all_aspects_selected?
+
   def index
     if params[:a_ids]
       @aspects = current_user.aspects.where(:id => params[:a_ids])
@@ -21,8 +24,14 @@ class AspectsController < ApplicationController
     aspect_ids = @aspects.map{|a| a.id}
 
     # redirect to signup
-    if (current_user.getting_started == true || @aspects.blank?) && !request.format.mobile? && !request.format.js?
+    if current_user.getting_started == true && !request.format.mobile? && !request.format.js?
       redirect_to getting_started_path
+      return
+    end
+
+    # redirect to aspects creation
+    if @aspects.blank?
+      redirect_to new_aspect_path
       return
     end
 
@@ -30,7 +39,7 @@ class AspectsController < ApplicationController
       all_selected_people = Person.joins(:contacts => :aspect_memberships).
         where(:contacts => {:user_id => current_user.id},
               :aspect_memberships => {:aspect_id => aspect_ids})
-      @selected_people = all_selected_people.select("DISTINCT people.*").includes(:profile)
+      @selected_people = all_selected_people.select("DISTINCT people.*").limit(20).includes(:profile)
     end
 
     @aspect_ids = @aspects.map { |a| a.id }
@@ -38,7 +47,7 @@ class AspectsController < ApplicationController
                                            :type => ['StatusMessage','ActivityStreams::Photo'],
                                            :order => session[:sort_order] + ' DESC',
                                            :max_time => params[:max_time].to_i
-                          ).includes(:comments, :mentions, :likes)
+                          ).includes(:mentions => {:person => :profile})
 
     @posts = PostsFake.new(posts)
     if params[:only_posts]
@@ -85,7 +94,10 @@ class AspectsController < ApplicationController
   def new
     @aspect = Aspect.new
     @person_id = params[:person_id]
-    render :layout => false
+    respond_to do |format|
+      format.js { render :layout => false }
+      format.html { render '_new' }
+    end
   end
 
   def destroy
@@ -156,6 +168,23 @@ class AspectsController < ApplicationController
 
   def ensure_page
     params[:max_time] ||= Time.now + 1
+  end
+
+  def all_aspects_selected?
+    @aspect == :all
+  end
+
+  def tag_followings
+    if current_user
+      if @tag_followings == nil
+        @tag_followings = current_user.tag_followings
+      end
+      @tag_followings
+    end
+  end
+
+  def tags
+    @tags ||= current_user.followed_tags
   end
 
   private

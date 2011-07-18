@@ -36,13 +36,8 @@ When /^I append "([^"]*)" to the publisher$/ do |stuff|
   end
 end
 
-And /^I hover over the (\w*)$/ do |element|
-  if element == 'post'
-    name = 'stream_element'
-  elsif element == 'comment'
-    name = 'comment.posted'
-  end
-  page.execute_script("$(\".#{name}\").first().mouseover()")
+And /^I hover over the "([^"]+)"$/ do |element|
+  page.execute_script("$(\"#{element}\").first().mouseover()")
 end
 
 When /^I click to delete the first post$/ do
@@ -129,15 +124,6 @@ When /^I click ok in the confirm dialog to appear next$/ do
   JS
 end
 
-When /^I wait for "([^\"]*)" to load$/ do |page_name|
-  wait_until(10) do
-    uri = URI.parse(current_url)
-    current_location = uri.path
-    current_location << "?#{uri.query}" unless uri.query.blank?
-    current_location == path_to(page_name)
-  end
-end
-
 Then /^I should get download alert$/ do
   page.evaluate_script("window.alert = function() { return true; }")
 end
@@ -149,14 +135,6 @@ When /^I search for "([^\"]*)"$/ do |search_term|
     e.keyCode = 13;
     $("#q").trigger(e);
   JS
-end
-
-Then /^I should( not)? see the contact dialog$/ do |not_see|
-  if not_see
-    wait_until { !page.find("#facebox").visible? }
-  else
-    wait_until { page.find("#facebox .share_with") && page.find("#facebox .share_with").visible? }
-  end
 end
 
 Then /^I should( not)? see an add contact button$/ do |not_see|
@@ -182,7 +160,7 @@ Then /^the "([^"]*)" field(?: within "([^"]*)")? should be filled with "([^"]*)"
 end
 
 Then /^I should see (\d+) posts$/ do |n_posts|
-  evaluate_script("$('#main_stream .stream_element').length").should == n_posts.to_i
+  wait_until(10) { all("#main_stream .stream_element").length == n_posts.to_i }
 end
 
 And /^I scroll down$/ do
@@ -191,14 +169,20 @@ And /^I scroll down$/ do
   wait_until(10) { evaluate_script('$("#infscr-loading:visible").length') == 0 }
 end
 
-When /^I wait for (\d+) seconds$/ do |seconds|
+When /^I wait for (\d+) seconds?$/ do |seconds|
   sleep seconds.to_i
 end
 
 When /^I click the notification badge$/ do
-  evaluate_script("$('#notification_badge a').click();");
+  find(:css, "#notification_badge a").click
 end
 
 Then /^the notification dropdown should be visible$/ do
-  evaluate_script("$('#notification_dropdown').css('display') === 'block'")
+  find(:css, "#notification_dropdown").should be_visible
+end
+
+When /^I resize my window to 800x600$/ do
+  page.execute_script <<-JS
+    window.resizeTo(800,600);
+  JS
 end

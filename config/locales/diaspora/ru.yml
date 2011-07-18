@@ -4,7 +4,7 @@
 
 
 ru: 
-  _applications: "Applications"
+  _applications: "Приложения"
   _comments: "Коментарии"
   _contacts: "Contacts"
   _home: "Домашний"
@@ -106,6 +106,10 @@ ru:
       no_contacts: "Контакты отсутствуют"
       people_sharing_with_you: "Люди делятся с вами"
       post_a_message: "опубликовать сообщение>>"
+      services: 
+        content: "You can connect the following services to Diaspora:"
+        heading: "Connect Services"
+      tags_following: "Followed Tags"
       your_aspects: "Your Aspects"
     many: "%{count} аспект[-а, -ов]"
     move_contact: 
@@ -158,16 +162,17 @@ ru:
       failure: "Не удалось создать контакт"
     few: "%{count} контакт[-а, -ов]"
     index: 
-      add_a_new_aspect: "Add a new aspect"
-      all_contacts: "All Contacts"
+      add_a_new_aspect: "Добавить аспект"
+      all_contacts: "Все контакты"
       edit_aspect: "Edit %{name}"
-      my_contacts: "My Contacts"
-      no_contacts: "No contacts."
+      many_people_are_you_sure: "Are you sure you want to start a private conversation with more than %{suggested_limit} contacts? Posting to this aspect may be a better way to contact them."
+      my_contacts: "Мои контакты"
+      no_contacts: "Контактов нет."
       only_sharing_with_me: "Only sharing with me"
-      remove_person_from_aspect: "Remove %{person_name} from \"%{aspect_name}\""
+      remove_person_from_aspect: "Удалить %{person_name} из \"%{aspect_name}\""
       start_a_conversation: "Start a conversation"
-      title: "Contacts"
-      your_contacts: "Your Contacts"
+      title: "Контакты"
+      your_contacts: "Ваши контакты"
     many: "%{count} контакт[-а, -ов]"
     one: "1 контакт"
     other: "%{count} контакт[-а, -ов]"
@@ -194,6 +199,7 @@ ru:
       no_conversation_selected: "разговор не выбран"
       no_messages: "нет сообщений"
     new: 
+      abandon_changes: "Abandon changes?"
       send: "Отправить"
       subject: "тема"
       to: "к"
@@ -267,6 +273,7 @@ ru:
       logout: "выйти"
       profile: "профиль"
       settings: "настройки"
+      view_all: "View all"
   likes: 
     likes: 
       people_dislike_this: 
@@ -281,6 +288,7 @@ ru:
         one: "%{count} понравилось"
         other: "%{count} понравилось"
         zero: "никому не понравилось"
+  limited: "Limited"
   more: "Подробнее"
   next: "далее"
   no_results: "Результатов не найдено"
@@ -474,7 +482,6 @@ ru:
       edit_delete_photo: "Изменить описание фотографии / удалить фотографию"
       make_profile_photo: "сделать фотографией профиля"
       original_post: "Исходное сообщение"
-      permalink: "постоянная ссылка"
       update_photo: "Обновить фотографию"
       view: "смотреть"
     update: 
@@ -484,7 +491,10 @@ ru:
     update: 
       post_hidden: "сообщения %{name} скрыты."
   posts: 
-    doesnt_exist: "этого сообщения не существует!"
+    show: 
+      destroy: "Delete"
+      not_found: "Sorry, we couldn't find that post."
+      permalink: "permalink"
   previous: "предыдущая"
   profile: "Профиль"
   profiles: 
@@ -507,6 +517,7 @@ ru:
     update: 
       failed: "Не удалось обновить профиль"
       updated: "Профиль обновлен"
+  public: "Public"
   registrations: 
     closed: "В этой части Диаспоры регистрация закрыта"
     create: 
@@ -569,6 +580,7 @@ ru:
       disconnect: "разъединить"
       edit_services: "Редактировать сервисы"
       logged_in_as: "Вы вошли как"
+      no_services: "You have not connected any services yet."
       really_disconnect: "отключить %{service}?"
     inviter: 
       click_link_to_accept_invitation: "Перейдите по этой ссылке для принятия вашего приглашения"
@@ -579,7 +591,7 @@ ru:
   settings: "Настройки"
   shared: 
     add_contact: 
-      add_new_contact: "Add a new contact"
+      add_new_contact: "Добавить контакт"
       create_request: "Поиск по Диаспоре"
       diaspora_handle: "diaspora@handle.org"
       enter_a_diaspora_username: "Введите имя пользователя Диаспоры:"
@@ -625,8 +637,10 @@ ru:
     stream_element: 
       dislike: "Не нравится"
       like: "Нравится"
+      shared_with: "Shared with: %{aspect_names}"
       unlike: "В отличие от"
       via: "через %{link}"
+      viewable_to_anyone: "This post is viewable to anyone on the web"
   status_messages: 
     create: 
       success: "Успешно упомянут: %{names}"
@@ -636,10 +650,6 @@ ru:
       no_message_to_display: "Новых сообщений нет."
     new: 
       mentioning: "Упоминание: %{person}"
-    show: 
-      destroy: "Удалить"
-      not_found: "К сожалению мы не смогли найти это сообщение."
-      permalink: "постоянная ссылка"
     too_long: 
       few: "сократите пожалуйста ваше сообщение до %{count} символов"
       many: "сократите пожалуйста ваше сообщение до %{count} символов"
@@ -649,28 +659,34 @@ ru:
   stream_helper: 
     hide_comments: "скрыть комментарии"
     show_more_comments: "Show %{number} more comments"
+  tag_followings: 
+    create: 
+      failure: "Failed to follow: #%{name}"
+      success: "Successfully following: #%{name}"
+    destroy: 
+      failure: "Failed to stop following: #%{name}"
+      success: "Successfully stopped following: #%{name}"
   tags: 
     show: 
+      follow: "Follow #%{tag}"
+      following: "Following #%{tag}"
       nobody_talking: "Никто пока не говорил о %{tag}."
       people_tagged_with: "Люди с меткой %{tag}"
       posts_tagged_with: "Сообщения с меткой #%{tag}"
-  the_world: "мир"
+      stop_following: "Stop Following #%{tag}"
   tokens: 
     show: 
       connect_to_cubbies: "Подключение к Cubbi.es"
       connecting_is_simple: "Подключение диаспоры так же просто, как заполнить два поля на вашей странице Cubbi.es."
       daniels_account: "Диаспора-аккаунт Даниила"
-      generate_a_token: "Создание маркера"
+      log_in_with_diaspora_is_comming: "Pretty soon, you'll be able to connect to a new application without creating an account separate from your one on Diaspora."
       love_to_try: "Мы будем рады, если вы попробуете это."
       making_the_connection: "Создание подключения"
       screenshot_explanation: "%{link1}.  Это особенно связано с %{link2}."
       sign_up_today: "Зарегистрируйтесь прямо сейчас!"
       typical_userpage: "Типичная cubbi.es страница"
       via: "(via %{link})"
-      were_working_hard: "We're working hard on delivering easy connectivity between Diaspora pods and applications.  In the meantime, connecting you Diaspora account with Cubbi.es means copying and pasting two fields."
       what_is_cubbies: "Cubbi.es первая программа диаспоры. Это также лучший способ коллекции фотографий в Интернете."
-      your_diaspora_handle: "Ваша диаспора Ручка:"
-      your_diaspora_token: "Ваш диаспора Token:"
   undo: "Отменить?"
   username: "Имя пользователя"
   users: 
