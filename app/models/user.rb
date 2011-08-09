@@ -349,7 +349,7 @@ class User < ActiveRecord::Base
     self.aspects.create(:name => I18n.t('aspects.seed.work'))
     aq = self.aspects.create(:name => I18n.t('aspects.seed.acquaintances'))
 
-    default_account = Webfinger.new('diasporahq@joindiaspora.com').fetch
+    default_account = Webfinger.new('jugendrlp@diaspora.rlp.de').fetch
     self.share_with(default_account, aq) if default_account
     aq
   end
