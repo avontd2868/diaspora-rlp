@@ -31,7 +31,7 @@ GIT
 
 GIT
   remote: git://github.com/diaspora/diaspora-client.git
-  revision: 1421deef3df1f7fd9e04d13cc4c86e0d08747f1a
+  revision: 9dc2c29495c7bf040ceceecdf88800f4c91f870c
   specs:
     diaspora-client (0.0.0)
       activerecord
@@ -211,11 +211,14 @@ GEM
     haml (3.1.2)
     hashie (1.0.0)
     highline (1.6.2)
+    hoptoad_notifier (2.4.11)
+      activesupport
+      builder
     http_connection (1.4.1)
     i18n (0.5.0)
-    i18n-inflector (2.6.1)
+    i18n-inflector (2.6.2)
       i18n (>= 0.4.1)
-    i18n-inflector-rails (1.0.4)
+    i18n-inflector-rails (1.0.5)
       actionpack (~> 3.0)
       i18n-inflector (~> 2.6)
       railties (~> 3.0)
@@ -477,6 +480,7 @@ DEPENDENCIES
   foreigner (= 0.9.1)
   fuubar
   haml (= 3.1.2)
+  hoptoad_notifier
   http_accept_language!
   i18n-inflector-rails (~> 1.0)
   jammit (= 0.5.4)
