@@ -8,9 +8,22 @@ describe Person do
 
   before do
     @user = bob
-    @person  = Factory.create(:person)
+    @person = Factory.create(:person)
   end
 
+  context 'scopes' do
+    describe '.local' do
+      it 'returns only local people' do
+        Person.local =~ [@person]
+      end
+    end
+
+    describe '.remote' do
+      it 'returns only local people' do
+        Person.remote =~ [@user.person]
+      end
+    end
+  end
   describe "delegating" do
     it "delegates last_name to the profile" do
       @person.last_name.should == @person.profile.last_name
@@ -36,12 +49,11 @@ describe Person do
     end
   end
 
-
   describe '#diaspora_handle' do
     context 'local people' do
       it 'uses the pod config url to set the diaspora_handle' do
         new_person = User.build(:username => "foo123", :email => "foo123@example.com", :password => "password", :password_confirmation => "password").person
-        new_person.diaspora_handle.should == "foo123@#{AppConfig[:pod_uri].host}"
+        new_person.diaspora_handle.should == "foo123@#{AppConfig[:pod_uri].authority}"
       end
     end
 
@@ -134,7 +146,7 @@ describe Person do
     end
 
     it "deletes all of a person's posts upon person deletion" do
-      lambda {@deleter.destroy}.should change(Post, :count).by(-1)
+      lambda { @deleter.destroy }.should change(Post, :count).by(-1)
     end
 
     it "deletes a person's profile" do
@@ -144,30 +156,30 @@ describe Person do
     end
 
     it "deletes a person's comments on person deletion" do
-      Factory.create(:comment, :author_id => @deleter.id, :diaspora_handle => @deleter.diaspora_handle, :text => "i love you",     :post => @other_status)
-      Factory.create(:comment, :author_id => @person.id,:diaspora_handle => @person.diaspora_handle,  :text => "you are creepy", :post => @other_status)
+      Factory.create(:comment, :author_id => @deleter.id, :diaspora_handle => @deleter.diaspora_handle, :text => "i love you", :post => @other_status)
+      Factory.create(:comment, :author_id => @person.id, :diaspora_handle => @person.diaspora_handle, :text => "you are creepy", :post => @other_status)
 
-      lambda {@deleter.destroy}.should change(Comment, :count).by(-1)
+      lambda { @deleter.destroy }.should change(Comment, :count).by(-1)
     end
   end
 
   describe "disconnecting" do
     before do
-      @user2   = Factory(:user)
-      @aspect  = @user.aspects.create(:name => "Dudes")
+      @user2 = Factory(:user)
+      @aspect = @user.aspects.create(:name => "Dudes")
       @aspect2 = @user2.aspects.create(:name => "Abscence of Babes")
     end
     it 'should not delete an orphaned contact' do
       @user.contacts.create(:person => @person, :aspects => [@aspect])
 
-      lambda {@user.disconnect(@user.contact_for(@person))}.should_not change(Person, :count)
+      lambda { @user.disconnect(@user.contact_for(@person)) }.should_not change(Person, :count)
     end
 
     it 'should not delete an un-orphaned contact' do
       @user.contacts.create(:person => @person, :aspects => [@aspect])
       @user2.contacts.create(:person => @person, :aspects => [@aspect2])
 
-      lambda {@user.disconnect(@user.contact_for(@person))}.should_not change(Person, :count)
+      lambda { @user.disconnect(@user.contact_for(@person)) }.should_not change(Person, :count)
     end
   end
 
@@ -186,22 +198,22 @@ describe Person do
       @casey_grippi = Factory.create(:searchable_person)
 
       @robert_grimm.profile.first_name = "Robert"
-      @robert_grimm.profile.last_name  = "Grimm"
+      @robert_grimm.profile.last_name = "Grimm"
       @robert_grimm.profile.save
       @robert_grimm.reload
 
       @eugene_weinstein.profile.first_name = "Eugene"
-      @eugene_weinstein.profile.last_name  = "Weinstein"
+      @eugene_weinstein.profile.last_name = "Weinstein"
       @eugene_weinstein.profile.save
       @eugene_weinstein.reload
 
       @yevgeniy_dodis.profile.first_name = "Yevgeniy"
-      @yevgeniy_dodis.profile.last_name  = "Dodis"
+      @yevgeniy_dodis.profile.last_name = "Dodis"
       @yevgeniy_dodis.profile.save
       @yevgeniy_dodis.reload
 
       @casey_grippi.profile.first_name = "Casey"
-      @casey_grippi.profile.last_name  = "Grippi"
+      @casey_grippi.profile.last_name = "Grippi"
       @casey_grippi.profile.save
       @casey_grippi.reload
     end
@@ -219,7 +231,7 @@ describe Person do
       @casey_grippi.profile.save
 
       people = Person.search("AAA", @user)
-      people.map{|p| p.name}.should == [@yevgeniy_dodis, @robert_grimm, @casey_grippi, @eugene_weinstein].map{|p|p.name}
+      people.map { |p| p.name }.should == [@yevgeniy_dodis, @robert_grimm, @casey_grippi, @eugene_weinstein].map { |p| p.name }
     end
 
     it 'should return nothing on an empty query' do
@@ -227,8 +239,8 @@ describe Person do
       people.empty?.should be true
     end
 
-    it 'should return nothing on a two character query' do
-      people = Person.search("in", @user)
+    it 'should return nothing on a one character query' do
+      people = Person.search("i", @user)
       people.empty?.should be true
     end
 
@@ -254,7 +266,7 @@ describe Person do
     end
 
     it 'only displays searchable people' do
-      invisible_person = Factory(:person, :profile => Factory.build(:profile,:searchable => false, :first_name => "johnson"))
+      invisible_person = Factory(:person, :profile => Factory.build(:profile, :searchable => false, :first_name => "johnson"))
       Person.search("johnson", @user).should_not include invisible_person
       Person.search("", @user).should_not include invisible_person
     end
@@ -280,13 +292,13 @@ describe Person do
       @user.contacts.create(:person => @casey_grippi, :aspects => [@user.aspects.first])
 
       people = Person.search("AAA", @user)
-      people.map{|p| p.name}.should == [@casey_grippi, @yevgeniy_dodis, @robert_grimm, @eugene_weinstein].map{|p|p.name}
+      people.map { |p| p.name }.should == [@casey_grippi, @yevgeniy_dodis, @robert_grimm, @eugene_weinstein].map { |p| p.name }
     end
   end
 
   context 'people finders for webfinger' do
-    let(:user) {Factory(:user)}
-    let(:person) {Factory(:person)}
+    let(:user) { Factory(:user) }
+    let(:person) { Factory(:person) }
 
     describe '.by_account_identifier' do
       it 'should find a local users person' do
@@ -375,7 +387,22 @@ describe Person do
     end
     it 'return tags if asked' do
       @person.as_json(:includes => "tags").
-        should == @person.as_json.merge(:tags =>  @person.profile.tags.map{|t| "##{t.name}"})
+        should == @person.as_json.merge(:tags => @person.profile.tags.map { |t| "##{t.name}" })
+    end
+  end
+
+  describe '.featured_users' do
+    describe "when the pod owner hasn't set up any featured users" do
+      before do
+        @existing_featured_users = AppConfig[:featured_users]
+        AppConfig[:featured_users] = nil
+      end
+      after do
+        AppConfig[:featured_users] = @existing_featured_users
+      end
+      it "returns an empty array" do
+        Person.featured_users.should == []
+      end
     end
   end
 end

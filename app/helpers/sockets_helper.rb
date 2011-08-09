@@ -28,6 +28,7 @@ module SocketsHelper
         post_hash = {:post => object,
           :author => object.author,
           :photos => object.photos,
+          :reshare => nil,
           :comments => object.comments.map{|c|
             {:comment => c,
              :author => c.author
@@ -47,7 +48,7 @@ module SocketsHelper
         v = render_to_string(:partial => 'comments/comment', :locals => {:post => object.post, :comment => object, :person => object.author})
 
       elsif object.is_a? Like
-        v = render_to_string(:partial => 'likes/likes', :locals => {:likes => object.post.likes})
+        v = render_to_string(:partial => 'likes/likes', :locals => {:likes => object.target.likes.includes(:author => :profile)})
 
       elsif object.is_a? Notification
         v = render_to_string(:partial => 'notifications/popup', :locals => {:note => object, :person => opts[:actor]})
@@ -56,7 +57,7 @@ module SocketsHelper
         raise "#{object.inspect} with class #{object.class} is not actionhashable." unless object.is_a? Retraction
       end
     rescue Exception => e
-      Rails.logger.error(:event => :socket_render, :status => :fail, :user => user.diaspora_handle, :object=> object.id, :object_class => object.class)
+      Rails.logger.error(:event => :socket_render, :status => :fail, :user => user.diaspora_handle, :object=> object.id, :object_class => object.class, :error_message => e.message)
       raise e
     end
     action_hash = {:class =>object.class.to_s.underscore.pluralize, :html => v, :post_id => obj_id(object)}
@@ -67,10 +68,9 @@ module SocketsHelper
 
     if object.is_a? Comment
       post = object.post
-      action_hash[:comment_id] = object.id
+      action_hash[:comment_guid] = object.guid
       action_hash[:my_post?] = (post.author.owner_id == uid)
       action_hash[:post_guid] = post.guid
-
     end
 
     if object.is_a? Like

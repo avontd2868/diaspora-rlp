@@ -19,10 +19,10 @@ javascripts:
     - public/javascripts/vendor/timeago.js
     - public/javascripts/vendor/Mustache.js
     - public/javascripts/vendor/charCount.js
+    - public/javascripts/vendor/facebox.js
     - public/javascripts/jquery.infinitescroll-custom.js
     - public/javascripts/jquery.autocomplete-custom.js
     - public/javascripts/jquery.infieldlabel-custom.js
-    - public/javascripts/facebox-custom.js
     - public/javascripts/keycodes.js
     - public/javascripts/fileuploader-custom.js
     - public/javascripts/diaspora.js
@@ -44,13 +44,14 @@ javascripts:
     - public/javascripts/search.js
     - public/javascripts/contact-edit.js
     - public/javascripts/contact-list.js
+    - public/javascripts/aspect-sorting.js
   login:
     - public/javascripts/login.js
   mobile:
-    - public/javascripts/vendor/jquery152.min.js
+    - public/javascripts/vendor/jquery162.min.js
 
     - public/javascripts/custom-mobile-scripting.js
-    - public/javascripts/vendor/jquery.mobile-1.0a4.js
+    - public/javascripts/vendor/jquery.mobile-1.0b1.min.js
     - public/javascripts/jquery.infinitescroll-custom.js
     
     - public/javascripts/diaspora.js
@@ -96,5 +97,6 @@ stylesheets:
     - public/stylesheets/rtl.css
 
   mobile:
+    - public/stylesheets/vendor/jquery.mobile-1.0b1.min.css
     - public/stylesheets/mobile.css
  

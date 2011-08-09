@@ -41,7 +41,7 @@ ul > li
 form
   :position relative
   input,
-  textarea,
+  textarea
   label
     :font
       :size auto
@@ -299,8 +299,8 @@ ul.as-selections
 
     .youtube-player, .vimeo-player
       :border none
-      :height 370px
-      :width 500px
+      :height 304px
+      :width 410px
 
     .comment
       .comment_info
@@ -357,6 +357,9 @@ ul.as-selections
     :margin
       :bottom 10px
       :right 10px
+  h2
+    :margin
+      :bottom 0
 
   &.show
     a
@@ -371,6 +374,10 @@ ul.as-selections
 
   .right
     :top 10px
+
+  .description
+    :margin
+      :bottom 10px
 
 #conversation_inbox a
   &:hover
@@ -475,6 +482,7 @@ ul.as-selections
     .from
       a
         :color $blue
+
 .status_message_show
   .stream_element
     .content
@@ -483,7 +491,7 @@ ul.as-selections
         :size 1em
 
   .comment_box
-    :width 475px
+    :width 653px
     :margin
       :bottom 5px
 
@@ -491,8 +499,12 @@ ul.as-selections
   :margin
     :bottom 5px
 
-.details
-  :color #aaa
+.from
+  .details,
+  .details *
+    :color #aaa
+    :font
+      :weight normal
 
 .post_scope
   :cursor default
@@ -554,7 +566,8 @@ ul.as-selections
 
 ul.comments,
 ul.show_comments,
-.likes_container
+.likes_container,
+.stream_element .reshare
 
   .avatar
     :width 30px
@@ -589,18 +602,18 @@ ul.show_comments,
       :height 250px
       :width 400px
 
-    .content
-      :margin
-        :top 0px
-        :bottom -2px
-      :padding
-        :left 36px
-        :right 10px
+  .content
+    :margin
+      :top 0px
+      :bottom -2px
+    :padding
+      :left 36px
+      :right 10px
 
-      p
-        :margin
-          :bottom 0
-          :top 0
+    p
+      :margin
+        :bottom 0
+        :top 0
 
     .right
       :right 4px
@@ -608,6 +621,14 @@ ul.show_comments,
     .avatar
       :position absolute
       :display inline
+
+.stream_element .reshare
+  :padding
+    :left 10px
+  :border-left 2px solid #ddd
+  :margin
+    :top 5px
+    :bottom 10px
 
 ul.show_comments
   :padding
@@ -792,7 +813,7 @@ a.paginate, #infscr-loading
   h5
     :color #ccc
 
-input:not([type='submit']):not([type='reset']),
+input:not([type='submit']):not([type='reset']):not([type='hidden']),
 textarea
   @include border-radius(2px)
 
@@ -808,9 +829,6 @@ textarea
 
 input[type='checkbox']
   :width auto !important
-
-input[type='hidden']
-  :display none
 
 .submit_block
   :text
@@ -1098,7 +1116,7 @@ img.scaled_full
     img
       :height 140px
 
-#global_search
+header #global_search
   :display inline
   :position relative
 
@@ -1324,22 +1342,6 @@ ul#settings_nav
 
   a
     :color #69AEDD
-
-.floating.empty_message
-  :margin
-    :bottom 24px
-  :text
-    :align center
-
-  :padding 2em
-    :bottom 0.7em
-
-  .null_arrow
-    :margin
-      :top -14px
-    :font
-      :size 80px
-    :display inline-block
 
 h1,h2,h3,h4
   .description
@@ -1719,6 +1721,7 @@ ul#request_result
   :margin
     :bottom 5px
   :vertical-align middle
+  :position relative
 
 #contact_list_search
   :width 200px
@@ -1741,21 +1744,17 @@ ul#request_result
   :background
     :color rgb(252,252,252)
 
-  .name
-    :position absolute
-    :left 65px
-    :top 10px
-
   .diaspora_id
     :color #777
     :font
       :size smaller
 
   .avatar
-    :position absolute
-    :left 6px
+    :float left
     :height 50px
     :width 50px
+    :margin
+      :right 10px !important
 
   .button.share
     :padding
@@ -1773,6 +1772,9 @@ ul#request_result
       @include border-radius(3px)
       :background
         :color #fff
+
+      :overflow-x hidden
+      :overflow-y hidden
 
       :position relative
       :display inline-block
@@ -1795,7 +1797,7 @@ ul#request_result
         :bottom 2px
 
       &.remote_friend
-        :width 260px
+        :width 285px
 
       a.button
         @include box-shadow(0,0,0)
@@ -2126,7 +2128,7 @@ h3,h4
   .contact_list
     :height auto
     :max-height auto
-    :width 298px
+    :width 500px
 
 .aspects .aspect_badge
   :font
@@ -2284,7 +2286,7 @@ ul.show_comments,
         :left 6px
 
   &.larger
-    :width 600px
+    :width 650px
 
 #facebox_header
   :position relative
@@ -2308,7 +2310,6 @@ ul.show_comments,
     .description
       :margin
         :top 0px
-        :left -3px
 
   .tiny_text
     :font
@@ -2497,12 +2498,27 @@ ul.show_comments,
   .message_count
     @include border-radius(5px)
 
-    :right 10px
+    :float right
+    :right 0px
+    :padding 0 5px
+    :position relative
     :background
       :color #999
     :color #eee
-    :position absolute
+    :font
+      :size 12px
+      :weight normal
+
+  .unread_message_count
+    @include border-radius(5px)
+
+    :float right
+    :right 5px
     :padding 0 5px
+    :position relative
+    :background
+      :color #b11
+    :color #eee
     :font
       :size 12px
       :weight normal
@@ -2538,7 +2554,7 @@ ul.show_comments,
 
 .conversation.unread
   :background
-    :color lighten($background,5%)
+    :color darken($background,5%)
 
 .conversation.selected
   :background
@@ -2604,13 +2620,10 @@ ul.show_comments,
   &:hover
     :text
       :decoration none
-    :border
-      :bottom 1px solid $blue
+    :background
+      :color lighten($blue, 47%)
 
-  :background
-    :color lighten($blue, 47%)
-  :border
-    :bottom 1px dotted $blue
+
   :font
     :weight bold
 
@@ -2847,14 +2860,28 @@ ul.left_nav
   a.aspect_selector,
   a.home_selector,
   a.tag_selector,
+  a.element_selector
+    &:active
+      :cursor -webkit-grabbing
+      :cursor -moz-grabbing
+      :cursor grabbing
+
+  a.aspect_selector,
+  a.home_selector,
+  a.tag_selector,
+  a.element_selector,
   .root_element
     :display block
     :width 100%
     :padding 3px 7px
 
+  .root_element
+    :font-weight 700
+
   a.aspect_selector,
   a.home_selector,
-  a.tag_selector
+  a.tag_selector,
+  a.element_selector
     &:hover
       @include border-radius(2px)
 
@@ -3023,8 +3050,12 @@ ul.left_nav
     :display inline-block
   :text-align right
 
-#no_posts
-  :padding 20px
+#no_contacts
+  :text-align center
+  :padding 10px
+  :background
+    :color #eee
+  :color #666
 
 .left
   :position absolute
@@ -3119,3 +3150,231 @@ ul.left_nav
   :margin
     :top 30px
 
+#featured_users
+  .avatar
+    :height 140px
+    :width 140px
+
+.user_card
+  @include border-radius(3px)
+  @include box-shadow(0,1px,5px,#ccc)
+  :padding 10px
+    :bottom 30px
+  :margin
+    :bottom 15px
+    :right 10px
+
+  :position relative
+
+  :min-height 220px
+
+  :vertical-align top
+
+  :border 1px solid #ccc
+  :display inline-block
+
+  :width 140px
+
+  .tags
+    :color #999
+
+  h4
+    :margin
+      :bottom 0
+    :padding
+      :bottom 2px
+
+  .dropdown
+    :width 100%
+
+.add_user_to_aspect
+  :bottom 12px
+  :right 5px
+  :position absolute
+
+ul#getting_started
+  :padding 0
+  :margin 0
+
+  > li
+    :position relative
+    :border
+      :bottom 1px solid #ddd
+    :padding
+      :top 25px
+      :bottom 5px
+
+    .content
+      :padding
+        :left 30px
+
+    input[type='search']
+      :width 210px
+
+    &.completed
+      @include opacity(0.4)
+      @include transition(opacity, 0.2s)
+
+      &:hover,
+      &:active
+        @include opacity(1)
+
+      .content h3
+        :text
+          :decoration line-through 
+
+  .profile
+    :min-height 170px
+
+#getting_started_profile_photo
+  :float right
+  .avatar
+    :height 150px
+    :width 150px
+    :margin
+      :left 5px
+
+#edit_profile_button_div
+  :padding
+    :top 90px
+    :bottom 20px
+
+#getting_started_service_icons
+  :text-align center
+
+  img
+    :margin
+      :right 48px
+
+  :padding
+    :bottom 20px
+    :top 10px
+
+#right_service_icons
+  :text-align center
+  :padding 10px
+    :bottom 0
+
+#diaspora_hq_pane
+  :padding
+    :bottom 20px
+  :min-height 70px
+
+  .add_to_aspect
+    :padding 10px 0 
+
+  .avatar
+    :float left
+    :margin
+      :right 10px
+
+    :height 70px
+    :width 70px
+
+  .name
+    :font
+      :weight bold
+
+.cubbies_images
+  :margin-left 15px
+
+.cubbies_user_page_small
+  :position absolute
+  :left 270px
+
+.getting_started_number
+  :position absolute
+  :left 0
+
+  h3
+    :display inline
+    :background
+      :color #eee
+    :padding 3px 7px
+
+    :margin
+      :right 8px
+
+.profile .profile_field
+  :background
+    :image url('/images/icons/monotone_question.png')
+    :position center left 
+    :repeat no-repeat
+
+  :padding
+    :left 20px
+
+  &.completed
+    :background
+      :image url('/images/icons/check_yes_ok.png') !important
+
+#featured_users_pane
+  :padding 10px 0
+
+  .featured_user_card_small
+    :height 30px
+
+    :vertical-align top
+    :position relative
+
+    :padding 5px
+    :margin
+      :bottom 5px
+
+    a
+      :font
+        :weight bold
+
+    .tags
+      a
+        :color #999
+
+    .avatar
+      :height 30px
+      :width 30px
+      :margin
+        :right 5px
+      :float left
+.action_item
+  :padding-right 5px
+
+.accept_invitation_form,
+.sign_up_form
+  :min-height 350px
+  :font-size 16px
+  input[type='text'],
+  input[type='password'],
+  input[type='email']
+    :font-size 16px !important
+    :width 378px !important
+
+  p
+    :margin
+      :bottom 14px
+
+
+  .diaspora_id_text
+    :font-size 12px
+    :text-align right
+    :color #999
+    :margin
+      :top -8px
+    :padding 0
+
+  .submit_field
+    :text-align right
+
+.accept_invitation_text
+  :font
+    :weight lighter
+#back-to-top
+  :display block
+  :color white
+  :position fixed
+  :right 20px
+  :top 50px
+  :opacity 0
+  :font-size 3em
+  :padding 0 12px 0 12px
+  :border-radius 10px
+  :background-color #82D400

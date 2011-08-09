@@ -32,7 +32,7 @@ ca:
   public: "Públic"
   limited: "Limitat"
   search: "Cerca"
-  find_people: "Cerqueu gent"
+  find_people: "Cerqueu gent o #etiquetes"
   _home: "Inici"
   more: "Més"
   next: "següent"
@@ -66,6 +66,10 @@ ca:
           attributes:
             from_id:
               taken: "és un duplicat d'una petició ja existent."
+        reshare:
+          attributes:
+            root_guid:
+              taken: "Ja heu tornat a compartir aquesta publicació!"
 
 
   error_messages:
@@ -112,7 +116,11 @@ ca:
       edit_aspect: "edita l'aspecte"
     no_posts_message:
       start_talking:  "Ningú no ha dit res encara!"
-      try_adding_some_more_contacts: "Proveu d'afegir alguns contactes més."
+    no_contacts_message:
+      you_should_add_some_more_contacts: "Hauríeu d'afegir alguns contactes més!"
+      try_adding_some_more_contacts: "Podeu cercar (dalt) o convidar (dreta) altres contactes."
+      or_featured: "O podeu compartir amb %{link}"
+      featured_users: "usuaris destacats"
     aspect_listings:
       add_an_aspect: "+ Afegeix un aspecte"
 
@@ -146,9 +154,14 @@ ca:
     seed:
       family: "Família"
       work: "Feina"
+      acquaintances: "Coneguts"
+      friends: "Amistats"
     index:
+      donate: "Doneu"
+      keep_us_running: "Mantingueu $(pod} en marxa, compreu-li als nostres servidors la seva dosi de cafeïna!"
       your_aspects: "Els vostres aspectes"
       tags_following: "Etiquetes que seguiu"
+      no_tags: "+ Cerqueu una etiqueta per seguir-la"
       handle_explanation: "Aquest és el vostre identificador de Diàspora. Com les adreces de correu, podeu donar això a la gent per a que us contacte."
       no_contacts: "Cap contacte"
       post_a_message: "publica un missatge »"
@@ -223,6 +236,8 @@ ca:
       only_sharing_with_me: "Només compartint amb mi"
       remove_person_from_aspect: "Suprimeix a %{person_name} de l'aspecte «%{aspect_name}»"
       many_people_are_you_sure: "Esteu segur que voleu iniciar una conversa privada amb més de %{suggested_limit} contactes? Publicar a aquest aspecte pot ser una forma millor de contactar amb ells."
+    featured:
+      featured_users: "Usuaris destacats"
 
 
   conversations:
@@ -240,6 +255,7 @@ ca:
       to: "a"
       subject: "assumpte"
       send: "Envia"
+      sending: "S'està enviant…"
       abandon_changes: "Voleu descartar els canvis?"
     helper:
       new_messages:
@@ -294,12 +310,13 @@ ca:
       send_an_invitation: "Envia una invitació"
       send_invitation: "Envia una invitació"
       aspect: "Aspecte"
-      already_invited: "Ja convidat"
+      already_invited: "Les persones següents no han acceptat la vostra invitació:"
       resend: "Torna-la a enviar"
     check_token:
       not_found: "No s'ha trobat el testimoni de la invitació"
     edit:
-      sign_up: "registreu-vos"
+      your_account_awaits: "El vostre compte us espera!"
+      accept_your_invitation: "Accepteu la vostra invitació"
 
 
   layouts:
@@ -312,6 +329,7 @@ ca:
       code: "codi"
       admin: "administra"
       view_all: "Mostra-ho tot"
+      recent_notifications: "Notificacions recents"
     application:
       powered_by: "FUNCIONA AMB DIÀSPORA*"
       whats_new: "què és nou?"
@@ -324,6 +342,12 @@ ca:
   likes:
     likes:
       people_like_this:
+        zero: "a cap persona li agrada"
+        one: "li agrada a 1 persona"
+        few: "li agrada a %{count} persones"
+        many: "li agrada a %{count} persones"
+        other: "li agrada a %{count} persones"
+      people_like_this_comment:
         zero: "a cap persona li agrada"
         one: "li agrada a 1 persona"
         few: "li agrada a %{count} persones"
@@ -413,39 +437,31 @@ ca:
 
 
   notifier:
+    email_sent_by_diaspora: "Aquest correu electrònic ha sigut enviat per Diàspora. Si voleu deixar de rebre correus com aquest,"
+    click_here: "feu clic aquí"
     hello: "Hola %{name}!"
-    love: "Amb amor,"
     thanks: "Gràcies,"
-    diaspora: "el robot del correu del Diàspora"
-    manage_your_email_settings: "gestioneu els paràmetres del correu"
+    to_change_your_notification_settings: "per canviar els paràmetres del correu"
     single_admin:
       subject: "Un missatge sobre el vostre compte de Diàspora:"
       admin: "L'administrador de Diàspora"
     started_sharing:
       subject: "%{name} ha començat a compartir amb vosaltres al Diàspora*"
       sharing: "ha començat a compartir amb vosaltres!"
-      sign_in: "Identifiqueu-vos aquí"
+      view_profile: "Visualitza el perfil de %{name}"
     comment_on_post:
-      subject: "%{name} ha comentat la vostra publicació."
-      commented: "ha comentat la vostra publicació:"
-      sign_in: "Identifiqueu-vos per a mostrar-ho."
-    also_commented:
-      subject: "%{name} també ha comentat la publicació de %{post_author}."
-      commented: "també ha comentat la publicació de %{post_author}:"
-      sign_in: "Identifiqueu-vos per a mostrar-ho."
+      reply: "Contesta o visualitza la publicació de %{name} >"
     mentioned:
       subject: "%{name} t'ha mencionat al Diàspora*"
       mentioned: "t'ha mencionat en una publicació:"
-      sign_in: "Identifiqueu-vos per a mostrar-ho."
     private_message:
-      subject: "%{name} us ha enviat un missatge privat al Diàspora*"
-      private_message: "us ha enviat un missatge privat:"
-      message_subject: "Assumpte: %{subject}"
-      sign_in: "Identifiqueu-vos per a mostrar-ho."
+      reply_to_or_view: "Contesta o visualitza aquesta conversa >"
     liked:
-      subject: "A %{name} li ha agradat la vostra publicació"
-      liked: "A %{name} li ha agradat la vostra publicació: "
-      sign_in: "Entreu per a veure-ho"
+      liked: "A %{name} li ha agradat la vostra publicació"
+      view_post: "visualitza la publicació >"
+    confirm_email:
+      subject: "Activeu la vostra adreça de correu electrònic %{unconfirmed_email}"
+      click_link: "Per activar la vostra adreça de correu electrònic %{unconfirmed_email}, seguiu aquest enllaç:"
 
 
   people:
@@ -467,7 +483,7 @@ ca:
     webfinger:
       fail: "No s'ha trobat a %{handle}."
     show:
-      no_posts: "no hi ha publicacions a mostrar!"
+      has_not_shared_with_you_yet: "%{name} encara no ha compartit cap publicació amb vosaltres!"
       you_have_no_tags: "no teniu cap etiqueta!"
       add_some: "afegiu-ne alguna"
       edit: "edita"
@@ -572,8 +588,11 @@ ca:
 
   registrations:
     new:
-      sign_up: "Registreu-vos"
-      sign_up_for_diaspora: "Registreu-vos al Diàspora"
+      create_my_account: "Crea el meu compte"
+
+      join_the_movement: "Uniu-vos al moviment!"
+      sign_up_today: "Registreu-vos ara"
+
       enter_email: "Introduïu una adreça de correu electrònic"
       enter_username: "Trieu un nom d'usuari (només amb lletres, números i subratllats)"
       enter_password: "Introduïu una contrasenya"
@@ -610,6 +629,22 @@ ca:
         few: "%{count} peticions noves!"
         many: "%{count} peticions noves!"
         other: "%{count} peticions noves!"
+
+
+  reshares:
+    reshare:
+      reshare_original: "Torna a compartir l'original"
+      reshare:
+        zero: "Torna a compartir"
+        one: "1 vegada tornat a compartir"
+        few: "%{count} vegades tornat a compartir"
+        many: "%{count} vegades tornat a compatir"
+        other: "%{count} vegades tornat a compatir"
+      show_original: "Mostra l'original"
+      reshare_confirmation: "Voleu tornar a compartir la publicació de %{author}?"
+      deleted: "Publicació original suprimida per l'autor."
+    create:
+      failure: "S'ha produït un error en tornar a compartir aquesta publicació."
 
 
   services:
@@ -767,6 +802,7 @@ També és la millor forma de coŀleccionar fotos en línia."
       close_account: "Tanca el compte"
       change_language: "Canvia la llengua"
       change_password: "Canvia la contrasenya"
+      change_email: "Canvia el correu electrònic"
       new_password: "Contrasenya nova"
       current_password: "Contrasenya actual"
       download_xml: "baixa el meu XML"
@@ -782,23 +818,41 @@ També és la millor forma de coŀleccionar fotos en línia."
       private_message: "… rebeu un missatge privat?"
       liked: "… a algú li agradi una publicació vostra?"
       change: "Canvia"
+      email_awaiting_confirmation: "Us hem enviat un enllaç d'activació per a %{unconfirmed_email}. Fins que no seguiu aquest enllaç i activeu l'adreça nova, continuarem emprant la vostra adreça original %{email}."
     destroy: "S'ha blocat el vostre compte. Trigarem fins a 20 minuts en tancar el compte. Moltes gràcies per provar Diàspora."
     getting_started:
-      welcome: "Benvingut/da al Diàspora!"
-      signup_steps: "Acabeu el registre completant aquests tres pasos:"
-      edit_profile: "Editeu el vostre perfil"
-      connect_on_diaspora: "Connecta al Diàspora"
-      connect_services: "Connecta els vostres altres serveis"
-      finished: "Finalitzat!"
-      skip: "omet la configuració inicial"
-      save_and_continue: "Desa i continua"
-      could_not_find_anyone: "No s'ha trobat cap dels vostres amics al Diàspora*. Empreu el cercador d'amics per convidar-los."
-      step_3:
-        finish: "Finalitza"
-        people_already_on_diaspora: "Gent que ja és al Diàspora"
-      step_2:
-        find_your_friends_on_diaspora: "Voleu cercar els vostres amics del Facebook al Diàspora?"
-        skip: "Omet"
+      welcome: "Benvingut/da"
+      welcome_with_name: "Benvingut/da, %{name}!"
+
+      finished: "Fet"
+
+      fill_out_your_profile: "Empleneu el vostre perfil"
+      profile_description: "Feu que la gent us puga trobar amb més facilitat emplenant la informació del vostre perfil."
+
+      profile_fields:
+        name: "Nom"
+        birthday: "Data de naixement"
+        bio: "Biografia"
+        tags: "Etiquetes"
+        photo: "Fotografia"
+        gender: "Gènere"
+        location: "Ubicació"
+
+      connect_to_your_other_social_networks: "Connecteu amb les vostres altres xarxes socials"
+      connect_with_people: "Connecteu amb gent interessant"
+      connect_with_people_explanation: "Connecteu amb gent, inserint-los en un o més dels vostres aspectes. Els aspectes són una manera intuitiva d'agrupar cares noves i conegudes, permeten-vos filtrar o compartir fàcilment amb subconjunts dels vostres contactes."
+      featured_users: "Usuaris destacats"
+
+      follow_your_interests: "Seguiu els vostres interesos"
+      connect_to: "Connecteu a"
+
+      find_friends_from_facebook: "Cerqueu amics des del Facebook"
+      featured_tags: "Etiquetes destacades"
+      find_friends: "Cerqueu amics"
+      see_all_featured_users: "Vegeu els usuaris destacats"
+
+      hashtag_explanation: "Les etiquetes us permeten parlar i seguir els vostres interesos. També són una bona manera de trobar gent nova al Diàspora."
+
     update:
       password_changed: "S'ha canviat la contrasenya. Ara podeu entrar amb
 la contrasenya nova."
@@ -806,8 +860,13 @@ la contrasenya nova."
       language_changed: "S'ha canviat la llengua"
       language_not_changed: "Ha fallat el canvi de llengua"
       email_notifications_changed: "S'han canviat les notificacions per correu"
+      unconfirmed_email_changed: "S'ha canviat l'adreça de correu electrònic. Necessita activació."
+      unconfirmed_email_not_changed: "Ha fallat el canvi d'adreça de correu electrònic"
     public:
       does_not_exist: "L'usuari %{username} no existeix!"
+    confirm_email:
+      email_confirmed: "S'ha activat l'adreça de correu %{email}"
+      email_not_confirmed: "No s'ha pogut activar l'adreça de correu electrònic. Heu emprat un enllaç erroni?"
 
 
   webfinger:

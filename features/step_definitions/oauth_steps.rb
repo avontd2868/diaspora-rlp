@@ -3,7 +3,7 @@ Given /^Chubbies is running$/ do
 end
 
 Given /^Chubbies has been killed$/ do
-  Chubbies.ensure_killed
+  Chubbies.kill
 end
 
 Given /^Chubbies is registered on my pod$/ do
@@ -59,7 +59,7 @@ class Chubbies
 
   def self.run
     @pid = fork do
-      Process.exec "cd #{Rails.root}/spec/chubbies/ && bundle exec rackup -p #{PORT} 2> /dev/null 1> /dev/null"
+      Process.exec "cd #{Rails.root}/spec/chubbies/ && bundle exec #{run_command} #{nullify}"
     end
 
     at_exit do
@@ -71,15 +71,13 @@ class Chubbies
     end
   end
 
-  def self.kill
-    `kill -9 #{get_pid}`
+  def self.nullify
+    "2> /dev/null > /dev/null"
   end
 
-  def self.ensure_killed
-    if !(@killed) && self.running?
-      self.kill
-      @killed = true
-    end
+  def self.kill
+    pid = self.get_pid
+    `kill -9 #{pid}` if pid.present?
   end
 
   def self.running?
@@ -89,16 +87,22 @@ class Chubbies
       rescue RestClient::ResourceNotFound
       end
       true
-    rescue Errno::ECONNREFUSED
+    rescue Errno::ECONNREFUSED, Errno::ECONNRESET
       false
     end
   end
 
+  def self.run_command
+    "rackup -p #{PORT}"
+  end
+
   def self.get_pid
-    @pid ||= lambda {
-      processes = `ps ax -o pid,command | grep "rackup -p #{PORT}"`.split("\n")
-      processes = processes.select{|p| !p.include?("grep") }
+    processes = `ps ax -o pid,command | grep "#{run_command}"`.split("\n")
+    processes = processes.select{|p| !p.include?("grep") }
+    if processes.any?
       processes.first.split(" ").first
-    }.call
+    else
+      nil
+    end
   end
 end

@@ -26,6 +26,10 @@ he:
           attributes: 
             from_id: 
               taken: "הוא כפיל של בקשה שהתקבלה קודם לכן."
+        reshare: 
+          attributes: 
+            root_guid: 
+              taken: "You've already reshared that post!"
         user: 
           attributes: 
             email: 
@@ -102,8 +106,11 @@ he:
         content_1: "Your Diaspora ID is:"
         content_2: "Give it to anyone and they'll be able to find you on Diaspora."
         heading: "Diaspora ID"
+      donate: "Donate"
       handle_explanation: "זהו שם המשתמש שלך בדיאספורה. כמו כתובת דואר אלקטרוני, ניתן לחלוק אותו עם אנשים כדי שיגיעו אליך."
+      keep_us_running: "Keep %{pod} running fast, buy our servers their monthly coffee fix!"
       no_contacts: "אין אנשי קשר"
+      no_tags: "No tags"
       people_sharing_with_you: "אנשים המשתפים אתך"
       post_a_message: "פרסום הודעה >>"
       services: 
@@ -119,13 +126,19 @@ he:
     new: 
       create: "יצירה"
       name: "שם"
+    no_contacts_message: 
+      featured_users: "featured users"
+      or_featured: "Or you can share with %{link}"
+      try_adding_some_more_contacts: "You can search (top) or invite (right) more contacts."
+      you_should_add_some_more_contacts: "You should add some more contacts!"
     no_posts_message: 
       start_talking: "אף אחד לא דיבר עדיין. בואו נתחיל להתקשקש פה!"
-      try_adding_some_more_contacts: "Try adding some more contacts."
     one: "היבט אחד"
     other: "%{count} היבטים"
     seed: 
+      acquaintances: "Acquaintances"
       family: "משפחה"
+      friends: "Friends"
       work: "עבודה"
     selected_contacts: 
       manage_your_aspects: "Manage your aspects."
@@ -160,6 +173,8 @@ he:
   contacts: 
     create: 
       failure: "אירע כשל ביצירת איש קשר"
+    featured: 
+      featured_users: "Featured Users"
     few: "%{count} אנשי קשר"
     index: 
       add_a_new_aspect: "Add a new aspect"
@@ -201,6 +216,7 @@ he:
     new: 
       abandon_changes: "Abandon changes?"
       send: "שליחה"
+      sending: "Sending..."
       subject: "נושא"
       to: "אל"
     show: 
@@ -245,7 +261,8 @@ he:
       rejected: "בכתובת הדוא״ל הבאה התגלו שגיאות:"
       sent: "נשלחו הזמנות אל:"
     edit: 
-      sign_up: "הרשמה"
+      accept_your_invitation: "Accept your invitation"
+      your_account_awaits: "Your account awaits!"
     new: 
       already_invited: "כבר נשלחה הזמנה"
       aspect: "היבט"
@@ -272,6 +289,7 @@ he:
       login: "כניסה"
       logout: "יציאה"
       profile: "פרופיל"
+      recent_notifications: "Recent notifications"
       settings: "הגדרות"
       view_all: "View all"
   likes: 
@@ -288,6 +306,12 @@ he:
         one: "אדם אחד אהב את זה"
         other: "%{count} אנשים אהבו את זה"
         zero: "אף אחד לא אהב את זה"
+      people_like_this_comment: 
+        few: "%{count} likes"
+        many: "%{count} likes"
+        one: "%{count} like"
+        other: "%{count} likes"
+        zero: "no likes"
   limited: "Limited"
   more: "המשך"
   next: "הבאה"
@@ -366,39 +390,31 @@ he:
       other: "%{actors} החל/ה לשתף אתך."
       zero: "%{actors} החלו לשתף אתך."
   notifier: 
-    also_commented: 
-      commented: "גם כן הגיב/ה על הרשומה של %{post_author}:"
-      sign_in: "יש להיכנס כדי לצפות בזה."
-      subject: "%{name} גם כן הגיב/ה על הרשומה של %{post_author}."
+    click_here: "click here"
     comment_on_post: 
-      commented: "הגיב/ה על הרשומה שלך:"
-      sign_in: "יש להיכנס כדי לצפות בזה."
-      subject: "%{name} הגיב/ה על הרשומה שלך."
-    diaspora: "רובוט הדוא״ל של דיאספורה"
+      reply: "Reply or view %{name}'s post >"
+    confirm_email: 
+      click_link: "To activate your new e-mail address %{unconfirmed_email}, please click this link:"
+      subject: "Please activate your new e-mail address %{unconfirmed_email}"
+    email_sent_by_diaspora: "This email was sent by Diaspora.  If you'd like to stop getting emails like this,"
     hello: "שלום %{name}!"
     liked: 
       liked: "%{name} בדיוק עכשיו סימן/נה את הרשומה שלך כאהובה: "
-      sign_in: "יש להיכנס כדי לצפות בזה"
-      subject: "%{name} בדיוק עכשיו סימן/נה את הרשומה שלך כאהובה"
-    love: "באהבה,"
-    manage_your_email_settings: "ניהול הגדרות הדוא״ל שלך"
+      view_post: "View post >"
     mentioned: 
       mentioned: "ציין/ה אותך ברשומה:"
-      sign_in: "יש להיכנס כדי לצפות בזה."
       subject: "הוזכרת על ידי %{name} בדיאספורה*"
     private_message: 
-      message_subject: "נושא: %{subject}"
-      private_message: "שלח/ה לך הודעה פרטית:"
-      sign_in: "יש להיכנס כדי לצפות בזה."
-      subject: "נשלחה אליך הודעה פרטית מאת %{name} דרך דיאספורה*"
+      reply_to_or_view: "Reply to or view this conversation >"
     single_admin: 
       admin: "מנהל הדיאספורה שלך"
       subject: "הודעה בנוגע לחשבונך בדיאספורה:"
     started_sharing: 
       sharing: "החל/ה לשתף אתך!"
-      sign_in: "כניסה מכאן"
       subject: "%{name} החל/ה לשתף אתך בדיאספורה*"
+      view_profile: "View %{name}'s profile"
     thanks: "רב תודות,"
+    to_change_your_notification_settings: "to change your notification settings"
   ok: "אישור"
   or: "או"
   password: "ססמה"
@@ -438,10 +454,10 @@ he:
       add_some: "הוספת אנשים"
       does_not_exist: "אדם זה אינו קיים!"
       edit: "עריכה"
+      has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
       incoming_request: "ברצונו/ה של %{name} לשתף אתך"
       mention: "אזכור"
       message: "הודעה"
-      no_posts: "אין רשומות להצגה!"
       not_connected: "אין לך שיתוף עם אדם זה"
       recent_posts: "רשומות אחרונות"
       recent_public_posts: "הרשומות הציבוריות האחרונות"
@@ -530,12 +546,13 @@ he:
       unhappy: "בבאסה?"
       update: "עדכון"
     new: 
+      create_my_account: "Create my account"
       enter_email: "נא להזין כתובת דוא״ל"
       enter_password: "נא להזין ססמה"
       enter_password_again: "להזין את אותה הססמה כמקודם"
       enter_username: "נא לבחור שם משתמש (אותיות, מספרים וקווים תחתונים בלבד)"
-      sign_up: "הרשמה"
-      sign_up_for_diaspora: "הרשמה לדיאספורה"
+      join_the_movement: "Join the movement!"
+      sign_up_today: "Sign up today"
   requests: 
     create: 
       sending: "בשליחה"
@@ -556,6 +573,20 @@ he:
       manage_within: "ניהול אנשי קשר בתוך"
     new_request_to_person: 
       sent: "נשלחה!"
+  reshares: 
+    create: 
+      failure: "There was an error resharing this post."
+    reshare: 
+      deleted: "Original post deleted by author."
+      reshare: 
+        few: "%{count} Reshares"
+        many: "%{count} Reshares"
+        one: "1 Reshare"
+        other: "%{count} Reshares"
+        zero: "Reshare"
+      reshare_confirmation: "Reshare %{author} - %{text}?"
+      reshare_original: "Reshare orignial"
+      show_original: "Show Original"
   search: "חיפוש"
   services: 
     create: 
@@ -626,7 +657,6 @@ he:
       make_public: "הפיכה לציבורי"
       post_a_message_to: "פרסום הודעה אל %{aspect}"
       posting: "פרסום..."
-      public: "ציבורי"
       publishing_to: "פרסום אל:"
       share: "שיתוף"
       share_with: "שיתוף עם"
@@ -690,10 +720,14 @@ he:
   undo: "האם לבטל?"
   username: "שם משתמש"
   users: 
+    confirm_email: 
+      email_confirmed: "E-Mail %{email} activated"
+      email_not_confirmed: "E-Mail could not be activated. Wrong link?"
     destroy: "חשבונך ננעל. סגירת חשבונך עלולה להימשך כ־20 דקות. תודה על שהתנסית בדיאספורה."
     edit: 
       also_commented: "...מישהו הגיב גם על הרשומה של איש הקשר שלך?"
       change: "שינוי"
+      change_email: "Change E-Mail"
       change_language: "החלפת השפה"
       change_password: "החלפת הססמה"
       close_account: "סגירת החשבון"
@@ -702,6 +736,7 @@ he:
       download_photos: "הורדת התמונות שלי"
       download_xml: "הורדת ה־xml שלי"
       edit_account: "עריכת החשבון"
+      email_awaiting_confirmation: "We have sent you an activation link to %{unconfirmed_email}. Till you follow this link and activate the new address, we will continue to use your original address %{email}."
       export_data: "יצוא הנתונים"
       liked: "...מישהו אהב את הרשומה שלך?"
       mentioned: "...מישהו ציין אותך ברשומה?"
@@ -712,21 +747,30 @@ he:
       your_email: "כתובת הדוא״ל שלך"
       your_handle: "שם המשתמש שלך בדיאספורה"
     getting_started: 
-      connect_on_diaspora: "יצירת קשר דרך Diaspora"
-      connect_services: "התחברות לשירותים הנוספים שלך"
-      could_not_find_anyone: "לא ניתן למצוא חברים כלשהם בדיאספורה*. יש להשתמש במחפש החברים כדי להזמין אותם."
-      edit_profile: "עריכת הפרופיל שלך"
+      connect_to: "Connect to"
+      connect_to_your_other_social_networks: "Connect to your other social networks"
+      connect_with_people: "Connect with cool people"
+      connect_with_people_explanation: "Connect with people by placing them into one or more of your aspects.  Aspects are an intuative way to group new and familar faces, allowing you to filter down or share with subsets of your contacts easily."
+      featured_tags: "Featured tags"
+      featured_users: "Featured users"
+      fill_out_your_profile: "Fill out your profile"
+      find_friends: "Find friends"
+      find_friends_from_facebook: "find friends from Facebook"
       finished: "סיימת!"
-      save_and_continue: "שמירה והמשך"
-      signup_steps: "עליך להשלים את הליך ההרשמה על ידי ביצוע שלוש הפעולות הבאות:"
-      skip: "דילוג על הסברי הפתיחה"
-      step_2: 
-        find_your_friends_on_diaspora: "האם ברצונך למחוק את החברים שלך מ־Facebook ב־Diaspora?"
-        skip: "דילוג"
-      step_3: 
-        finish: "סיום"
-        people_already_on_diaspora: "אנשים שהם כבר ב־Diaspora"
+      follow_your_interests: "Follow your interests"
+      hashtag_explanation: "Hashtags allow you to talk about and follow your interests.  They're also a great way to find new people on Diaspora."
+      profile_description: "Make it easier for people to find you by filling out your profile information."
+      profile_fields: 
+        bio: "Bio"
+        birthday: "Birthday"
+        gender: "Gender"
+        location: "Location"
+        name: "Name"
+        photo: "Photo"
+        tags: "Tags"
+      see_all_featured_users: "See all featured users"
       welcome: "ברוך בואך לדיאספורה!"
+      welcome_with_name: "Welcome, %{name}!"
     public: 
       does_not_exist: "המשתמש %{username} אינו קיים!"
     update: 
@@ -735,6 +779,8 @@ he:
       language_not_changed: "החלפת השפה נכשלה"
       password_changed: "הססמה הוחלפה. כעת באפשרותך להיכנס עם הססמה החדשה שלך."
       password_not_changed: "החלפת הססמה נכשלה"
+      unconfirmed_email_changed: "E-Mail Changed. Needs activation."
+      unconfirmed_email_not_changed: "E-Mail Change Failed"
   webfinger: 
     fetch_failed: "אירע כשל בקבלת פרופיל ה־webfinger שלך ל־%{profile_url}"
     hcard_fetch_failed: "אירעה שגיאה בעת קבלת ה־hcard לחשבון %{account}"

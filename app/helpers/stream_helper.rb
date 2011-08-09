@@ -28,4 +28,8 @@ module StreamHelper
   def comments_expanded
     false
   end
+
+  def reshare?(post)
+    post.instance_of?(Reshare)
+  end
 end

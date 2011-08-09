@@ -61,6 +61,13 @@ describe StatusMessagesController do
         json['html'].should_not be_nil
       end
 
+      it 'saves the html as a fixture', :fixture => true do
+        post :create, status_message_hash.merge(:format => 'js')
+        json = JSON.parse(response.body)
+        save_fixture(json['html'], "created_status_message")
+
+      end
+
       it 'escapes XSS' do
         xss = "<script> alert('hi browser') </script>"
         post :create, status_message_hash.merge(:format => 'js', :text => xss)
@@ -106,11 +113,8 @@ describe StatusMessagesController do
 
     context 'with photos' do
       before do
-        fixture_filename  = 'button.png'
-        fixture_name      = File.join(File.dirname(__FILE__), '..', 'fixtures', fixture_filename)
-
-        @photo1 = alice.build_post(:photo, :pending => true, :user_file=> File.open(fixture_name), :to => @aspect1.id)
-        @photo2 = alice.build_post(:photo, :pending => true, :user_file=> File.open(fixture_name), :to => @aspect1.id)
+        @photo1 = alice.build_post(:photo, :pending => true, :user_file=> File.open(photo_fixture_name), :to => @aspect1.id)
+        @photo2 = alice.build_post(:photo, :pending => true, :user_file=> File.open(photo_fixture_name), :to => @aspect1.id)
 
         @photo1.save!
         @photo2.save!
@@ -123,9 +127,9 @@ describe StatusMessagesController do
         post :create, @hash
         response.should be_redirect
       end
-      it "dispatches all referenced photos" do
-        alice.should_receive(:dispatch_post).exactly(3).times
+      it "attaches all referenced photos" do
         post :create, @hash
+        assigns[:status_message].photos.map(&:id).should =~ [@photo1, @photo2].map(&:id)
       end
       it "sets the pending bit of referenced photos" do
         post :create, @hash
