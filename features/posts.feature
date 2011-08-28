@@ -23,7 +23,7 @@ Feature: posting
         And I follow "Your Aspects"
       Then I should see "I am eating a yogurt" within ".stream_element"
 
-    Scenario: post a photo without text
+    Scenario: post a photo without text 
       Given I expand the publisher
       And I attach the file "spec/fixtures/button.png" to hidden element "file" within "#file-upload"
       And I wait for the ajax to finish
@@ -154,7 +154,8 @@ Feature: posting
         And I click "Mention" button
         And I expand the publisher in the modal window
         And I append "I am eating a yogurt" to the publisher
-        And I follow "DidntPostTo" within "#publisher" in the modal window
+        And I press the aspect dropdown in the modal window
+        And I toggle the aspect "DidntPostTo" in the modal window
         And I press "Share" in the modal window
         And I am on the aspects page
         And I follow "<aspect>" within "#aspect_nav"

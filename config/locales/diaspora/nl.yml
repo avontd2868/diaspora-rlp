@@ -37,6 +37,7 @@ nl:
             person: 
               invalid: "is ongeldig."
             username: 
+              invalid: "is invalid. We only allow letters, numbers, and underscores"
               taken: "is al bezet."
   ago: "%{time} geleden"
   all_aspects: "Alle Aspecten"
@@ -48,14 +49,6 @@ nl:
         unknown: "Onbekende Videotitel"
   are_you_sure: "Weet je het zeker?"
   aspect_memberships: 
-    aspect_dropdown: 
-      add_to_aspect: "Voeg toe aan aspect"
-      toggle: 
-        few: "In %{count} aspecten"
-        many: "In %{count} aspecten"
-        one: "In %{count} aspect"
-        other: "In %{count} aspecten"
-        zero: "Voeg toe aan aspect"
     destroy: 
       failure: "Persoon verwijderen van aspect mislukt"
       no_membership: "Kon de geselecteerde persoon niet vinden in dat aspect"
@@ -117,6 +110,7 @@ nl:
         content: "Je kunt de volgende service met Diaspora verbinden:"
         heading: "Verbind Services"
       tags_following: "Gevolgde Tags"
+      unfollow_tag: "Stop following #%{tag}"
       your_aspects: "Jouw Aspecten"
     many: "%{count} aspecten"
     move_contact: 
@@ -196,6 +190,7 @@ nl:
     zero: "geen contacten"
   conversations: 
     create: 
+      fail: "Invalid message"
       sent: "Bericht verzonden"
     destroy: 
       success: "Conversatie succesvol verwijderd"
@@ -219,9 +214,12 @@ nl:
       sending: "Verzenden..."
       subject: "onderwerp"
       to: "aan"
+    new_message: 
+      fail: "Invalid message"
     show: 
       delete: "verwijder en blokkeer conversatie"
       reply: "beantwoord"
+      replying: "Replying..."
   date: 
     formats: 
       birthday: "%B %d"
@@ -251,6 +249,7 @@ nl:
       tagline_first_half: "Deel wat je wilt delen,"
       tagline_second_half: "met degenen met wie je het wilt delen."
   invitations: 
+    a_facebook_user: "A Facebook user"
     check_token: 
       not_found: "Uitnodigingstoken niet gevonden"
     create: 
@@ -276,7 +275,6 @@ nl:
       to: "Aan"
   layouts: 
     application: 
-      have_a_problem: "Probleem? Vind hier een antwoord"
       powered_by: "POWERED BY DIASPORA*"
       public_feed: "Publieke Diaspora Feed van %{name}"
       toggle: "switch mobiele versie"
@@ -383,6 +381,18 @@ nl:
       one: "%{actors} heeft je een bericht gestuurd."
       other: "%{actors} hebben je een bericht gestuurd."
       zero: "%{actors} heeft jou een bericht gestuurd."
+    reshared: 
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
+      zero: "%{actors} has reshared your %{post_link}."
+    reshared_post_deleted: 
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
+      zero: "%{actors} reshared your deleted post."
     started_sharing: 
       few: "%{actors} delen nu met jou."
       many: "%{actors} delen nu met jou."
@@ -390,6 +400,7 @@ nl:
       other: "%{actors} delen nu met jou."
       zero: "%{actors} deelt nu met jou."
   notifier: 
+    a_post_you_shared: "a post."
     click_here: "klik hier"
     comment_on_post: 
       reply: "Reageer of bekijk %{name}'s post >"
@@ -406,6 +417,9 @@ nl:
       subject: "%{name} heeft jou genoemd op Diaspora*"
     private_message: 
       reply_to_or_view: "Reageer op of bekijk deze conversatie >"
+    reshared: 
+      reshared: "%{name} just reshared your post"
+      view_post: "View post >"
     single_admin: 
       admin: "Je Diaspora administrator"
       subject: "Een bericht over je Diaspora account:"
@@ -451,9 +465,7 @@ nl:
       remove_contact: "verwijder contact"
       remove_from: "Verwijder %{name} uit %{aspect}?"
     show: 
-      add_some: "Voeg toe"
       does_not_exist: "Die persoon bestaat niet!"
-      edit: "bewerk"
       has_not_shared_with_you_yet: "%{name} heeft nog geen posts met je gedeeld!"
       incoming_request: "%{name} wil met je delen"
       mention: "Noemen"
@@ -465,11 +477,15 @@ nl:
       see_all: "Zie alles"
       start_sharing: "start met delen"
       to_accept_or_ignore: "om te accepteren of te negeren."
-      you_have_no_tags: "je hebt geen tags!"
+    sub_header: 
+      add_some: "add some"
+      edit: "edit"
+      you_have_no_tags: "you have no tags!"
     webfinger: 
       fail: "Sorry, we konden %{handle} niet vinden."
     zero: "geen mensen"
   photos: 
+    comment_email_subject: "%{name}'s photo"
     create: 
       integrity_error: "Foto uploaden mislukt. Weet je zeker dat het een afbeelding was?"
       runtime_error: "Foto uploaden mislukt. Weet je zeker dat je je gordel omhebt?"
@@ -497,9 +513,8 @@ nl:
       edit: "bewerk"
       edit_delete_photo: "Bewerk foto-omschrijving / verwijder foto"
       make_profile_photo: "kies als profielfoto"
-      original_post: "Originele post"
+      show_original_post: "Show original post"
       update_photo: "Update foto"
-      view: "bekijk"
     update: 
       error: "Foto veranderen niet gelukt."
       notice: "Foto succesvol veranderd."
@@ -574,6 +589,7 @@ nl:
     new_request_to_person: 
       sent: "verzonden!"
   reshares: 
+    comment_email_subject: "%{resharer}'s reshare of %{author}'s post"
     create: 
       failure: "Er is een fout opgetreden bij het herdelen van deze post."
     reshare: 
@@ -596,14 +612,8 @@ nl:
     failure: 
       error: "er ging iets mis bij het verbinden met die service"
     finder: 
-      friends: 
-        few: "%{count} contacten"
-        many: "%{count} vrienden"
-        one: "1 contact"
-        other: "%{count} contacten"
-        zero: "geen contacten"
-      invite_your_friends_from: "Nodig je %{service} contacten uit"
-      not_connected: "niet verbonden"
+      no_friends: "No Facebook friends found."
+      service_friends: "%{service} Friends"
     index: 
       connect_to_facebook: "Verbind met Facebook"
       connect_to_tumblr: "Verbind met Tumblr"
@@ -618,6 +628,7 @@ nl:
       join_me_on_diaspora: "Volg me op DIASPORA*"
     remote_friend: 
       invite: "uitnodigen"
+      not_on_diaspora: "Not yet on Diaspora"
       resend: "herstuur"
   settings: "Instellingen"
   shared: 
@@ -628,6 +639,14 @@ nl:
       enter_a_diaspora_username: "Vul een Diaspora gebruikersnaam in:"
       know_email: "Weet je hun e-mailadres? Je zou ze uit moeten nodigen"
       your_diaspora_username_is: "Jouw Diaspora gebruikersnaam is: %{diaspora_handle}"
+    aspect_dropdown: 
+      add_to_aspect: "Add to aspect"
+      toggle: 
+        few: "In %{count} aspects"
+        many: "In %{count} aspects"
+        one: "In %{count} aspect"
+        other: "In %{count} aspects"
+        zero: "Add to aspect"
     contact_list: 
       all_contacts: "Alle contacten"
     footer: 
@@ -743,14 +762,17 @@ nl:
       new_password: "Nieuw wachtwoord"
       private_message: "...je een privébericht ontvangt?"
       receive_email_notifications: "Ontvang e-mail notificaties wanneer..."
+      reshared: "...someone reshares your post?"
       started_sharing: "...iemand met je begint te delen?"
       your_email: "Jouw e-mail"
       your_handle: "Jouw Diaspora ID"
     getting_started: 
+      bold: "aspects"
       connect_to: "Verbind met"
       connect_to_your_other_social_networks: "Verbind met je andere sociale netwerken"
       connect_with_people: "Maak kennis met interessante mensen"
-      connect_with_people_explanation: "Leg contact met mensen door ze in een of meerdere aspecten te plaatsen. Aspecten zijn een handige manier om nieuwe en bekende gezichten in groepen in te delen, waardoor je jou contacten gemakkelijk kunt filteren en heel gericht berichten met ze kunt delen."
+      connect_with_people_explanation_pt1: "Connect with people by placing them into one or more of your"
+      connect_with_people_explanation_pt2: "Aspects are an intuitive way to group new and familar faces, private to you, allowing you to filter down or share with subsets of your contacts easily."
       featured_tags: "Aanbevolen tags"
       featured_users: "Aanbevolen gebruikers"
       fill_out_your_profile: "Vul je profiel aan"

@@ -37,6 +37,7 @@ ar:
             person: 
               invalid: "غير صالح."
             username: 
+              invalid: "is invalid. We only allow letters, numbers, and underscores"
               taken: "حُجِزَ بالفعل."
   ago: "منذ %{time}"
   all_aspects: "كل الفئات"
@@ -48,14 +49,6 @@ ar:
         unknown: "فيديو غير مُعَنْوَن"
   are_you_sure: "أواثقٌ أنت؟"
   aspect_memberships: 
-    aspect_dropdown: 
-      add_to_aspect: "أضف إلى فئة"
-      toggle: 
-        few: "في %{count} فئات"
-        many: "في %{count} فئة"
-        one: "في فئة واحدة"
-        other: "في %{count} فئات"
-        zero: "أضف إلى فئة"
     destroy: 
       failure: "فشل في حذف عضو من الفئة"
       no_membership: "تعذَّر إيجاد العضو المحدد في هذه الفئة"
@@ -117,6 +110,7 @@ ar:
         content: "يمكنك وصل حساب ديسبورا الخاص بك بالخدمات الآتية:"
         heading: "صل حسابك بالخدمات"
       tags_following: "الوسوم المتابعة"
+      unfollow_tag: "Stop following #%{tag}"
       your_aspects: "فئاتك"
     many: "%{count} فئات"
     move_contact: 
@@ -196,6 +190,7 @@ ar:
     zero: "لا يوجد أعضاء"
   conversations: 
     create: 
+      fail: "Invalid message"
       sent: "أُرْسِلَت الرسالة"
     destroy: 
       success: "حُذِفَت المحادثة بنجاح"
@@ -219,9 +214,12 @@ ar:
       sending: "Sending..."
       subject: "العنوان"
       to: "إلى"
+    new_message: 
+      fail: "Invalid message"
     show: 
       delete: "احْذِف واحْظُر المحادثة"
       reply: "رُدَّ"
+      replying: "Replying..."
   date: 
     formats: 
       birthday: "%d %B"
@@ -234,7 +232,7 @@ ar:
       correct_the_following_errors_and_try_again: ".صَحِّح الأخطاء التالية ثم أعد المحاولة"
       invalid_fields: "حقولٌ غير صالحة"
   fill_me_out: "إملأني"
-  find_people: "ابحث عن الناس"
+  find_people: "ابحث عن الأصدقاء أو #الوسوم"
   hide: "آَخْفِ"
   home: 
     show: 
@@ -251,6 +249,7 @@ ar:
       tagline_first_half: "شارك ما تريد،"
       tagline_second_half: "مع من تريد."
   invitations: 
+    a_facebook_user: "A Facebook user"
     check_token: 
       not_found: "الدعوة الرمزية غير موجودة"
     create: 
@@ -276,7 +275,6 @@ ar:
       to: "إلى"
   layouts: 
     application: 
-      have_a_problem: "واجهت مشكلة؟ اعثر على حل هنا"
       powered_by: "بدعم DIASPORA*"
       public_feed: "ملقم دياسبرا العام لـ %{name}"
       toggle: "حَوِّل لموقع الهواتف المحمولة"
@@ -383,6 +381,18 @@ ar:
       one: "%{actors} راسلك."
       other: "%{actors} راسلوك."
       zero: "%{actors} راسلك."
+    reshared: 
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
+      zero: "%{actors} has reshared your %{post_link}."
+    reshared_post_deleted: 
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
+      zero: "%{actors} reshared your deleted post."
     started_sharing: 
       few: "%{actors} بدؤوا المشاركة معك."
       many: "%{actors} بدؤوا المشاركة معك."
@@ -390,6 +400,7 @@ ar:
       other: "%{actors} بدؤوا المشاركة معك."
       zero: "%{actors} بدأ المشاركة معك."
   notifier: 
+    a_post_you_shared: "a post."
     click_here: "اضغط هنا"
     comment_on_post: 
       reply: "رُد أو اعرض مشاركة %{name} >"
@@ -406,6 +417,9 @@ ar:
       subject: "%{name} قام بذكرك في دياسبرا"
     private_message: 
       reply_to_or_view: "رُد أو اعرض هذه المحادثة >"
+    reshared: 
+      reshared: "%{name} just reshared your post"
+      view_post: "View post >"
     single_admin: 
       admin: "إدارة دياسبرا"
       subject: "رسالة من إدارة دياسبرا:"
@@ -451,9 +465,7 @@ ar:
       remove_contact: "إحذف العضو"
       remove_from: "حذف %{name} من %{aspect}?"
     show: 
-      add_some: "إضافة"
       does_not_exist: "هذا العضو غير موجود"
-      edit: "تعديل"
       has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
       incoming_request: "%{name} يريد المشاركة معك"
       mention: "إشارة"
@@ -465,11 +477,15 @@ ar:
       see_all: "مشاهدة الكل"
       start_sharing: "بدء المشاركة"
       to_accept_or_ignore: "للقبول أو التجاهل"
-      you_have_no_tags: "لم تستخدم أي tags!"
+    sub_header: 
+      add_some: "add some"
+      edit: "edit"
+      you_have_no_tags: "you have no tags!"
     webfinger: 
       fail: "للأسف، لم نجد %{handle}."
     zero: "لا أحد"
   photos: 
+    comment_email_subject: "%{name}'s photo"
     create: 
       integrity_error: "فشل رفع الصورة، أواثقٌ أن هذا الملف صورة؟"
       runtime_error: "فشل رفع الصورة، هل قمت بربطها مع نص؟"
@@ -497,9 +513,8 @@ ar:
       edit: "عَدِّل"
       edit_delete_photo: "عَدِّل وصف الصورة / احْذِف الصورة"
       make_profile_photo: "اجعلها صورة شخصية"
-      original_post: "المشاركة الأصلية"
+      show_original_post: "Show original post"
       update_photo: "حَدِّث الصورة"
-      view: "شاهد"
     update: 
       error: "فشل تحرير الصورة."
       notice: "حُدِّثَت الصورة بنجاح."
@@ -574,6 +589,7 @@ ar:
     new_request_to_person: 
       sent: "أُرْسِلَت!"
   reshares: 
+    comment_email_subject: "%{resharer}'s reshare of %{author}'s post"
     create: 
       failure: "هناك خطأ ما في إعادة نشر هذه المشاركة."
     reshare: 
@@ -585,7 +601,7 @@ ar:
         other: "أُعِيدَ نشرها %{count} مرة"
         zero: "أَعِد النشر"
       reshare_confirmation: "هل أُعِد نشر مشاركة %{author} - ومحتواها: %{text} ?"
-      reshare_original: "Reshare orignial"
+      reshare_original: "أعد نشر المشاركة الأصلية"
       show_original: "اعرض الأصلية"
   search: "بحث"
   services: 
@@ -596,14 +612,8 @@ ar:
     failure: 
       error: "خطأ خلال محاولة الإتصال بالخدمة"
     finder: 
-      friends: 
-        few: "%{count} أصدقاء"
-        many: "%{count} أصدقاء"
-        one: "1 أصدقاء"
-        other: "%{count} أصدقاء"
-        zero: "لا أصدقاء"
-      invite_your_friends_from: "دعوة أصدقائك من %{service}"
-      not_connected: "غير متصل"
+      no_friends: "No Facebook friends found."
+      service_friends: "%{service} Friends"
     index: 
       connect_to_facebook: "إتصل بـ فيسبوك"
       connect_to_tumblr: "صل حسابك بـ Tumblr"
@@ -618,6 +628,7 @@ ar:
       join_me_on_diaspora: "انضم إلي في DIASPORA*"
     remote_friend: 
       invite: "دعوة"
+      not_on_diaspora: "Not yet on Diaspora"
       resend: "إعادة إرسال"
   settings: "إعدادات"
   shared: 
@@ -628,6 +639,14 @@ ar:
       enter_a_diaspora_username: "أدخل معرف دياسبرا:"
       know_email: "أتَعرِف بُرُدَهم الإلكترونية؟ يَجدر بك دعوتهم"
       your_diaspora_username_is: "وسيط دياسبورا خاصتك هو: %{diaspora_handle}"
+    aspect_dropdown: 
+      add_to_aspect: "Add to aspect"
+      toggle: 
+        few: "In %{count} aspects"
+        many: "In %{count} aspects"
+        one: "In %{count} aspect"
+        other: "In %{count} aspects"
+        zero: "Add to aspect"
     contact_list: 
       all_contacts: "جميع الأعضاء"
     footer: 
@@ -743,14 +762,17 @@ ar:
       new_password: "كلمة مرور جديدة"
       private_message: "...وصلتك راسلة خاصة"
       receive_email_notifications: "استقبال تنبيهات عبر البريد الإلكتروني؟"
+      reshared: "...someone reshares your post?"
       started_sharing: "...بدأ أحدهم المشاركة معك؟"
       your_email: "بريدك الإلكتروني"
       your_handle: "وسيط ديسبورا الخاص بك"
     getting_started: 
+      bold: "aspects"
       connect_to: "Connect to"
       connect_to_your_other_social_networks: "Connect to your other social networks"
       connect_with_people: "Connect with cool people"
-      connect_with_people_explanation: "Connect with people by placing them into one or more of your aspects.  Aspects are an intuative way to group new and familar faces, allowing you to filter down or share with subsets of your contacts easily."
+      connect_with_people_explanation_pt1: "Connect with people by placing them into one or more of your"
+      connect_with_people_explanation_pt2: "Aspects are an intuitive way to group new and familar faces, private to you, allowing you to filter down or share with subsets of your contacts easily."
       featured_tags: "Featured tags"
       featured_users: "Featured users"
       fill_out_your_profile: "Fill out your profile"

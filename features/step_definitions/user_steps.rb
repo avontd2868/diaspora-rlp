@@ -35,13 +35,15 @@ Given /^a user named "([^\"]*)" with email "([^\"]*)"$/ do |name, email|
 end
 
 Given /^I have been invited by an admin$/ do
-  @me = Invitation.create_invitee(:service => 'email', :identifier => "new_invitee@example.com")
+  i = Invitation.create!(:admin => true, :service => 'email', :identifier => "new_invitee@example.com")
+  @me = i.attach_recipient!
 end
 
 Given /^I have been invited by a user$/ do
   @inviter = Factory(:user)
   aspect = @inviter.aspects.create(:name => "Rocket Scientists")
-  @me = @inviter.invite_user(aspect.id, 'email', "new_invitee@example.com", "Hey, tell me about your rockets!")
+  i =  Invitation.create!(:aspect => aspect, :sender => @inviter, :service => 'email', :identifier => "new_invitee@example.com", :message =>"Hey, tell me about your rockets!")
+  @me = i.attach_recipient!
 end
 
 When /^I click on my name$/ do
@@ -147,6 +149,15 @@ And /^I follow the "([^\"]*)" link from the last sent email$/ do |link_text|
   path = link.attributes["href"].value
   visit URI::parse(path).request_uri
 end
+
+Then /^I should have (\d+) Devise email delivery$/ do |n|
+  Devise.mailer.deliveries.length.should == n.to_i
+end
+
+Then /^I should have (\d+) email delivery$/ do |n|
+  ActionMailer::Base.deliveries.length.should == n.to_i
+end
+
 
 When /^"([^\"]+)" has posted a status message with a photo$/ do |email|
   user = User.find_for_database_authentication(:username => email)

@@ -88,8 +88,8 @@ describe Notifier do
       @mail.body.encoded.should include(@sm.text)
     end
 
-    it 'should not include translation missing' do
-      @mail.body.encoded.should_not include("missing")
+    it 'should not include translation fallback' do
+      @mail.body.encoded.should_not include(I18n.translate 'notifier.a_post_you_shared')
     end
   end
 
@@ -112,18 +112,59 @@ describe Notifier do
       @mail.body.encoded.should include(@like.author.name)
     end
 
-    it 'should not include translation missing' do
-      @mail.body.encoded.should_not include("missing")
+    it 'should not include translation fallback' do
+      @mail.body.encoded.should_not include(I18n.translate 'notifier.a_post_you_shared')
+    end
+
+    it 'can handle a reshare' do
+      reshare = Factory(:reshare)
+      like = reshare.likes.create!(:author => bob.person)
+      mail = Notifier.liked(alice.id, like.author.id, like.id)
+    end
+
+    it 'can handle a activity streams photo' do
+      as_photo = Factory(:activity_streams_photo)
+      like = as_photo.likes.create!(:author => bob.person)
+      mail = Notifier.liked(alice.id, like.author.id, like.id)
     end
   end
+
+  describe ".reshared" do
+    before do
+      @sm = Factory.create(:status_message, :author => alice.person, :public => true)
+      @reshare = Factory.create(:reshare, :root => @sm, :author => bob.person)
+      @mail = Notifier.reshared(alice.id, @reshare.author.id, @reshare.id)
+    end
+
+    it 'TO: goes to the right person' do
+      @mail.to.should == [alice.email]
+    end
+
+    it 'BODY: contains the truncated original post' do
+      @mail.body.encoded.should include(@sm.formatted_message)
+    end
+
+    it 'BODY: contains the name of person liking' do
+      @mail.body.encoded.should include(@reshare.author.name)
+    end
+
+    it 'should not include translation fallback' do
+      @mail.body.encoded.should_not include(I18n.translate 'notifier.a_post_you_shared')
+    end
+  end
+
 
   describe ".private_message" do
     before do
       @user2 = bob
       @participant_ids = @user2.contacts.map{|c| c.person.id} + [ @user2.person.id]
 
-      @create_hash = { :author => @user2.person, :participant_ids => @participant_ids ,
-                       :subject => "cool stuff", :text => 'hey'}
+      @create_hash = {
+        :author => @user2.person,
+        :participant_ids => @participant_ids,
+        :subject => "cool stuff",
+        :messages_attributes => [ {:author => @user2.person, :text => 'hey'} ]
+      }
 
       @cnv = Conversation.create(@create_hash)
 
@@ -154,18 +195,18 @@ describe Notifier do
       @mail.body.encoded.should include(@cnv.messages.first.text)
     end
 
-    it 'should not include translation missing' do
-      @mail.body.encoded.should_not include("missing")
+    it 'should not include translation fallback' do
+      @mail.body.encoded.should_not include(I18n.translate 'notifier.a_post_you_shared')
     end
   end
 
   context "comments" do
-    let!(:connect) { connect_users(user, aspect, user2, aspect2)}
-    let!(:sm) {user.post(:status_message, :text => "It's really sunny outside today, and this is a super long status message!  #notreally", :to => :all)}
-    let!(:comment) { user2.comment("Totally is", :post => sm )}
+    let(:connect) { connect_users(user, aspect, user2, aspect2)}
+    let(:commented_post) {user.post(:status_message, :text => "It's really sunny outside today, and this is a super long status message!  #notreally", :to => :all)}
+    let(:comment) { user2.comment("Totally is", :post => commented_post)}
 
     describe ".comment_on_post" do
-      let!(:comment_mail) {Notifier.comment_on_post(user.id, person.id, comment.id).deliver}
+      let(:comment_mail) {Notifier.comment_on_post(user.id, person.id, comment.id).deliver}
 
       it 'TO: goes to the right person' do
         comment_mail.to.should == [user.email]
@@ -177,7 +218,7 @@ describe Notifier do
       end
 
       it 'SUBJECT: has a snippet of the post contents' do
-        comment_mail.subject.should == "Re: #{truncate(sm.text, :length => 70)}"
+        comment_mail.subject.should == "Re: #{truncate(commented_post.text, :length => 70)}"
       end
 
       context 'BODY' do
@@ -188,11 +229,26 @@ describe Notifier do
         it "contains the original post's link" do
           comment_mail.body.encoded.include?("#{comment.post.id.to_s}").should be true
         end
+
+        it 'should not include translation fallback' do
+          comment_mail.body.encoded.should_not include(I18n.translate 'notifier.a_post_you_shared')
+        end
+      end
+
+      [:reshare, :activity_streams_photo].each do |post_type|
+        context post_type.to_s do
+          let(:commented_post) { Factory(post_type, :author => user.person) }
+          it 'succeeds' do
+            proc {
+              comment_mail
+            }.should_not raise_error
+          end
+        end
       end
     end
 
     describe ".also_commented" do
-      let!(:comment_mail) {Notifier.also_commented(user.id, person.id, comment.id)}
+      let(:comment_mail) {Notifier.also_commented(user.id, person.id, comment.id)}
 
       it 'TO: goes to the right person' do
         comment_mail.to.should == [user.email]
@@ -204,7 +260,7 @@ describe Notifier do
       end
 
       it 'SUBJECT: has a snippet of the post contents' do
-        comment_mail.subject.should == "Re: #{truncate(sm.text, :length => 70)}"
+        comment_mail.subject.should == "Re: #{truncate(commented_post.text, :length => 70)}"
       end
 
       context 'BODY' do
@@ -214,6 +270,20 @@ describe Notifier do
 
         it "contains the original post's link" do
           comment_mail.body.encoded.include?("#{comment.post.id.to_s}").should be true
+        end
+
+        it 'should not include translation fallback' do
+          comment_mail.body.encoded.should_not include(I18n.translate 'notifier.a_post_you_shared')
+        end
+      end
+      [:reshare, :activity_streams_photo].each do |post_type|
+        context post_type.to_s do
+          let(:commented_post) { Factory(post_type, :author => user.person) }
+          it 'succeeds' do
+            proc {
+              comment_mail
+            }.should_not raise_error
+          end
         end
       end
     end

@@ -37,6 +37,7 @@ el:
             person: 
               invalid: "είναι άκυρη."
             username: 
+              invalid: "μη έγκυρο. Επιτρέπονται μόνο γράμματα, νούμερα και \"κάτω παύλες\" (_)"
               taken: "είναι ήδη σε χρήση."
   ago: "%{time} πριν"
   all_aspects: "Όλες οι πτυχές"
@@ -48,14 +49,6 @@ el:
         unknown: "Άγνωστος τίτλος video"
   are_you_sure: "Είστε σίγουρος/η;"
   aspect_memberships: 
-    aspect_dropdown: 
-      add_to_aspect: "Προσθήκη σε πτυχή"
-      toggle: 
-        few: "Σε %{count} πτυχές"
-        many: "Σε %{count} πτυχές"
-        one: "Σε %{count} πτυχές"
-        other: "Σε %{count} πτυχές"
-        zero: "Προσθήκη σε πτυχή"
     destroy: 
       failure: "Αποτυχία στην αφαίρεση προσώπου από την πτυχή"
       no_membership: "Δεν βρέθηκε το επιλεγμένο άτομο σε αυτή την πτυχή"
@@ -117,6 +110,7 @@ el:
         content: "Μπορείτε να συνδέσετε τις παρακάτω υπηρεσίες στο Diaspora:"
         heading: "Συνδέστε Υπηρεσίες"
       tags_following: "Ετικέτες που ακολουθείτε"
+      unfollow_tag: "Stop following #%{tag}"
       your_aspects: "Οι Πτυχές σας"
     many: "%{count} πτυχές"
     move_contact: 
@@ -196,6 +190,7 @@ el:
     zero: "καμία επαφή"
   conversations: 
     create: 
+      fail: "Invalid message"
       sent: "Μήνυμα εστάλη"
     destroy: 
       success: "Η συζήτηση αφαιρέθηκε επιτυχώς"
@@ -219,9 +214,12 @@ el:
       sending: "Αποστολή..."
       subject: "θέμα"
       to: "στον"
+    new_message: 
+      fail: "Invalid message"
     show: 
       delete: "διαγραφή και φραγή συζήτησης"
       reply: "απάντηση"
+      replying: "Replying..."
   date: 
     formats: 
       birthday: "%B %d"
@@ -251,6 +249,7 @@ el:
       tagline_first_half: "Μοιραστείτε ό,τι θέλετε,"
       tagline_second_half: "με όποιον θέλετε."
   invitations: 
+    a_facebook_user: "Ένας χρήστης του Facebook"
     check_token: 
       not_found: "Το σύμβολο της πρόσκλησης δεν βρέθηκε"
     create: 
@@ -276,7 +275,6 @@ el:
       to: "Στον"
   layouts: 
     application: 
-      have_a_problem: "Έχετε κάποιο πρόβλημα; Βρείτε την απάντηση εδώ!"
       powered_by: "POWERED BY DIASPORA*"
       public_feed: "Δημόσια ανατροφοδότηση (feed) του Diaspora για τον χρήστη %{name}"
       toggle: "εναλλαγή ιστοσελίδας κινητού"
@@ -383,6 +381,18 @@ el:
       one: "Ο χρήστης %{actors} σας έστειλε ένα μήνυμα."
       other: "Οι χρήστες %{actors} σας έστειλαν ένα μήνυμα."
       zero: "Ο χρήστης %{actors} σας έστειλε ένα μήνυμα."
+    reshared: 
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
+      zero: "%{actors} has reshared your %{post_link}."
+    reshared_post_deleted: 
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
+      zero: "%{actors} reshared your deleted post."
     started_sharing: 
       few: "Οι χρήστες %{actors} άρχισαν να διαμοιράζονται μαζί σας."
       many: "Οι χρήστες %{actors} άρχισαν να διαμοιράζονται μαζί σας."
@@ -390,6 +400,7 @@ el:
       other: "Οι χρήστες %{actors} άρχισαν να διαμοιράζονται μαζί σας."
       zero: "Οι χρήστες %{actors} άρχισαν να διαμοιράζονται μαζί σας."
   notifier: 
+    a_post_you_shared: "μια δημοσίευση."
     click_here: "πατήστε εδώ"
     comment_on_post: 
       reply: "Απαντήστε ή δείτε τη δημοσίευση του χρήστη %{name} >"
@@ -406,6 +417,9 @@ el:
       subject: "Ο/Η %{name} σας αναφέρει στο Diaspora*"
     private_message: 
       reply_to_or_view: "Απαντήστε ή δείτε τη συζήτηση >"
+    reshared: 
+      reshared: "%{name} just reshared your post"
+      view_post: "View post >"
     single_admin: 
       admin: "Ο διαχειριστής Diaspora σας"
       subject: "Μήνυμα για τον Diaspora λογαριασμό σας:"
@@ -451,9 +465,7 @@ el:
       remove_contact: "διαγραφή επαφής"
       remove_from: "Αφαίρεση του χρήστη %{name} από τη πτυχή %{aspect}?"
     show: 
-      add_some: "προσθέστε κάποιες"
       does_not_exist: "Ο/Η χρήστης δεν υπάρχει!"
-      edit: "επεξεργασία"
       has_not_shared_with_you_yet: "Ο χρήστης %{name} δεν μοιράζεται ακόμα κάποια δημοσίευση μαζί σας!"
       incoming_request: "Ο/Η %{name} θέλει να μοιραστεί μαζί σας"
       mention: "Αναφορά"
@@ -465,11 +477,15 @@ el:
       see_all: "Εμφάνιση όλων"
       start_sharing: "ξεκινήσετε την κοινή χρήση"
       to_accept_or_ignore: "να το αποδεχθεί ή να το αγνοήσει."
-      you_have_no_tags: "δεν έχετε ετικέτες!"
+    sub_header: 
+      add_some: "add some"
+      edit: "edit"
+      you_have_no_tags: "you have no tags!"
     webfinger: 
       fail: "Λυπούμαστε, δεν ήταν δυνατή η εύρεση του %{handle}."
     zero: "κανένα άτομο"
   photos: 
+    comment_email_subject: "φωτογραφία του χρήστη %{name}"
     create: 
       integrity_error: "Η μεταφόρτωση της φωτογραφίας απέτυχε. Είστε σίγουρος/η ότι ήταν φωτογραφία;"
       runtime_error: "Η μεταφόρτωση της φωτογραφίας απέτυχε. Είστε σίγουρος/η πως φορέσατε ζώνη ασφαλείας πριν ξεκινήσετε;"
@@ -497,9 +513,8 @@ el:
       edit: "Επεξεργασία"
       edit_delete_photo: "Επεξεργασία περιγραφής φωτογραφίας / διαγραφή φωτογραφίας"
       make_profile_photo: "ορισμός ως φωτογραφίας προφίλ"
-      original_post: "Αυθεντική Δημοσίευση"
+      show_original_post: "Προβολή αρχικής δημοσίευσης"
       update_photo: "Ενημέρωση Φωτογραφίας"
-      view: "προβολή"
     update: 
       error: "Αποτυχία επεξεργασίας φωτογραφίας."
       notice: "Η φωτογραφία ενημερώθηκε επιτυχώς."
@@ -574,6 +589,7 @@ el:
     new_request_to_person: 
       sent: "εστάλη!"
   reshares: 
+    comment_email_subject: "κοινοποίηση της δημοσίευσης του %{author} από τον %{resharer}"
     create: 
       failure: "Υπήρξε κάποιο σφάλμα κατά την κοινοποίηση αυτής της δημοσίευσης."
     reshare: 
@@ -596,14 +612,8 @@ el:
     failure: 
       error: "εμφανίστηκε ένα σφάλμα κατά τη σύνδεση με αυτή την υπηρεσία"
     finder: 
-      friends: 
-        few: "%{count} φίλοι"
-        many: "%{count} φίλοι"
-        one: "1 φίλος"
-        other: "%{count} φίλοι"
-        zero: "κανένας φίλος"
-      invite_your_friends_from: "Προσκαλέστε τους φίλους σας απο %{service}"
-      not_connected: "δεν είναι συνδεδεμένο"
+      no_friends: "Δεν βρέθηκαν φίλοι στο Facebook. "
+      service_friends: "%{service} Φίλοι"
     index: 
       connect_to_facebook: "Σύνδεση με Facebook"
       connect_to_tumblr: "Σύνδεση με το Tumblr"
@@ -618,6 +628,7 @@ el:
       join_me_on_diaspora: "Συνδεθείτε μαζί μου στο DIASPORA*"
     remote_friend: 
       invite: "πρόσκληση"
+      not_on_diaspora: "Όχι ακόμα στο Diaspora"
       resend: "αποστολή ξανά"
   settings: "Ρυθμίσεις"
   shared: 
@@ -628,6 +639,14 @@ el:
       enter_a_diaspora_username: "Εισάγετε όνομα χρήστη Diaspora:"
       know_email: "Ξέρετε τις ηλεκτρονικές τους διευθύνσεις; Τότε πρέπει να τους προσκαλέσετε"
       your_diaspora_username_is: "Το όνομα χρήστη σας στο Diaspora είναι: %{diaspora_handle}"
+    aspect_dropdown: 
+      add_to_aspect: "Add to aspect"
+      toggle: 
+        few: "In %{count} aspects"
+        many: "In %{count} aspects"
+        one: "In %{count} aspect"
+        other: "In %{count} aspects"
+        zero: "Add to aspect"
     contact_list: 
       all_contacts: "Όλες οι επαφές"
     footer: 
@@ -743,14 +762,17 @@ el:
       new_password: "Νέος κωδικός πρόσβασης"
       private_message: "...μόλις λάβατε μία προσωπική ειδοποίηση?"
       receive_email_notifications: "Να λαμβάνετε ειδοποιήσεις στο ηλεκτρονικό σας ταχυδρομείο όταν..."
+      reshared: "...someone reshares your post?"
       started_sharing: "...κάποιος άρχισε να διαμοιράζεται μαζί σας?"
       your_email: "Το email σας"
       your_handle: "Το αναγνωριστικό σας στο diaspora"
     getting_started: 
+      bold: "aspects"
       connect_to: "Συνδεθείτε με"
       connect_to_your_other_social_networks: "Συνδεθείτε με άλλα κοινωνικά δίκτυα"
       connect_with_people: "Συνδεθείτε με ενδιαφέροντα άτομα"
-      connect_with_people_explanation: "Συνδεθείτε με άτομα τοποθετώντας τα σε μια ή περισσότερες από τις πτυχές σας. Οι πτυχές είναι ένας άμεσος τρόπος να ομαδοποιήσετε νέα και γνωστά σας πρόσωπα, έχοντας τη δυνατότητα να φιλτράρετε και να μοιράζεστε με υποσύνολα των επαφών σας."
+      connect_with_people_explanation_pt1: "Συνδεθείτε με άτομα τοποθετώντας τα σε μια ή περισσότερες από τις "
+      connect_with_people_explanation_pt2: "Aspects are an intuitive way to group new and familar faces, private to you, allowing you to filter down or share with subsets of your contacts easily."
       featured_tags: "Αξιόλογες ετικέτες"
       featured_users: "Αξιόλογοι χρήστες"
       fill_out_your_profile: "Συμπληρώστε το προφίλ σας "

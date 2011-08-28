@@ -37,6 +37,7 @@ ru:
             person: 
               invalid: "недействительно."
             username: 
+              invalid: "is invalid. We only allow letters, numbers, and underscores"
               taken: "уже занято."
   ago: "%{time} назад"
   all_aspects: "Все аспекты"
@@ -48,14 +49,6 @@ ru:
         unknown: "Неизвестное название видеозаписи"
   are_you_sure: "Вы уверены?"
   aspect_memberships: 
-    aspect_dropdown: 
-      add_to_aspect: "Добавить к аспектам"
-      toggle: 
-        few: "В %{count} аспектах"
-        many: "В %{count} аспектах"
-        one: "В %{count} аспектах"
-        other: "В %{count} аспектах"
-        zero: "Добавить к аспектам"
     destroy: 
       failure: "Не удалось удалить человека из аспектов"
       no_membership: "Не удалось найти этого человека в этом аспекте"
@@ -117,6 +110,7 @@ ru:
         content: "You can connect the following services to Diaspora:"
         heading: "Connect Services"
       tags_following: "Followed Tags"
+      unfollow_tag: "Stop following #%{tag}"
       your_aspects: "Your Aspects"
     many: "%{count} аспект[-а, -ов]"
     move_contact: 
@@ -196,6 +190,7 @@ ru:
     zero: "ни одного контакта"
   conversations: 
     create: 
+      fail: "Invalid message"
       sent: "Сообщение отправлено"
     destroy: 
       success: "Разговор успешно удален"
@@ -219,9 +214,12 @@ ru:
       sending: "Sending..."
       subject: "тема"
       to: "к"
+    new_message: 
+      fail: "Invalid message"
     show: 
       delete: "удалить и заблокировать разговор"
       reply: "ответить"
+      replying: "Replying..."
   date: 
     formats: 
       birthday: "%B %d"
@@ -251,6 +249,7 @@ ru:
       tagline_first_half: "Поделитесь чем хотите,"
       tagline_second_half: "с кем вы хотите."
   invitations: 
+    a_facebook_user: "A Facebook user"
     check_token: 
       not_found: "Код приглашения не найден"
     create: 
@@ -276,7 +275,6 @@ ru:
       to: "Для"
   layouts: 
     application: 
-      have_a_problem: "Столкнулись с проблемой? Попробуйте найти ответ здесь"
       powered_by: "ПОДДЕРЖИВАЕТСЯ ДИАСПОРОЙ*"
       public_feed: "Общественный канал диаспоры для %{name}"
       toggle: "переключить на мобильный сайт"
@@ -383,6 +381,18 @@ ru:
       one: "%{actors} послали вам сообщение."
       other: "%{actors} послали Вам сообщение."
       zero: "%{actors} послали Вам сообщение."
+    reshared: 
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
+      zero: "%{actors} has reshared your %{post_link}."
+    reshared_post_deleted: 
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
+      zero: "%{actors} reshared your deleted post."
     started_sharing: 
       few: "%{actors} начали делиться с вами."
       many: "%{actors} начали делиться с вами."
@@ -390,6 +400,7 @@ ru:
       other: "%{actors} начали делиться с вами."
       zero: "%{actors} начали делиться с вами."
   notifier: 
+    a_post_you_shared: "a post."
     click_here: "click here"
     comment_on_post: 
       reply: "Reply or view %{name}'s post >"
@@ -406,6 +417,9 @@ ru:
       subject: "% {name} упомянул вас в диаспоре*"
     private_message: 
       reply_to_or_view: "Reply to or view this conversation >"
+    reshared: 
+      reshared: "%{name} just reshared your post"
+      view_post: "View post >"
     single_admin: 
       admin: "Ваш администратор Диаспоры"
       subject: "Сообщение о вашем аккаунте Диаспоры:"
@@ -451,9 +465,7 @@ ru:
       remove_contact: "удалить контакт"
       remove_from: "Удалить %{name} из %{aspect}?"
     show: 
-      add_some: "добавить"
       does_not_exist: "Персоны не существует!"
-      edit: "редактировать"
       has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
       incoming_request: "%{name} хочет поделиться с вами"
       mention: "Упоминание"
@@ -465,11 +477,15 @@ ru:
       see_all: "Показать все"
       start_sharing: "поделиться"
       to_accept_or_ignore: "принять или игнорировать."
-      you_have_no_tags: "у вас нет меток!"
+    sub_header: 
+      add_some: "add some"
+      edit: "edit"
+      you_have_no_tags: "you have no tags!"
     webfinger: 
       fail: "К сожалению, мы не смогли найти %{handle}."
     zero: "нет никого"
   photos: 
+    comment_email_subject: "%{name}'s photo"
     create: 
       integrity_error: "Сбой при загрузке фотографии. Вы уверены, что это правильный файл?"
       runtime_error: "Сбой при загрузке фотографии."
@@ -497,9 +513,8 @@ ru:
       edit: "редактировать"
       edit_delete_photo: "Изменить описание фотографии / удалить фотографию"
       make_profile_photo: "сделать фотографией профиля"
-      original_post: "Исходное сообщение"
+      show_original_post: "Show original post"
       update_photo: "Обновить фотографию"
-      view: "смотреть"
     update: 
       error: "Не удалось изменить фотографию."
       notice: "Фотография успешно загружена."
@@ -574,6 +589,7 @@ ru:
     new_request_to_person: 
       sent: "отправлено!"
   reshares: 
+    comment_email_subject: "%{resharer}'s reshare of %{author}'s post"
     create: 
       failure: "There was an error resharing this post."
     reshare: 
@@ -596,14 +612,8 @@ ru:
     failure: 
       error: "Произошла ошибка при подключении этого сервиса"
     finder: 
-      friends: 
-        few: "%{count} друг[-а, -зей]"
-        many: "%{count} друга[-зей]"
-        one: "1 друг"
-        other: "%{count} друг[-а, -зей]"
-        zero: "нет друзей"
-      invite_your_friends_from: "Пригласить своих друзей из %{service}"
-      not_connected: "не соединён"
+      no_friends: "No Facebook friends found."
+      service_friends: "%{service} Friends"
     index: 
       connect_to_facebook: "Подключение к Facebook"
       connect_to_tumblr: "Подключение к Tumblr"
@@ -618,6 +628,7 @@ ru:
       join_me_on_diaspora: "Присоединяйтесь ко мне в DIASPORЕ*"
     remote_friend: 
       invite: "приглашение"
+      not_on_diaspora: "Not yet on Diaspora"
       resend: "отправить повторно"
   settings: "Настройки"
   shared: 
@@ -628,6 +639,14 @@ ru:
       enter_a_diaspora_username: "Введите имя пользователя Диаспоры:"
       know_email: "Знаете их email адреса? Вы должны предложить им присоединится к Диаспоре "
       your_diaspora_username_is: "Ваше имя пользователя Диаспоры: %{diaspora_handle}"
+    aspect_dropdown: 
+      add_to_aspect: "Add to aspect"
+      toggle: 
+        few: "In %{count} aspects"
+        many: "In %{count} aspects"
+        one: "In %{count} aspect"
+        other: "In %{count} aspects"
+        zero: "Add to aspect"
     contact_list: 
       all_contacts: "Все контакты"
     footer: 
@@ -743,14 +762,17 @@ ru:
       new_password: "Новый пароль"
       private_message: "... Вы получаете личное сообщение?"
       receive_email_notifications: "Получать извещение электронной почтой (email), если..."
+      reshared: "...someone reshares your post?"
       started_sharing: "... кто-то начинает делиться с вами?"
       your_email: "Ваш адрес электронной почты (email)"
       your_handle: "Ваше управление Диаспорой"
     getting_started: 
+      bold: "aspects"
       connect_to: "Connect to"
       connect_to_your_other_social_networks: "Connect to your other social networks"
       connect_with_people: "Connect with cool people"
-      connect_with_people_explanation: "Connect with people by placing them into one or more of your aspects.  Aspects are an intuative way to group new and familar faces, allowing you to filter down or share with subsets of your contacts easily."
+      connect_with_people_explanation_pt1: "Connect with people by placing them into one or more of your"
+      connect_with_people_explanation_pt2: "Aspects are an intuitive way to group new and familar faces, private to you, allowing you to filter down or share with subsets of your contacts easily."
       featured_tags: "Featured tags"
       featured_users: "Featured users"
       fill_out_your_profile: "Fill out your profile"

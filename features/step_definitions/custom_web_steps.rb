@@ -11,6 +11,15 @@ And /^I expand the publisher$/ do
     ')
 end
 
+When /^I press the aspect dropdown$/ do
+  find('.dropdown .button').click
+end
+
+And /^I toggle the aspect "([^"]*)"$/ do |aspect_name|
+  aspect = @me.aspects.where(:name => aspect_name).first
+  find("li[data-aspect_id='#{aspect.id}']").click
+end
+
 Then /^the publisher should be collapsed$/ do
 	find("#publisher")["class"].should include("closed")
 end
@@ -45,7 +54,7 @@ When /^I append "([^"]*)" to the publisher$/ do |stuff|
 end
 
 And /^I hover over the "([^"]+)"$/ do |element|
-  page.execute_script("$(\"#{element}\").first().mouseover()")
+  page.execute_script("$(\"#{element}\").first().addClass('hover')")
 end
 
 When /^I click to delete the first post$/ do

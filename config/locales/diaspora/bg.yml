@@ -37,6 +37,7 @@ bg:
             person: 
               invalid: "is invalid."
             username: 
+              invalid: "is invalid. We only allow letters, numbers, and underscores"
               taken: "е вече заето."
   ago: "преди %{time}"
   all_aspects: "Всички аспекти"
@@ -48,14 +49,6 @@ bg:
         unknown: "Unknown Video Title"
   are_you_sure: "Сигурни ли сте?"
   aspect_memberships: 
-    aspect_dropdown: 
-      add_to_aspect: "Добавяне в аспект"
-      toggle: 
-        few: "В %{count} аспекта"
-        many: "В %{count}аспекта"
-        one: "В %{count} аспект"
-        other: "В %{count} аспекта"
-        zero: "Добавяне в аспект"
     destroy: 
       failure: "Лицето не бе премахнато от аспекта"
       no_membership: "Избраното лице не може да бъде намерено в този аспект"
@@ -117,6 +110,7 @@ bg:
         content: "Можете да свържете следните услуги към Diaspora:"
         heading: "Свързване към услуги"
       tags_following: "Тагове, които следите"
+      unfollow_tag: "Прекратяване следенето на #%{tag}"
       your_aspects: "Вашите аспекти"
     many: "%{count} аспекта"
     move_contact: 
@@ -196,6 +190,7 @@ bg:
     zero: "няма контакти"
   conversations: 
     create: 
+      fail: "Невалидно съобщение"
       sent: "Съобщението е изпратено"
     destroy: 
       success: "Разговорът е премахнат успешно"
@@ -219,9 +214,12 @@ bg:
       sending: "Изпращане..."
       subject: "тема"
       to: "до"
+    new_message: 
+      fail: "Невалидно съобщение"
     show: 
       delete: "изтриване и блокиране на разговора"
       reply: "отговор"
+      replying: "Replying..."
   date: 
     formats: 
       birthday: "%d %B"
@@ -251,6 +249,7 @@ bg:
       tagline_first_half: "Споделете каквото желаете,"
       tagline_second_half: "с когото пожелаете."
   invitations: 
+    a_facebook_user: "Потребител на Facebook"
     check_token: 
       not_found: "Данните за поканата не са намерени"
     create: 
@@ -276,7 +275,6 @@ bg:
       to: "До"
   layouts: 
     application: 
-      have_a_problem: "Имате проблем? Открийте решението тук"
       powered_by: "Благодарение на DIASPORA*"
       public_feed: "Публична емисия от Diaspora за %{name}"
       toggle: "вкл./изкл. на мобилния изглед"
@@ -383,6 +381,18 @@ bg:
       one: "%{actors} ви изпрати съобщение."
       other: "%{actors} ви изпрати съобщение."
       zero: "%{actors} ви изпрати съобщение."
+    reshared: 
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
+      zero: "%{actors} has reshared your %{post_link}."
+    reshared_post_deleted: 
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
+      zero: "%{actors} reshared your deleted post."
     started_sharing: 
       few: "%{actors} започнаха да споделят с вас."
       many: "%{actors} започнаха да споделят с вас."
@@ -390,6 +400,7 @@ bg:
       other: "%{actors} започна да споделя с вас."
       zero: "%{actors} започна да споделя с вас."
   notifier: 
+    a_post_you_shared: "a post."
     click_here: "кликнете тук"
     comment_on_post: 
       reply: "Отговорете или прегледайте публикацията на %{name} >"
@@ -406,6 +417,9 @@ bg:
       subject: "%{name} ви спомена в Diaspora*"
     private_message: 
       reply_to_or_view: "Отговорете или прегледайте разговора >"
+    reshared: 
+      reshared: "%{name} just reshared your post"
+      view_post: "View post >"
     single_admin: 
       admin: "Вашият администратор на Diaspora"
       subject: "Съобщение относно акаунта ви в Diaspora:"
@@ -451,9 +465,7 @@ bg:
       remove_contact: "премахване на контакта"
       remove_from: "Премахване на %{name} от %{aspect}?"
     show: 
-      add_some: "добавяне"
       does_not_exist: "Лицето не съществува!"
-      edit: "редактиране"
       has_not_shared_with_you_yet: "%{name} все още не е споделил нито една публикация с вас!"
       incoming_request: "%{name} желае да споделя с вас"
       mention: "Споменете"
@@ -465,11 +477,15 @@ bg:
       see_all: "Показване на всички"
       start_sharing: "започнете да споделяте"
       to_accept_or_ignore: "to accept or ignore it."
-      you_have_no_tags: "не сте се описали с марки!"
+    sub_header: 
+      add_some: "add some"
+      edit: "редактиране"
+      you_have_no_tags: "you have no tags!"
     webfinger: 
       fail: "За съжаление %{handle} не може да бъде намерен."
     zero: "няма хора"
   photos: 
+    comment_email_subject: "%{name}'s photo"
     create: 
       integrity_error: "Снимката не бе качена. Сигурни ли сте, че сте избрали изображение?"
       runtime_error: "Снимката не бе качена. Сигурни ли сте, че сте закопчали колана си?"
@@ -497,9 +513,8 @@ bg:
       edit: "редактиране"
       edit_delete_photo: "Редактиране на описанието / изтриване"
       make_profile_photo: "ползване като профилна снимка"
-      original_post: "Оригинална публикация"
+      show_original_post: "Оригиналната публикация"
       update_photo: "Update Photo"
-      view: "view"
     update: 
       error: "Снимката не бе изтрита."
       notice: "Снимката е обновена."
@@ -574,6 +589,7 @@ bg:
     new_request_to_person: 
       sent: "изпратена!"
   reshares: 
+    comment_email_subject: "%{resharer}'s reshare of %{author}'s post"
     create: 
       failure: "Възникна грешка при споделянето на публикацията."
     reshare: 
@@ -596,14 +612,8 @@ bg:
     failure: 
       error: "възникна грешка при свързването с услугата"
     finder: 
-      friends: 
-        few: "%{count} приятеля"
-        many: "%{count} приятеля"
-        one: "1 приятел"
-        other: "%{count} приятеля"
-        zero: "няма приятели"
-      invite_your_friends_from: "Поканете приятелите си от %{service}"
-      not_connected: "не съществува връзка"
+      no_friends: "Няма намерени приятели от Facebook."
+      service_friends: "Приятели от %{service}"
     index: 
       connect_to_facebook: "Свързване с facebook"
       connect_to_tumblr: "Свързване с tumblr"
@@ -618,6 +628,7 @@ bg:
       join_me_on_diaspora: "Присъединете се към мен в DIASPORA*"
     remote_friend: 
       invite: "покани"
+      not_on_diaspora: "Все още не е в Diaspora"
       resend: "повторно изпращане"
   settings: "Настройки"
   shared: 
@@ -628,6 +639,14 @@ bg:
       enter_a_diaspora_username: "Въведете потребителско име от Diaspora:"
       know_email: "Знаете адресите на ел. им поща? Трябва да ги поканите"
       your_diaspora_username_is: "Вашето потребителско име в Diaspora е %{diaspora_handle}"
+    aspect_dropdown: 
+      add_to_aspect: "Добавяне в аспект"
+      toggle: 
+        few: "В %{count} аспекта"
+        many: "В %{count} аспекта"
+        one: "В %{count} аспект"
+        other: "В %{count} аспекта"
+        zero: "Добавяне в аспект"
     contact_list: 
       all_contacts: "Всички контакти"
     footer: 
@@ -743,14 +762,17 @@ bg:
       new_password: "Нова парола"
       private_message: "...получите лично съобщение?"
       receive_email_notifications: "Получаване на известие по ел. поща когато..."
+      reshared: "...someone reshares your post?"
       started_sharing: "...някой започне да споделя с вас?"
       your_email: "Вашата ел. поща"
       your_handle: "Вашият адрес в Diaspora"
     getting_started: 
+      bold: "аспекти"
       connect_to: "Свържете профила си с"
       connect_to_your_other_social_networks: "Свържете профила си с други социални мрежи"
       connect_with_people: "Свържете се с интересни хора"
-      connect_with_people_explanation: "Свържете се като поставяте хората в един или няколко аспекта.  Аспектите са начин за групиране контактите ви, който позволява лесно филтриране/споделяне само с точно определена подгрупа."
+      connect_with_people_explanation_pt1: "Свържете се с хора поставяйки ги в един или няколко от вашите %{bold}"
+      connect_with_people_explanation_pt2: "Групирането на контактите в аспекти ще ви позволи да споделяте/филрирате информация само с/от определена подгрупа от контактите ви."
       featured_tags: "Отличени тагове"
       featured_users: "Отличени потребители"
       fill_out_your_profile: "Попълнете профила си"

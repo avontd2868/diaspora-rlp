@@ -1,10 +1,12 @@
 class Notifier < ActionMailer::Base
   helper :application
   helper :markdownify
+  helper :notifier
 
   default :from => AppConfig[:smtp_sender_address]
 
   include ActionView::Helpers::TextHelper
+  include NotifierHelper
 
   TRUNCATION_LEN = 70
 
@@ -49,6 +51,19 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  def reshared(recipient_id, sender_id, reshare_id)
+    @receiver = User.find_by_id(recipient_id)
+    @sender = Person.find_by_id(sender_id)
+    @reshare = Reshare.find(reshare_id)
+
+    log_mail(recipient_id, sender_id, 'reshared')
+
+    I18n.with_locale(@receiver.language) do
+      mail(:to => "\"#{@receiver.name}\" <#{@receiver.email}>",
+           :subject => I18n.t('notifier.reshared.reshared', :name => @sender.name), :host => AppConfig[:pod_uri].host)
+    end
+  end
+
   def mentioned(recipient_id, sender_id, target_id)
     @receiver = User.find_by_id(recipient_id)
     @sender = Person.find_by_id(sender_id)
@@ -72,7 +87,7 @@ class Notifier < ActionMailer::Base
     I18n.with_locale(@receiver.language) do
       mail(:from => "\"#{@sender.name} (Diaspora)\" <#{AppConfig[:smtp_sender_address]}>",
            :to => "\"#{@receiver.name}\" <#{@receiver.email}>",
-           :subject => "Re: #{truncate(@comment.parent.formatted_message(:plain_text => true).strip, :length => TRUNCATION_LEN)}")
+           :subject => "Re: #{comment_email_subject}")
     end
   end
 
@@ -80,6 +95,7 @@ class Notifier < ActionMailer::Base
     @receiver = User.find_by_id(recipient_id)
     @sender   = Person.find_by_id(sender_id)
     @comment  = Comment.find_by_id(comment_id)
+
     @post_author_name = @comment.post.author.name
 
 
@@ -88,8 +104,12 @@ class Notifier < ActionMailer::Base
     I18n.with_locale(@receiver.language) do
       mail(:from => "\"#{@sender.name} (Diaspora)\" <#{AppConfig[:smtp_sender_address]}>",
            :to => "\"#{@receiver.name}\" <#{@receiver.email}>",
-           :subject => "Re: #{truncate(@comment.parent.formatted_message(:plain_text => true).strip, :length => TRUNCATION_LEN)}")
+           :subject => "Re: #{comment_email_subject}")
     end
+  end
+
+  def comment_email_subject
+    truncate(@comment.parent.comment_email_subject, :length => TRUNCATION_LEN)
   end
 
   def private_message(recipient_id, sender_id, message_id)
@@ -122,6 +142,7 @@ class Notifier < ActionMailer::Base
            :host => AppConfig[:pod_uri].host)
     end
   end
+
 
   private
   def log_mail recipient_id, sender_id, type

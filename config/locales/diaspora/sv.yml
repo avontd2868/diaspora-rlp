@@ -37,6 +37,7 @@ sv:
             person: 
               invalid: "är ogiltig."
             username: 
+              invalid: "is invalid. We only allow letters, numbers, and underscores"
               taken: "är redan taget."
   ago: "%{time} sedan"
   all_aspects: "Alla Aspekter"
@@ -48,14 +49,6 @@ sv:
         unknown: "Okänd videotitel"
   are_you_sure: "Är du säker?"
   aspect_memberships: 
-    aspect_dropdown: 
-      add_to_aspect: "Add to aspect"
-      toggle: 
-        few: "In %{count} aspects"
-        many: "In %{count} aspects"
-        one: "In %{count} aspect"
-        other: "In %{count} aspects"
-        zero: "Add to aspect"
     destroy: 
       failure: "Misslyckades med att ta bort personen från aspekten"
       no_membership: "Kunde inte hitta den valda personen i aspekten"
@@ -117,6 +110,7 @@ sv:
         content: "You can connect the following services to Diaspora:"
         heading: "Connect Services"
       tags_following: "Followed Tags"
+      unfollow_tag: "Stop following #%{tag}"
       your_aspects: "Your Aspects"
     many: "%{count} aspekter"
     move_contact: 
@@ -196,6 +190,7 @@ sv:
     zero: "inga kontakter"
   conversations: 
     create: 
+      fail: "Invalid message"
       sent: "Meddelande skickat"
     destroy: 
       success: "Konversation borttagen"
@@ -219,9 +214,12 @@ sv:
       sending: "Sending..."
       subject: "ämne"
       to: "till"
+    new_message: 
+      fail: "Invalid message"
     show: 
       delete: "ta bort och blockera konversation"
       reply: "svara"
+      replying: "Replying..."
   date: 
     formats: 
       birthday: "%B %d"
@@ -251,6 +249,7 @@ sv:
       tagline_first_half: "Dela vad du vill,"
       tagline_second_half: "med vem du vill."
   invitations: 
+    a_facebook_user: "A Facebook user"
     check_token: 
       not_found: "Inbjudan inte funnen"
     create: 
@@ -276,7 +275,6 @@ sv:
       to: "Till"
   layouts: 
     application: 
-      have_a_problem: "Stött på problem? Hitta lösningen här"
       powered_by: "POWERED BY DIASPORA*"
       public_feed: "Offentligt Diaspora flöde för %{name}"
       toggle: "byt till mobil version"
@@ -383,6 +381,18 @@ sv:
       one: "%{actors} sent you a message."
       other: "%{actors} sent you a message."
       zero: "%{actors} sent you a message."
+    reshared: 
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
+      zero: "%{actors} has reshared your %{post_link}."
+    reshared_post_deleted: 
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
+      zero: "%{actors} reshared your deleted post."
     started_sharing: 
       few: "%{actors} started sharing with you."
       many: "%{actors} started sharing with you."
@@ -390,6 +400,7 @@ sv:
       other: "%{actors} started sharing with you."
       zero: "%{actors} started sharing with you."
   notifier: 
+    a_post_you_shared: "a post."
     click_here: "click here"
     comment_on_post: 
       reply: "Reply or view %{name}'s post >"
@@ -406,6 +417,9 @@ sv:
       subject: "%{name} har nämnt dig på Diaspora*"
     private_message: 
       reply_to_or_view: "Reply to or view this conversation >"
+    reshared: 
+      reshared: "%{name} just reshared your post"
+      view_post: "View post >"
     single_admin: 
       admin: "Din Diaspora administratör"
       subject: "Ett meddelande gällande ditt Diaspora-konto:"
@@ -451,9 +465,7 @@ sv:
       remove_contact: "remove contact"
       remove_from: "Ta bort %{name} från %{aspect}?"
     show: 
-      add_some: "lägg till några"
       does_not_exist: "Den här personen finns inte!"
-      edit: "redigera"
       has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
       incoming_request: "%{name} vill dela med dig"
       mention: "Nämna"
@@ -465,11 +477,15 @@ sv:
       see_all: "Visa alla"
       start_sharing: "börja dela"
       to_accept_or_ignore: "for att acceptera eller ignorera."
-      you_have_no_tags: "du har inga taggar!"
+    sub_header: 
+      add_some: "add some"
+      edit: "edit"
+      you_have_no_tags: "you have no tags!"
     webfinger: 
       fail: "Förlåt, vi kunde inte hitta %{handle}."
     zero: "inga personer"
   photos: 
+    comment_email_subject: "%{name}'s photo"
     create: 
       integrity_error: "Fotouppladdning misslyckades. Är du säker på att det var en bild?"
       runtime_error: "Fotouppladdning misslyckades. Har du på dig ditt säkerhetsbälte?"
@@ -497,9 +513,8 @@ sv:
       edit: "ändra"
       edit_delete_photo: "Ändra beskrivning / ta bort bild"
       make_profile_photo: "använd som profilbild"
-      original_post: "Ursprungligt inlägg"
+      show_original_post: "Show original post"
       update_photo: "Uppdatera foto"
-      view: "visa"
     update: 
       error: "Misslyckades med att ändra fotot."
       notice: "Fotot är nu uppdaterat."
@@ -574,6 +589,7 @@ sv:
     new_request_to_person: 
       sent: "skickat!"
   reshares: 
+    comment_email_subject: "%{resharer}'s reshare of %{author}'s post"
     create: 
       failure: "There was an error resharing this post."
     reshare: 
@@ -596,14 +612,8 @@ sv:
     failure: 
       error: "Det blev ett fel vid anslutning till tjänsten"
     finder: 
-      friends: 
-        few: "%{count} vänner"
-        many: "%{count} vänner"
-        one: "1 vän"
-        other: "%{count} vänner"
-        zero: "inga vänner"
-      invite_your_friends_from: "Bjud in dina vänner från %{service}"
-      not_connected: "inte ansluten"
+      no_friends: "No Facebook friends found."
+      service_friends: "%{service} Friends"
     index: 
       connect_to_facebook: "Anslut till facebook"
       connect_to_tumblr: "Connect to Tumblr"
@@ -618,6 +628,7 @@ sv:
       join_me_on_diaspora: "Join me on DIASPORA*"
     remote_friend: 
       invite: "bjud in"
+      not_on_diaspora: "Not yet on Diaspora"
       resend: "skicka igen"
   settings: "Inställningar"
   shared: 
@@ -628,6 +639,14 @@ sv:
       enter_a_diaspora_username: "Ange ett Diaspora-användarnamn:"
       know_email: "Vet du deras e-post adress? Du borde bjuda in dom"
       your_diaspora_username_is: "Ditt Diaspora-användarnamn är: %{diaspora_handle}"
+    aspect_dropdown: 
+      add_to_aspect: "Add to aspect"
+      toggle: 
+        few: "In %{count} aspects"
+        many: "In %{count} aspects"
+        one: "In %{count} aspect"
+        other: "In %{count} aspects"
+        zero: "Add to aspect"
     contact_list: 
       all_contacts: "Alla kontakter"
     footer: 
@@ -743,14 +762,17 @@ sv:
       new_password: "Nytt lösenord"
       private_message: "...du mottar ett privat meddelande?"
       receive_email_notifications: "Skicka meddelanden via e-post när..."
+      reshared: "...someone reshares your post?"
       started_sharing: "...någon börjar dela med dig?"
       your_email: "Din epost"
       your_handle: "Ditt Diaspora-användarnamn"
     getting_started: 
+      bold: "aspects"
       connect_to: "Connect to"
       connect_to_your_other_social_networks: "Connect to your other social networks"
       connect_with_people: "Connect with cool people"
-      connect_with_people_explanation: "Connect with people by placing them into one or more of your aspects.  Aspects are an intuative way to group new and familar faces, allowing you to filter down or share with subsets of your contacts easily."
+      connect_with_people_explanation_pt1: "Connect with people by placing them into one or more of your"
+      connect_with_people_explanation_pt2: "Aspects are an intuitive way to group new and familar faces, private to you, allowing you to filter down or share with subsets of your contacts easily."
       featured_tags: "Featured tags"
       featured_users: "Featured users"
       fill_out_your_profile: "Fill out your profile"

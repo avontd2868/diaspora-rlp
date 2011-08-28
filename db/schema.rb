@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110730173443) do
+ActiveRecord::Schema.define(:version => 20110818212541) do
 
   create_table "aspect_memberships", :force => true do |t|
     t.integer  "aspect_id",  :null => false
@@ -99,11 +99,14 @@ ActiveRecord::Schema.define(:version => 20110730173443) do
 
   create_table "invitations", :force => true do |t|
     t.text     "message"
-    t.integer  "sender_id",    :null => false
-    t.integer  "recipient_id", :null => false
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
     t.integer  "aspect_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "service"
+    t.string   "identifier"
+    t.boolean  "admin",        :default => false
   end
 
   add_index "invitations", ["aspect_id"], :name => "index_invitations_on_aspect_id"
@@ -319,16 +322,17 @@ ActiveRecord::Schema.define(:version => 20110730173443) do
   add_index "profiles", ["person_id"], :name => "index_profiles_on_person_id"
 
   create_table "service_users", :force => true do |t|
-    t.string   "uid",           :null => false
-    t.string   "name",          :null => false
-    t.string   "photo_url",     :null => false
-    t.integer  "service_id",    :null => false
+    t.string   "uid",                          :null => false
+    t.string   "name",                         :null => false
+    t.string   "photo_url",                    :null => false
+    t.integer  "service_id",                   :null => false
     t.integer  "person_id"
     t.integer  "contact_id"
     t.integer  "request_id"
     t.integer  "invitation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "username",      :limit => 127
   end
 
   add_index "service_users", ["service_id"], :name => "index_service_users_on_service_id"
@@ -385,7 +389,6 @@ ActiveRecord::Schema.define(:version => 20110730173443) do
   create_table "users", :force => true do |t|
     t.string   "username"
     t.text     "serialized_private_key"
-    t.integer  "invites",                               :default => 0,     :null => false
     t.boolean  "getting_started",                       :default => true,  :null => false
     t.boolean  "disable_mail",                          :default => false, :null => false
     t.string   "language"

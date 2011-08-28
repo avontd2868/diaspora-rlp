@@ -18,7 +18,7 @@ Diaspora::Application.routes.draw do
     resources :likes, :only => [:create, :destroy, :index]
     resources :comments, :only => [:create, :destroy, :index]
   end
-  get 'p/:guid' => 'publics#post', :as => 'public_post'
+  get 'p/:id' => 'posts#show', :as => 'short_post'
 
   # roll up likes into a nested resource above
   resources :comments, :only => [:create, :destroy] do
@@ -90,7 +90,6 @@ Diaspora::Application.routes.draw do
   scope 'admins', :controller => :admins do
     match :user_search
     get   :admin_inviter
-    get   :add_invites, :as => 'add_invites'
     get   :stats, :as => 'pod_stats'
   end
 

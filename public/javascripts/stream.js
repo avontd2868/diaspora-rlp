@@ -7,18 +7,14 @@ var Stream = {
   selector: "#main_stream",
 
   initialize: function() {
-    Diaspora.widgets.timeago.updateTimeAgo();
-    Diaspora.widgets.directionDetector.updateBinds();
+    Diaspora.page.timeAgo.updateTimeAgo();
+    Diaspora.page.directionDetector.updateBinds();
 
-    $(".status_message_delete").tipsy({
-      trigger: "hover",
-      gravity: "n"
-    });
     //audio links
     Stream.setUpAudioLinks();
     //Stream.setUpImageLinks();
 
-    Diaspora.widgets.subscribe("stream/scrolled", Stream.collapseText);
+    Diaspora.page.subscribe("stream/scrolled", Stream.collapseText);
     Stream.collapseText('eventID', $(Stream.selector)[0]);
   },
   collapseText: function(){
@@ -27,7 +23,7 @@ var Stream = {
     $(".content p", elements).expander({
       slicePoint: 400,
       widow: 12,
-      expandText: Diaspora.widgets.i18n.t("show_more"),
+      expandText: Diaspora.I18n.t("show_more"),
       userCollapse: false
     });
 
@@ -35,10 +31,11 @@ var Stream = {
     $(".comment .content span", elements).expander({
       slicePoint: 200,
       widow: 18,
-      expandText: Diaspora.widgets.i18n.t("show_more"),
+      expandText: Diaspora.I18n.t("show_more"),
       userCollapse: false
     });
   },
+
   initializeLives: function(){
     // reshare button action
     $(".reshare_button", this.selector).live("click", function(evt) {
@@ -52,33 +49,22 @@ var Stream = {
       }
     });
 
-    this.setUpComments();
+    // ajax-loader and hide icon visibility handling for post hide and unhide
+    $("a.stream_element_delete.vis_hide").live("click", function(evt){
+      $(this).toggleClass("hidden");
+      $(this).next("img.hide_loader").toggleClass("hidden");
+    });
+    $("a.stream_element_hide_undo").live("click", function(evt){
+      $(this).closest('.stream_element').find("img.hide_loader").toggleClass("hidden");
+    });
+
+//    this.setUpComments();
   },
 
   setUpComments: function(){
-    $("a.toggle_post_comments:not(.show)", this.selector).live('click', Stream.toggleComments);
     // comment link form focus
     $(".focus_comment_textarea", this.selector).live('click', function(evt) {
       Stream.focusNewComment($(this), evt);
-    });
-
-    $(".new_comment", this.selector).live("ajax:failure", function() {
-       Diaspora.widgets.alert.alert(Diaspora.widgets.i18n.t("failed_to_post_message"));
-    });
-
-    $(".comment .comment_delete", this.selector).live("ajax:success", function() {
-      var element = $(this),
-        target = element.parents(".comment"),
-        post = element.closest(".stream_element"),
-        toggler = post.find(".toggle_post_comments");
-
-      target.hide("blind", { direction: "vertical" }, 300, function() {
-        $(this).remove();
-        toggler.html(
-          toggler.html().replace(/\d+/, $(".comments li", post).length - 1)
-        );
-      });
-
     });
 
     $("textarea.comment_box", this.selector).live("focus", function(evt) {
@@ -128,46 +114,6 @@ var Stream = {
     });
   },
 
-  toggleComments: function(evt) {
-    evt.preventDefault();
-
-    var $toggler = $(this),
-        comments = $toggler.closest('.stream_element').find('ul.comments');
-
-    if (comments.hasClass('loaded') && !comments.hasClass('hidden')){
-      Stream.hideComments.apply($toggler);
-    }else {
-      Stream.showComments.apply($toggler);
-    }
-  },
-  showComments: function(){
-    var commentList = this.closest('.stream_element').find('ul.comments'),
-        toggle = this;
-
-    if( commentList.hasClass('loaded') ){
-        toggle.html(Diaspora.widgets.i18n.t("comments.hide"));
-        commentList.removeClass('hidden');
-    }
-    else {
-      toggle.append("<img alt='loading' src='/images/ajax-loader.gif' />");
-      $.ajax({
-        url: this.attr('href'),
-        success: function(data){
-          toggle.html(Diaspora.widgets.i18n.t("comments.hide"));
-          commentList.html(data)
-                     .addClass('loaded');
-          Diaspora.widgets.publish("stream/scrolled", commentList);
-        }
-      });
-    }
-  },
-
-  hideComments: function(){
-    var commentList = this.closest('.stream_element').find('ul.comments');
-    commentList.addClass('hidden');
-    this.html(Diaspora.widgets.i18n.t("comments.show"));
-  },
-
   focusNewComment: function(toggle, evt) {
     evt.preventDefault();
     var post = toggle.closest(".stream_element");
@@ -190,6 +136,6 @@ var Stream = {
 $(document).ready(function() {
   if( $(Stream.selector).length == 0 ) { return }
   Stream.initializeLives();
-  Diaspora.widgets.subscribe("stream/reloaded", Stream.initialize, Stream);
-  Diaspora.widgets.publish("stream/reloaded");
+//  Diaspora.page.subscribe("stream/reloaded", Stream.initialize, Stream);
+//  Diaspora.page.publish("stream/reloaded");
 });

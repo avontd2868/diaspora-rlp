@@ -37,6 +37,7 @@ zh-CN:
             person: 
               invalid: "不合法。"
             username: 
+              invalid: "is invalid. We only allow letters, numbers, and underscores"
               taken: "已被注册。"
   ago: "%{time}前"
   all_aspects: "所有视图"
@@ -48,14 +49,6 @@ zh-CN:
         unknown: "未知影片标题"
   are_you_sure: "你确定吗？"
   aspect_memberships: 
-    aspect_dropdown: 
-      add_to_aspect: "添加到视图"
-      toggle: 
-        few: "在%{count}个视图中"
-        many: "在%{count}个视图中"
-        one: "在%{count}个视图中"
-        other: "在%{count}个视图中"
-        zero: "添加到视图"
     destroy: 
       failure: "从视图中移除好友失败"
       no_membership: "在视图中找不到选择的好友"
@@ -117,6 +110,7 @@ zh-CN:
         content: "You can connect the following services to Diaspora:"
         heading: "Connect Services"
       tags_following: "Followed Tags"
+      unfollow_tag: "Stop following #%{tag}"
       your_aspects: "Your Aspects"
     many: "%{count}个视图"
     move_contact: 
@@ -196,6 +190,7 @@ zh-CN:
     zero: "没有好友"
   conversations: 
     create: 
+      fail: "Invalid message"
       sent: "消息发送成功"
     destroy: 
       success: "消息移除成功"
@@ -219,9 +214,12 @@ zh-CN:
       sending: "Sending..."
       subject: "主题"
       to: "收件人"
+    new_message: 
+      fail: "Invalid message"
     show: 
       delete: "删除并中止对话"
       reply: "回复"
+      replying: "Replying..."
   date: 
     formats: 
       birthday: "%m-%d"
@@ -251,6 +249,7 @@ zh-CN:
       tagline_first_half: "分享您想分享的内容，"
       tagline_second_half: "给您想分享给的人。"
   invitations: 
+    a_facebook_user: "A Facebook user"
     check_token: 
       not_found: "找不到该邀请码"
     create: 
@@ -276,7 +275,6 @@ zh-CN:
       to: "收件人"
   layouts: 
     application: 
-      have_a_problem: "遇到问题？在这里可以找到解决方案"
       powered_by: "Powered by DIASPORA*"
       public_feed: "%{name} 的 Diaspora RSS Feed"
       toggle: "切换为手机网页"
@@ -383,6 +381,18 @@ zh-CN:
       one: "%{actors} sent you a message."
       other: "%{actors} sent you a message."
       zero: "%{actors} sent you a message."
+    reshared: 
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
+      zero: "%{actors} has reshared your %{post_link}."
+    reshared_post_deleted: 
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
+      zero: "%{actors} reshared your deleted post."
     started_sharing: 
       few: "%{actors} started sharing with you."
       many: "%{actors} started sharing with you."
@@ -390,6 +400,7 @@ zh-CN:
       other: "%{actors} started sharing with you."
       zero: "%{actors} started sharing with you."
   notifier: 
+    a_post_you_shared: "a post."
     click_here: "click here"
     comment_on_post: 
       reply: "Reply or view %{name}'s post >"
@@ -406,6 +417,9 @@ zh-CN:
       subject: "%{name} 在 Diaspora* 上发布的内容中提到了您"
     private_message: 
       reply_to_or_view: "Reply to or view this conversation >"
+    reshared: 
+      reshared: "%{name} just reshared your post"
+      view_post: "View post >"
     single_admin: 
       admin: "为您服务的 Diaspora 管理员"
       subject: "关于您 Diaspora 帐号的信息:"
@@ -451,9 +465,7 @@ zh-CN:
       remove_contact: "解除好友关系"
       remove_from: "要从 %{aspect} 删除 %{name} 吗？"
     show: 
-      add_some: "添加一些"
       does_not_exist: "好友不存在！"
-      edit: "编辑"
       has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
       incoming_request: "%{name} 希望能与您分享"
       mention: "提及"
@@ -465,11 +477,15 @@ zh-CN:
       see_all: "查看全部"
       start_sharing: "开始分享"
       to_accept_or_ignore: "接受或忽略它。"
-      you_have_no_tags: "您没有标签！"
+    sub_header: 
+      add_some: "add some"
+      edit: "edit"
+      you_have_no_tags: "you have no tags!"
     webfinger: 
       fail: "抱歉，找不到 %{handle}。"
     zero: "没有联络人"
   photos: 
+    comment_email_subject: "%{name}'s photo"
     create: 
       integrity_error: "照片上传失败。你确定它是图片吗？"
       runtime_error: "照片上传失败。你确定有扣安全带吗？"
@@ -497,9 +513,8 @@ zh-CN:
       edit: "编辑"
       edit_delete_photo: "编辑照片描述或删除照片"
       make_profile_photo: "选为个人头像"
-      original_post: "原式内容"
+      show_original_post: "Show original post"
       update_photo: "更新照片"
-      view: "查看"
     update: 
       error: "照片更新失败。"
       notice: "照片更新成功。"
@@ -574,6 +589,7 @@ zh-CN:
     new_request_to_person: 
       sent: "发送成功！"
   reshares: 
+    comment_email_subject: "%{resharer}'s reshare of %{author}'s post"
     create: 
       failure: "There was an error resharing this post."
     reshare: 
@@ -596,14 +612,8 @@ zh-CN:
     failure: 
       error: "与该服务连接时有错误"
     finder: 
-      friends: 
-        few: "%{count}个朋友"
-        many: "%{count}个朋友"
-        one: "1个朋友"
-        other: "%{count}个朋友"
-        zero: "没有朋友"
-      invite_your_friends_from: "邀请您在 %{service} 的朋友"
-      not_connected: "未连接"
+      no_friends: "No Facebook friends found."
+      service_friends: "%{service} Friends"
     index: 
       connect_to_facebook: "与 facebook 连接"
       connect_to_tumblr: "Connect to Tumblr"
@@ -618,6 +628,7 @@ zh-CN:
       join_me_on_diaspora: "跟我一起加入 DIASPORA*"
     remote_friend: 
       invite: "邀请"
+      not_on_diaspora: "Not yet on Diaspora"
       resend: "重新发送"
   settings: "设置"
   shared: 
@@ -628,6 +639,14 @@ zh-CN:
       enter_a_diaspora_username: "输入 Diaspora 帐号："
       know_email: "知道他们的电子信箱吗？ 你可以邀请他们加入。"
       your_diaspora_username_is: "您的 Diaspora 帐号是: %{diaspora_handle}"
+    aspect_dropdown: 
+      add_to_aspect: "Add to aspect"
+      toggle: 
+        few: "In %{count} aspects"
+        many: "In %{count} aspects"
+        one: "In %{count} aspect"
+        other: "In %{count} aspects"
+        zero: "Add to aspect"
     contact_list: 
       all_contacts: "全部好友"
     footer: 
@@ -743,14 +762,17 @@ zh-CN:
       new_password: "新密码"
       private_message: "……当收到私人信息时？"
       receive_email_notifications: "是否要在以下情况收到电子邮件通知……"
+      reshared: "...someone reshares your post?"
       started_sharing: "…有人开始与您分享？"
       your_email: "您的电子邮箱"
       your_handle: "您的 diaspora 帐号"
     getting_started: 
+      bold: "aspects"
       connect_to: "Connect to"
       connect_to_your_other_social_networks: "Connect to your other social networks"
       connect_with_people: "Connect with cool people"
-      connect_with_people_explanation: "Connect with people by placing them into one or more of your aspects.  Aspects are an intuative way to group new and familar faces, allowing you to filter down or share with subsets of your contacts easily."
+      connect_with_people_explanation_pt1: "Connect with people by placing them into one or more of your"
+      connect_with_people_explanation_pt2: "Aspects are an intuitive way to group new and familar faces, private to you, allowing you to filter down or share with subsets of your contacts easily."
       featured_tags: "Featured tags"
       featured_users: "Featured users"
       fill_out_your_profile: "Fill out your profile"

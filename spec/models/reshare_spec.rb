@@ -26,18 +26,42 @@ describe Reshare do
   end
 
   describe "#receive" do
+    let(:receive) {@reshare.receive(@root.author.owner, @reshare.author)}
     before do
       @reshare = Factory.create(:reshare, :root => Factory(:status_message, :author => bob.person, :public => true))
       @root = @reshare.root
-      @reshare.receive(@root.author.owner, @reshare.author)
     end
 
     it 'increments the reshare count' do
+      receive
       @root.resharers.count.should == 1
     end
 
     it 'adds the resharer to the re-sharers of the post' do
+      receive
       @root.resharers.should include(@reshare.author)
+    end
+    it 'does not error if the root author has a contact for the resharer' do
+      bob.share_with @reshare.author, bob.aspects.first
+      proc {
+        Timeout.timeout(5) do
+          receive #This doesn't ever terminate on my machine before it was fixed.
+        end
+      }.should_not raise_error
+    end
+  end
+
+  describe '#notification_type' do
+    before do
+      sm = Factory.create(:status_message, :author => alice.person, :public => true)
+      @reshare = Factory.create(:reshare, :root => sm)
+    end
+    it 'does not return anything for non-author of the original post' do
+      @reshare.notification_type(bob, @reshare.author).should be_nil
+    end
+
+    it 'returns "Reshared" for the original post author' do
+      @reshare.notification_type(alice, @reshare.author).should == Notifications::Reshared
     end
   end
 
@@ -100,7 +124,7 @@ describe Reshare do
           response = mock
           response.stub(:body).and_return(@root_object.to_diaspora_xml)
 
-          Faraday.default_connection.should_receive(:get).with(@original_author.url + public_post_path(:guid => @root_object.guid, :format => "xml")).and_return(response)
+          Faraday.default_connection.should_receive(:get).with(@original_author.url + short_post_path(@root_object.guid, :format => "xml")).and_return(response)
           Reshare.from_xml(@xml)
         end
 
@@ -108,7 +132,7 @@ describe Reshare do
           before do
             response = mock
             response.stub(:body).and_return(@root_object.to_diaspora_xml)
-            Faraday.default_connection.stub(:get).with(@reshare.root.author.url + public_post_path(:guid => @root_object.guid, :format => "xml")).and_return(response)
+            Faraday.default_connection.stub(:get).with(@reshare.root.author.url + short_post_path(@root_object.guid, :format => "xml")).and_return(response)
           end
 
           it 'fetches the root post from root_guid' do

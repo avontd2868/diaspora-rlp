@@ -4,67 +4,86 @@
 */
 
 (function() {
-  if(typeof window.Diaspora !== "undefined") {
-    return;
-  }
-
-  var Diaspora = { };
+  var Diaspora = {
+    Pages: {},
+    Widgets: {}
+  };
 
   Diaspora.EventBroker = {
-    extend: function(obj) {
-      obj.eventsContainer = $({});
+    extend: function(Klass) {
+      var whatToExtend = (typeof Klass === "function") ? Klass.prototype : Klass;
 
-      obj.subscribe = Diaspora.EventBroker.subscribe;
-      obj.publish = Diaspora.EventBroker.publish;
+      $.extend(whatToExtend, {
+	      eventsContainer: $({}),
+        publish: function(eventName, args) {
+          var eventNames = eventName.split(" ");
 
-      obj.publish = $.proxy(function(eventId, args) {
-	this.eventsContainer.trigger(eventId, args);
-      }, obj);
+          for(eventName in eventNames) {
+            this.eventsContainer.trigger(eventNames[eventName], args);
+          }
+        },
+        subscribe: function(eventName, callback, context) {
+          var eventNames = eventName.split(" ");
 
-      obj.subscribe = $.proxy(function(eventIds, callback, context) {
-	var eventIds = eventIds.split(" ");
-      
-	for(var eventId in eventIds) {
-	  this.eventsContainer.bind(eventIds[eventId], $.proxy(callback, context));
-	}
-      }, obj);
+          for(eventName in eventNames) {
+            this.eventsContainer.bind(eventNames[eventName], $.proxy(callback, context));
+          }
+        }
+      });
 
-      return obj;
+      return whatToExtend;
     }
   };
 
-  Diaspora.widgets = {
-    initialize: false,
-    collection: {},
-    constructors: {},
+  Diaspora.BaseWidget = {
+    instantiate: function(Widget, element) {
+      $.extend(Diaspora.Widgets[Widget].prototype, Diaspora.EventBroker.extend(Diaspora.BaseWidget));
 
-    initialize: function() {
-      this.initialized = true;
-      Diaspora.EventBroker.extend(this);
+      var widget = new Diaspora.Widgets[Widget](),
+        args = Array.prototype.slice.call(arguments, 1);
 
-      for(var widgetId in this.collection) {
-	this.collection[widgetId].publish("widget/ready");
-      }
+      widget.publish("widget/ready", args);
+
+      return widget;
     },
 
-    add: function(widgetId, Widget) {
-      $.extend(Widget.prototype, Diaspora.EventBroker.extend({}));
+    globalSubscribe: function(eventName, callback, context) {
+      Diaspora.page.subscribe(eventName, callback, context);
+    },  
 
-      this[widgetId] = this.collection[widgetId] = new Widget();
-      if(this.initialized) {
-	this.collection[widgetId].publish("widget/ready");
-      }
-    },
-
-    remove: function(widgetId) {
-      delete this.collection[widgetId];
+    globalPublish: function(eventName, args) {
+      Diaspora.page.publish(eventName, args);
     }
+  };
+
+  Diaspora.BasePage = function(body) {
+    $.extend(this, Diaspora.BaseWidget);
+    $.extend(this, {
+      backToTop: this.instantiate("BackToTop", body.find("#back-to-top")),
+      directionDetector: this.instantiate("DirectionDetector"),
+      flashMessages: this.instantiate("FlashMessages"),
+      header: this.instantiate("Header", body.find("header")),
+      hoverCard: this.instantiate("HoverCard", body.find("#hovercard")),
+      timeAgo: this.instantiate("TimeAgo", "abbr.timeago")
+    });
+  };
+
+  Diaspora.instantiatePage = function() {
+    if (typeof Diaspora.Pages[Diaspora.Page] === "undefined") {
+      Diaspora.page = Diaspora.EventBroker.extend(Diaspora.BaseWidget);
+    } else {
+      var Page = Diaspora.Pages[Diaspora.Page];
+      $.extend(Page.prototype, Diaspora.EventBroker.extend(Diaspora.BaseWidget));
+
+      Diaspora.page = new Page();
+    }
+
+    $.extend(Diaspora.page, new Diaspora.BasePage($(document.body)));
+    Diaspora.page.publish("page/ready", [$(document.body)])
   };
 
   window.Diaspora = Diaspora;
 })();
 
 
-$(function() {
-  Diaspora.widgets.initialize();
-});
+$(Diaspora.instantiatePage);

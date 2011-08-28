@@ -43,8 +43,8 @@ class CommentsController < ApplicationController
     if current_user.owns?(@comment) || current_user.owns?(@comment.parent)
       current_user.retract(@comment)
       respond_to do |format|
+        format.js { render :nothing => true, :status => 204 }
         format.mobile{ redirect_to @comment.post }
-        format.js {render :nothing => true, :status => 204}
       end
     else
       respond_to do |format|
@@ -57,7 +57,7 @@ class CommentsController < ApplicationController
   def index
     @post = current_user.find_visible_post_by_id(params[:post_id])
     if @post
-      @comments = @post.comments.includes(:author => :profile)
+      @comments = @post.comments.includes(:author => :profile).order('created_at ASC')
       render :layout => false
     else
       raise ActiveRecord::RecordNotFound.new

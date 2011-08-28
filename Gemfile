@@ -25,7 +25,7 @@ gem 'omniauth', '0.2.6'
 gem 'twitter', '1.5.0'
 
 gem 'oauth2-provider', '0.0.16'
-gem 'jwt', :git => "git://github.com/zhitomirskiyi/ruby-jwt.git", :require => false
+gem 'jwt', "0.1.3"
 
 #Web
 gem 'faraday'
@@ -87,8 +87,8 @@ group :development do
 end
 
 group :test, :development do
-  #gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i  
-  #gem 'guard-rspec' 
+  #gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+  #gem 'guard-rspec'
    gem 'factory_girl_rails', :require => false
   unless ENV["TRAVIS"]
     gem 'ruby-debug-base19', '0.11.23' if RUBY_VERSION.include? '1.9.1'
@@ -97,13 +97,15 @@ group :test, :development do
     gem 'linecache', '0.43', :platforms => :mri_18
   end
   gem 'launchy'
-  gem 'jasmine', '1.0.2.1'
+  gem 'jasmine', '1.1.0.rc3'
 end
 
 group :test do
+  gem 'mysql2', '0.2.6'
+  #gem 'pg'
   gem 'factory_girl_rails'
-  gem 'fixture_builder', '~> 0.2.0'
-  gem 'selenium-webdriver', '0.2.2'
+  gem 'fixture_builder', '0.2.2'
+  gem 'selenium-webdriver', '2.4'
   gem 'capybara', '~> 0.3.9'
   gem 'cucumber-rails', '0.3.2'
   gem 'rspec', '>= 2.0.0'
@@ -118,5 +120,5 @@ group :test do
   gem 'fuubar'
 
   gem 'diaspora-client', :git => 'git://github.com/diaspora/diaspora-client.git'
-
+                          #"0.1.0", #:path => '~/workspace/diaspora-client'
 end

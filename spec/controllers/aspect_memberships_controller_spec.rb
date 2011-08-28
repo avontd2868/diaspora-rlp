@@ -59,7 +59,7 @@ describe AspectMembershipsController do
         :format => 'js',
         :person_id => @person.id,
         :aspect_id => @aspect0.id
-      flash[:error].should_not be_empty
+      flash[:error].should_not be_blank
     end
 
     it 'does not 500 on a duplicate key error' do
@@ -90,6 +90,16 @@ describe AspectMembershipsController do
         :person_id => bob.person.id,
         :aspect_id => @aspect0.id
       response.should be_success
+      @aspect0.reload
+      @aspect0.contacts.include?(@contact).should be false
+    end
+    it 'does not 500 on an html request' do
+      alice.add_contact_to_aspect(@contact, @aspect1)
+      delete :destroy,
+        :id => 123,
+        :person_id => bob.person.id,
+        :aspect_id => @aspect0.id
+      response.should redirect_to :back
       @aspect0.reload
       @aspect0.contacts.include?(@contact).should be false
     end

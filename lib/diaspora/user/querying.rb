@@ -7,9 +7,10 @@ module Diaspora
     module Querying
 
       def find_visible_post_by_id( id, opts={} )
-        post = Post.where(:id => id).joins(:contacts).where(:contacts => {:user_id => self.id}).where(opts).select("posts.*").first
-        post ||= Post.where(:id => id, :author_id => self.person.id).where(opts).first
-        post ||= Post.where(:id => id, :public => true).where(opts).first
+        key = opts.delete(:key) || :id
+        post = Post.where(key => id).joins(:contacts).where(:contacts => {:user_id => self.id}).where(opts).select("posts.*").first
+        post ||= Post.where(key => id, :author_id => self.person.id).where(opts).first
+        post ||= Post.where(key => id, :public => true).where(opts).first
       end
 
       def visible_posts(opts = {})
@@ -63,6 +64,12 @@ module Diaspora
 
       def contact_for_person_id(person_id)
         Contact.where(:user_id => self.id, :person_id => person_id).includes(:person => :profile).first
+      end
+
+      # @param [Person] person
+      # @return [Boolean] whether person is a contact of this user
+      def has_contact_for?(person)
+        Contact.exists?(:user_id => self.id, :person_id => person.id)
       end
 
       def people_in_aspects(requested_aspects, opts={})

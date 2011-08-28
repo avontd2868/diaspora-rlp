@@ -37,6 +37,7 @@ es-AR:
             person: 
               invalid: "no es válido."
             username: 
+              invalid: "is invalid. We only allow letters, numbers, and underscores"
               taken: "ya está ocupado."
   ago: "hace %{time}"
   all_aspects: "Todos los aspectos"
@@ -48,14 +49,6 @@ es-AR:
         unknown: "Título de video desconocido"
   are_you_sure: "¿Estás seguro?"
   aspect_memberships: 
-    aspect_dropdown: 
-      add_to_aspect: "Agregar al aspecto"
-      toggle: 
-        few: "En %{count} aspectos"
-        many: "En %{count} aspectos"
-        one: "En %{count} aspecto"
-        other: "En %{count} aspectos"
-        zero: "Agregar al aspecto"
     destroy: 
       failure: "No pudo eliminarse al contacto del aspecto"
       no_membership: "No se encontró a la persona seleccionada en el aspecto"
@@ -117,6 +110,7 @@ es-AR:
         content: "You can connect the following services to Diaspora:"
         heading: "Connect Services"
       tags_following: "Followed Tags"
+      unfollow_tag: "Stop following #%{tag}"
       your_aspects: "Your Aspects"
     many: "%{count} aspectos"
     move_contact: 
@@ -196,6 +190,7 @@ es-AR:
     zero: "no hay contactos"
   conversations: 
     create: 
+      fail: "Invalid message"
       sent: "Mensaje enviado"
     destroy: 
       success: "La conversación se eliminó"
@@ -219,9 +214,12 @@ es-AR:
       sending: "Sending..."
       subject: "asunto"
       to: "para"
+    new_message: 
+      fail: "Invalid message"
     show: 
       delete: "eliminar y bloquear conversación"
       reply: "responder"
+      replying: "Replying..."
   date: 
     formats: 
       birthday: "%d de %B"
@@ -251,6 +249,7 @@ es-AR:
       tagline_first_half: "Compartí lo que quieras,"
       tagline_second_half: "con quien vos quieras."
   invitations: 
+    a_facebook_user: "A Facebook user"
     check_token: 
       not_found: "No se encontró la udentificación de invitación"
     create: 
@@ -276,7 +275,6 @@ es-AR:
       to: "Para"
   layouts: 
     application: 
-      have_a_problem: "¿Tenés un problema? Encontrá una respuesta acá"
       powered_by: "IMPULSADO POR DIÁSPORA*"
       public_feed: "Canal público para %{name}"
       toggle: "cambiar al sitio para móviles"
@@ -383,6 +381,18 @@ es-AR:
       one: "%{actors} te envió un mensaje."
       other: "%{actors} te enviaron un mensaje."
       zero: "%{actors} te envió un mensaje."
+    reshared: 
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
+      zero: "%{actors} has reshared your %{post_link}."
+    reshared_post_deleted: 
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
+      zero: "%{actors} reshared your deleted post."
     started_sharing: 
       few: "%{actors} comparten con vos."
       many: "%{actors} comparten con vos."
@@ -390,6 +400,7 @@ es-AR:
       other: "%{actors} comparten con vos."
       zero: "%{actors} comparte con vos."
   notifier: 
+    a_post_you_shared: "a post."
     click_here: "click here"
     comment_on_post: 
       reply: "Reply or view %{name}'s post >"
@@ -406,6 +417,9 @@ es-AR:
       subject: "%{name} te mencionó en Diáspora*"
     private_message: 
       reply_to_or_view: "Reply to or view this conversation >"
+    reshared: 
+      reshared: "%{name} just reshared your post"
+      view_post: "View post >"
     single_admin: 
       admin: "Tu administrador de Diáspora*"
       subject: "Un mensaje sobre tu cuenta Diáspora*:"
@@ -451,9 +465,7 @@ es-AR:
       remove_contact: "eliminar contacto"
       remove_from: "¿Querés eliminar a %{name} de %{aspect}?"
     show: 
-      add_some: "agregá algunos"
       does_not_exist: "¡Ese usuario no existe!"
-      edit: "editar"
       has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
       incoming_request: "%{name} quiere compartir con vos"
       mention: "Mención"
@@ -465,11 +477,15 @@ es-AR:
       see_all: "Ver todo"
       start_sharing: "comenzar a compartir"
       to_accept_or_ignore: "aceptar o ignorar."
-      you_have_no_tags: "¡No tenés etiquetas!"
+    sub_header: 
+      add_some: "add some"
+      edit: "edit"
+      you_have_no_tags: "you have no tags!"
     webfinger: 
       fail: "Lo sentimos, no pudimos encontrar a %{handle}."
     zero: "nadie"
   photos: 
+    comment_email_subject: "%{name}'s photo"
     create: 
       integrity_error: "Error subiendo la foto. ¿Estás seguro de que era una imagen válida?"
       runtime_error: "Error subiendo la foto. ¿Hay alguna restricción de seguridad?"
@@ -497,9 +513,8 @@ es-AR:
       edit: "editar"
       edit_delete_photo: "Editar descripción de foto / eliminar foto"
       make_profile_photo: "convertir en foto de perfil"
-      original_post: "Publicación original"
+      show_original_post: "Show original post"
       update_photo: "Actualizar foto"
-      view: "ver"
     update: 
       error: "Error al editar la foto."
       notice: "La foto se subió correctamente."
@@ -574,6 +589,7 @@ es-AR:
     new_request_to_person: 
       sent: "¡Enviado!"
   reshares: 
+    comment_email_subject: "%{resharer}'s reshare of %{author}'s post"
     create: 
       failure: "There was an error resharing this post."
     reshare: 
@@ -596,14 +612,8 @@ es-AR:
     failure: 
       error: "hubo un error al conectar al servicio"
     finder: 
-      friends: 
-        few: "%{count} amigos"
-        many: "%{count} amigos"
-        one: "1 amigo"
-        other: "%{count} amigos"
-        zero: "ningún amigo"
-      invite_your_friends_from: "Invitá a tus amigos de %{service}"
-      not_connected: "sin conexión"
+      no_friends: "No Facebook friends found."
+      service_friends: "%{service} Friends"
     index: 
       connect_to_facebook: "Conectar a Facebook"
       connect_to_tumblr: "Connect to Tumblr"
@@ -618,6 +628,7 @@ es-AR:
       join_me_on_diaspora: "Unite, estoy en DIÁSPORA*"
     remote_friend: 
       invite: "invitar"
+      not_on_diaspora: "Not yet on Diaspora"
       resend: "reenviar"
   settings: "Configuración"
   shared: 
@@ -628,6 +639,14 @@ es-AR:
       enter_a_diaspora_username: "Ingresá el nombre de usuario de Diáspora*:"
       know_email: "¿Conocés sus direcciones de correo? ¡Podés invitarlos a unirse!"
       your_diaspora_username_is: "Tu nombre de usuario de Diáspora* es: %{diaspora_handle}"
+    aspect_dropdown: 
+      add_to_aspect: "Add to aspect"
+      toggle: 
+        few: "In %{count} aspects"
+        many: "In %{count} aspects"
+        one: "In %{count} aspect"
+        other: "In %{count} aspects"
+        zero: "Add to aspect"
     contact_list: 
       all_contacts: "Todos los contactos"
     footer: 
@@ -743,14 +762,17 @@ es-AR:
       new_password: "Contraseña nueva"
       private_message: "...recibís un mensaje privado?"
       receive_email_notifications: "¿Recibir notificaciones por correo electrónico cuando..."
+      reshared: "...someone reshares your post?"
       started_sharing: "...alguien comienza a compartir con vos?"
       your_email: "Tu correo electrónico"
       your_handle: "Tu dirección Diáspora*"
     getting_started: 
+      bold: "aspects"
       connect_to: "Connect to"
       connect_to_your_other_social_networks: "Connect to your other social networks"
       connect_with_people: "Connect with cool people"
-      connect_with_people_explanation: "Connect with people by placing them into one or more of your aspects.  Aspects are an intuative way to group new and familar faces, allowing you to filter down or share with subsets of your contacts easily."
+      connect_with_people_explanation_pt1: "Connect with people by placing them into one or more of your"
+      connect_with_people_explanation_pt2: "Aspects are an intuitive way to group new and familar faces, private to you, allowing you to filter down or share with subsets of your contacts easily."
       featured_tags: "Featured tags"
       featured_users: "Featured users"
       fill_out_your_profile: "Fill out your profile"

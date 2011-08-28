@@ -51,6 +51,7 @@ en:
               invalid: "is invalid."
             username:
               taken: "is already taken."
+              invalid: "is invalid. We only allow letters, numbers, and underscores"
             email:
               taken: "is already taken."
         person:
@@ -158,6 +159,7 @@ en:
       your_aspects: "Your Aspects"
       tags_following: "Followed Tags"
       no_tags: "+ Find a tag to follow"
+      unfollow_tag: "Stop following #%{tag}"
       handle_explanation: "This is your diaspora id. Like an email address, you can give this to people to reach you."
       no_contacts: "No contacts"
       post_a_message: "post a message >>"
@@ -178,14 +180,6 @@ en:
       success: "Successfully removed person from aspect"
       failure: "Failed to remove person from aspect"
       no_membership: "Could not find the selected person in that aspect"
-    aspect_dropdown:
-      add_to_aspect: "Add to aspect"
-      toggle:
-        zero: "Add to aspect"
-        one: "In %{count} aspect"
-        few: "In %{count} aspects"
-        many: "In %{count} aspects"
-        other: "In %{count} aspects"
 
   bookmarklet:
     heading: "Bookmarklet"
@@ -239,6 +233,7 @@ en:
       inbox: "Inbox"
     show:
       reply: "reply"
+      replying: "Replying..."
       delete: "delete and block conversation"
     new:
       to: "to"
@@ -255,6 +250,9 @@ en:
         other: "%{count} new messages"
     create:
       sent: "Message sent"
+      fail: "Invalid message"
+    new_message:
+      fail: "Invalid message"
     destroy:
       success: "Conversation successfully removed"
 
@@ -303,6 +301,7 @@ en:
     edit:
       your_account_awaits: "Your account awaits!"
       accept_your_invitation: "Accept your invitation"
+    a_facebook_user: "A Facebook user"
 
   layouts:
     header:
@@ -318,7 +317,6 @@ en:
     application:
       powered_by: "POWERED BY DIASPORA*"
       whats_new: "what's new?"
-      have_a_problem: "Have a problem? Find an answer here"
       toggle: "toggle mobile site"
       public_feed: "Public Diaspora Feed for %{name}"
       your_aspects: "your aspects"
@@ -381,6 +379,12 @@ en:
       few: "%{actors} has just liked your %{post_link}."
       many: "%{actors} has just liked your %{post_link}."
       other: "%{actors} has just liked your %{post_link}."
+    reshared:
+      zero: "%{actors} has reshared your %{post_link}."
+      one: "%{actors} has reshared your %{post_link}."
+      few: "%{actors} has reshared your %{post_link}."
+      many: "%{actors} has reshared your %{post_link}."
+      other: "%{actors} has reshared your %{post_link}."
     post: "post"
     also_commented_deleted:
       zero: "%{actors} commented on a deleted post."
@@ -394,6 +398,12 @@ en:
       few: "%{actors} liked your deleted post."
       many: "%{actors} liked your deleted post."
       other: "%{actors} liked your deleted post."
+    reshared_post_deleted:
+      zero: "%{actors} reshared your deleted post."
+      one: "%{actors} reshared your deleted post."
+      few: "%{actors} reshared your deleted post."
+      many: "%{actors} reshared your deleted post."
+      other: "%{actors} reshared your deleted post."
     mentioned_deleted:
       zero: "%{actors} mentioned you in a deleted post."
       one: "%{actors} mentioned you in a deleted post."
@@ -419,6 +429,7 @@ en:
         other: "%{count} new notifications"
 
   notifier:
+    a_post_you_shared: "a post."
     email_sent_by_diaspora: "This email was sent by Diaspora.  If you'd like to stop getting emails like this,"
     click_here: "click here"
     hello: "Hello %{name}!"
@@ -440,6 +451,9 @@ en:
         reply_to_or_view: "Reply to or view this conversation >"
     liked:
         liked: "%{name} just liked your post"
+        view_post: "View post >"
+    reshared:
+        reshared: "%{name} just reshared your post"
         view_post: "View post >"
     confirm_email:
         subject: "Please activate your new email address %{unconfirmed_email}"
@@ -464,10 +478,6 @@ en:
       fail: "Sorry, we couldn't find %{handle}."
     show:
       has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
-
-      you_have_no_tags: "you have no tags!"
-      add_some: "add some"
-      edit: "edit"
       incoming_request: "%{name} wants to share with you"
       return_to_aspects: "Return to your aspects page"
       to_accept_or_ignore: "to accept or ignore it."
@@ -479,6 +489,10 @@ en:
       start_sharing: "start sharing"
       message: "Message"
       mention: "Mention"
+    sub_header:
+      you_have_no_tags: "you have no tags!"
+      add_some: "add some"
+      edit: "edit"
     profile_sidebar:
       remove_contact: "remove contact"
       edit_my_profile: "Edit my profile"
@@ -501,11 +515,10 @@ en:
       delete_photo: "Delete Photo"
       make_profile_photo: "make profile photo"
       update_photo: "Update Photo"
-      view: "view"
       edit: "edit"
       edit_delete_photo: "Edit photo description / delete photo"
       collection_permalink: "collection permalink"
-      original_post: "Original Post"
+      show_original_post: "Show original post"
     edit:
       editing: "Editing"
     photo:
@@ -530,6 +543,7 @@ en:
     new_profile_photo:
       upload: "Upload a new profile photo!"
       or_select_one: "or select one from your already existing"
+    comment_email_subject: "%{name}'s photo"
 
   posts:
     show:
@@ -618,6 +632,7 @@ en:
       deleted: "Original post deleted by author."
     create:
       failure: "There was an error resharing this post."
+    comment_email_subject: "%{resharer}'s reshare of %{author}'s post"
   services:
     index:
       logged_in_as: "logged in as"
@@ -638,19 +653,22 @@ en:
       join_me_on_diaspora: "Join me on DIASPORA*"
       click_link_to_accept_invitation: "Click this link to accept your invitation"
     finder:
-      invite_your_friends_from: "Invite your friends from %{service}"
-      friends:
-        zero: "no friends"
-        one: "1 friend"
-        few: "%{count} friends"
-        many: "%{count} friends"
-        other: "%{count} friends"
-      not_connected: "not connected"
+      service_friends: "%{service} Friends"
+      no_friends: "No Facebook friends found."
     remote_friend:
       resend: "resend"
       invite: "invite"
+      not_on_diaspora: "Not yet on Diaspora"
 
   shared:
+    aspect_dropdown:
+      add_to_aspect: "Add to aspect"
+      toggle:
+        zero: "Add to aspect"
+        one: "In %{count} aspect"
+        few: "In %{count} aspects"
+        many: "In %{count} aspects"
+        other: "In %{count} aspects"
     publisher:
       posting: "Posting..."
       share: "Share"
@@ -777,6 +795,7 @@ en:
       started_sharing: "...someone starts sharing with you?"
       private_message: "...you receive a private message?"
       liked: "...someone likes your post?"
+      reshared: "...someone reshares your post?"
       change: "Change"
       email_awaiting_confirmation: "We have sent you an activation link to %{unconfirmed_email}. Until you follow this link and activate the new address, we will continue to use your original address %{email}."
     destroy: "Your account has been locked.  It may take 20 minutes for us to finish closing your account.  Thank you for trying Diaspora."
@@ -799,7 +818,9 @@ en:
 
       connect_to_your_other_social_networks: "Connect to your other social networks"
       connect_with_people: "Connect with cool people"
-      connect_with_people_explanation: "Connect with people by placing them into one or more of your aspects.  Aspects are an intuitive way to group new and familar faces, allowing you to filter down or share with subsets of your contacts easily."
+      connect_with_people_explanation_pt1: "Connect with people by placing them into one or more of your %{bold}."
+      bold: "aspects"
+      connect_with_people_explanation_pt2: "Aspects are an intuitive way to group new and familar faces, private to you, allowing you to filter down or share with subsets of your contacts easily."
       featured_users: "Featured users"
 
       follow_your_interests: "Follow your interests"
