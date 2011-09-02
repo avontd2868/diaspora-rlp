@@ -47,6 +47,24 @@ describe AspectsController do
     it_should_behave_like "it overrides the logs on redirect"
   end
 
+  describe "#new" do
+    it "renders a remote form if remote is true" do
+      get :new, "remote" => "true"
+      response.should be_success
+      response.body.should =~ /#{Regexp.escape('data-remote="true"')}/
+    end
+    it "renders a non-remote form if remote is false" do
+      get :new, "remote" => "false"
+      response.should be_success
+      response.body.should_not =~ /#{Regexp.escape('data-remote="true"')}/
+    end
+    it "renders a non-remote form if remote is missing" do
+      get :new
+      response.should be_success
+      response.body.should_not =~ /#{Regexp.escape('data-remote="true"')}/
+    end
+  end
+
   describe "#index" do
     it "generates a jasmine fixture", :fixture => true do
       get :index
@@ -68,7 +86,7 @@ describe AspectsController do
     it 'generates a jasmine fixture with posts', :fixture => true do
       bob.post(:status_message, :text => "Is anyone out there?", :to => @bob.aspects.first.id)
       message = alice.post(:status_message, :text => "hello "*800, :to => @alices_aspect_2.id)
-      3.times { bob.comment("what", :post => message) }
+      5.times { bob.comment("what", :post => message) }
       get :index
       save_fixture(html_for("body"), "aspects_index_with_posts")
     end
@@ -96,6 +114,18 @@ describe AspectsController do
 
       get :index
       save_fixture(html_for("body"), "aspects_index_with_a_post_with_likes")
+    end
+
+    context "mobile" do
+      it "renders a share button when you don't pass aspect IDs" do
+        get :index, :format => :mobile
+        response.body.should =~ /#{Regexp.escape('id="status_message_submit"')}/
+      end
+      
+      it "renders a share button when you pass aspect IDs" do
+        get :index, :a_ids => [@alices_aspect_1], :format => :mobile
+        response.body.should =~ /#{Regexp.escape('id="status_message_submit"')}/
+      end
     end
 
     context 'with getting_started = true' do
@@ -145,7 +175,8 @@ describe AspectsController do
 
       describe "post visibilities" do
         before do
-          @status = bob.post(:status_message, :text=> "hello", :to => bob.aspects.first)
+          aspect_to_post = bob.aspects.where(:name => "generic").first
+          @status = bob.post(:status_message, :text=> "hello", :to => aspect_to_post)
           @vis = @status.post_visibilities.first
         end
 

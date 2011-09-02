@@ -38,6 +38,9 @@ h1
 ul > li
   :list-style none
 
+.content ul li
+  :list-style disc
+
 form
   :position relative
   input,
@@ -170,7 +173,7 @@ header
     :text-shadow 0 1px 0 #000
     :color rgb(147,147,147)
 
-    :width auto
+    :min-width 100px
 
     :cursor pointer
 
@@ -203,6 +206,7 @@ header
       a
         :padding 4px
         :height 100%
+        :color #939393
         &:hover
           :background
             :color $blue
@@ -220,6 +224,8 @@ header
               :color #222
             :text
               :decoration none
+          &:focus
+            :outline none
         .right
           :right 5px
 
@@ -607,6 +613,7 @@ ul.show_comments,
       :height 250px
       :width 400px
 
+      
   .content
     :margin
       :top 0px
@@ -619,6 +626,13 @@ ul.show_comments,
       :margin
         :bottom 0
         :top 0
+    .ltr 
+      ul
+        li
+          :padding 0px
+          :border none
+          :list-style disc
+
 
     .right
       :right 4px
@@ -885,6 +899,7 @@ label
     textarea
       :resize none
       :width 455px
+      :height 50px 
       :margin 0
 
   &.mention_popup
@@ -1750,11 +1765,6 @@ ul#request_result
   :background
     :color rgb(252,252,252)
 
-  .diaspora_id
-    :color #777
-    :font
-      :size smaller
-
   .avatar
     :float left
     :height 50px
@@ -1776,6 +1786,7 @@ ul#request_result
 
     > .contact
       @include border-radius(3px)
+      @include box-shadow(0, 1px, 5px, #ccc)
       :background
         :color #fff
 
@@ -1795,8 +1806,8 @@ ul#request_result
         :bottom 5px
         :right 5px
 
-      :padding 8px
-      :border 1px solid #ccc
+      :padding 5px
+      :border 1px solid #999
 
       > .right
         :right -5px
@@ -2599,7 +2610,7 @@ ul.show_comments,
   :display inline-block
   &:hover
     :text
-      :decoration none
+      :decoration underline
     :background
       :color lighten($blue, 47%)
 
