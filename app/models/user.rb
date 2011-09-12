@@ -18,9 +18,8 @@ class User < ActiveRecord::Base
 
   before_validation :strip_and_downcase_username
   before_validation :set_current_language, :on => :create
-
-  validates_presence_of :username
-  validates_uniqueness_of :username
+  
+  validates :username, :presence => true, :uniqueness => true
   validates_format_of :username, :with => /\A[A-Za-z0-9_]+\z/
   validates_length_of :username, :maximum => 32
   validates_inclusion_of :language, :in => AVAILABLE_LANGUAGE_CODES
@@ -59,6 +58,10 @@ class User < ActiveRecord::Base
                   :invitation_service,
                   :invitation_identifier
 
+
+  def self.all_sharing_with_person(person)
+    User.joins(:contacts).where(:contacts => {:person_id => person.id})
+  end
 
   # @return [User]
   def self.find_by_invitation(invitation)
@@ -216,7 +219,7 @@ class User < ActiveRecord::Base
   end
 
   def salmon(post)
-    Salmon::SalmonSlap.create(self, post.to_diaspora_xml)
+    Salmon::EncryptedSlap.create_by_user_and_activity(self, post.to_diaspora_xml)
   end
 
   def build_relayable(model, options = {})

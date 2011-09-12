@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110830170929) do
+ActiveRecord::Schema.define(:version => 20110911213207) do
 
   create_table "aspect_memberships", :force => true do |t|
     t.integer  "aspect_id",  :null => false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20110830170929) do
     t.datetime "updated_at"
   end
 
-  add_index "conversation_visibilities", ["conversation_id", "person_id"], :name => "index_conversation_visibilities_on_conversation_id_and_person_id", :unique => true
+  add_index "conversation_visibilities", ["conversation_id", "person_id"], :name => "index_conversation_visibilities_usefully", :unique => true
   add_index "conversation_visibilities", ["conversation_id"], :name => "index_conversation_visibilities_on_conversation_id"
   add_index "conversation_visibilities", ["person_id"], :name => "index_conversation_visibilities_on_person_id"
 
@@ -282,6 +282,7 @@ ActiveRecord::Schema.define(:version => 20110830170929) do
     t.string   "root_guid",             :limit => 30
     t.string   "status_message_guid"
     t.integer  "likes_count",                         :default => 0
+    t.integer  "comments_count",                      :default => 0
   end
 
   add_index "posts", ["author_id"], :name => "index_posts_on_person_id"
@@ -340,6 +341,7 @@ ActiveRecord::Schema.define(:version => 20110830170929) do
     t.datetime "updated_at"
   end
 
+  add_index "services", ["type", "uid"], :name => "index_services_on_type_and_uid"
   add_index "services", ["user_id"], :name => "index_services_on_user_id"
 
   create_table "tag_followings", :force => true do |t|
