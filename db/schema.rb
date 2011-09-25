@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20110911213207) do
     t.datetime "updated_at"
   end
 
-  add_index "conversation_visibilities", ["conversation_id", "person_id"], :name => "index_conversation_visibilities_usefully", :unique => true
+  add_index "conversation_visibilities", ["conversation_id", "person_id"], :name => "index_conversation_visibilities_on_conversation_id_and_person_id", :unique => true
   add_index "conversation_visibilities", ["conversation_id"], :name => "index_conversation_visibilities_on_conversation_id"
   add_index "conversation_visibilities", ["person_id"], :name => "index_conversation_visibilities_on_person_id"
 
@@ -279,9 +279,9 @@ ActiveRecord::Schema.define(:version => 20110911213207) do
     t.string   "provider_display_name"
     t.string   "actor_url"
     t.integer  "objectId"
-    t.string   "root_guid",             :limit => 30
     t.string   "status_message_guid"
     t.integer  "likes_count",                         :default => 0
+    t.string   "root_guid",             :limit => 30
     t.integer  "comments_count",                      :default => 0
   end
 
@@ -405,9 +405,9 @@ ActiveRecord::Schema.define(:version => 20110911213207) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.string   "authentication_token",   :limit => 30
+    t.datetime "locked_at"
     t.string   "unconfirmed_email"
     t.string   "confirm_email_token",    :limit => 30
-    t.datetime "locked_at"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
