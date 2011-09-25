@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe Job::ReceiveLocalBatch do
+describe Jobs::ReceiveLocalBatch do
   #takes author id, post id and array of receiving user ids
   #for each recipient, it gets the aspects that the author is in
   #Gets all the aspect ids, and inserts into post_visibilities for each aspect
@@ -11,7 +11,7 @@ describe Job::ReceiveLocalBatch do
   end
 
   describe '.perform' do
-    it 'calls Postzord::Receiver::LocalPostBatch' do
+    it 'calls Postzord::Receiver::LocalBatch' do
       pending
     end
   end

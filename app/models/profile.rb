@@ -1,4 +1,4 @@
-#   Copyright (c) 2010, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -127,9 +127,9 @@ class Profile < ActiveRecord::Base
   end
 
   # Constructs a full name by joining #first_name and #last_name
-  # @returns [String] A full name
+  # @return [String] A full name
   def construct_full_name
-    self.full_name = [self.first_name, self.last_name].join(' ').downcase
+    self.full_name = [self.first_name, self.last_name].join(' ').downcase.strip
     self.full_name
   end
 

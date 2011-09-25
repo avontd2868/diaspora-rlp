@@ -1,4 +1,4 @@
-#   Copyright (c) 2010, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -51,7 +51,7 @@ en:
               invalid: "is invalid."
             username:
               taken: "is already taken."
-              invalid: "is invalid. We only allow letters, numbers, and underscores"
+              invalid: "is invalid. We only allow letters, numbers, and underscores."
             email:
               taken: "is already taken."
         person:
@@ -156,7 +156,7 @@ en:
       friends: "Friends"
     index: 
       donate: "Donate"
-      keep_us_running: "Keep %{pod} running fast, buy our servers their monthly coffee fix!"
+      keep_us_running: "Keep %{pod} running fast and buy servers their coffee fix with a monthly donation!"
       your_aspects: "Your Aspects"
       tags_following: "Followed Tags"
       no_tags: "+ Find a tag to follow"
@@ -165,6 +165,16 @@ en:
       no_contacts: "No contacts"
       post_a_message: "post a message >>"
       people_sharing_with_you: "People sharing with you"
+      help:
+        need_help: "Need Help?"
+        here_to_help: "The Diaspora community is here!"
+        did_you: "Did you:"
+        have_a_question: "... have a %{link}?"
+        find_a_bug: "... find a %{link}?"
+        feature_suggestion: "... have a %{link} suggestion?"
+        tutorials: "%{link}: Community-powered tutorials, how-to, and news"
+        satisfaction: "%{link}: Community-powered support"
+        email_feedback: "%{link} your feedback, if you prefer"
       cubbies:
         heading: "Connect to Cubbi.es"
         explanation: "Cubbi.es is the first Diaspora application under development."
@@ -477,7 +487,7 @@ en:
         view_post: "View post >"
     confirm_email:
         subject: "Please activate your new email address %{unconfirmed_email}"
-        click_link: "To activate your new email address %{unconfirmed_email}, please click this link:"
+        click_link: "To activate your new email address %{unconfirmed_email}, please follow this link:"
   people:
     zero: "no people"
     one: "1 person"
@@ -675,7 +685,7 @@ en:
       error: "there was an error connecting that service"
     inviter:
       join_me_on_diaspora: "Join me on DIASPORA*"
-      click_link_to_accept_invitation: "Click this link to accept your invitation"
+      click_link_to_accept_invitation: "Follow this link to accept your invitation"
     finder:
       service_friends: "%{service} Friends"
       no_friends: "No Facebook friends found."
@@ -804,6 +814,12 @@ en:
       
 
   users:
+    logged_out:
+      signed_out: "You've signed out of Diaspora*"
+      go_mobile: "Now go mobile."
+      simply_visit: "Simply visit"
+      on_your_mobile_device: "on your mobile device to access Diaspora* mobile."
+      works_on_modern: "Works on all modern smartphones"
     edit:
       export_data: "Export Data"
       close_account: "Close Account"
@@ -831,6 +847,8 @@ en:
     getting_started:
       welcome: "Welcome!"
       welcome_with_name: "Welcome, %{name}!"
+      community_welcome: "Diaspora's community is happy to have you aboard!"
+      not_mandatory: "Completing the following steps will improve your Diaspora experience, but they are not mandatory."
 
       finished: "Finished"
 
@@ -859,9 +877,10 @@ en:
       connect_to: "Connect to"
 
       find_friends_from_facebook: "find friends from Facebook"
-      featured_tags: "Featured tags"
+      featured_tags: "Follow featured tags"
       find_friends: "Find friends"
       see_all_featured_users: "See all featured users"
+      get_updates_from_core: "Get updates about the project from the core team."
 
       hashtag_explanation: "Hashtags allow you to talk about and follow your interests.  They're also a great way to find new people on Diaspora."
 

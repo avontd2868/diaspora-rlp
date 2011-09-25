@@ -1,3 +1,7 @@
+#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
+#   licensed under the Affero General Public License version 3 or later.  See
+#   the COPYRIGHT file.
+
 require 'aspect_stream'
 
 describe AspectStream do
@@ -80,7 +84,7 @@ describe AspectStream do
       stream = AspectStream.new(alice, [])
 
       stream.stub(:aspect_ids).and_return(aspect_ids)
-      Person.should_receive(:all_from_aspects).with(stream.aspect_ids, alice)
+      Person.should_receive(:all_from_aspects).with(stream.aspect_ids, alice).and_return(stub(:includes => :profile))
       stream.people
     end
   end

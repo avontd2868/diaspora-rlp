@@ -1,4 +1,4 @@
-#   Copyright (c) 2010, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -119,15 +119,12 @@ describe Notification do
         end
       end
 
-
-
       context 'multiple people' do
-
         before do
           @user3 = bob
           @sm = @user3.post(:status_message, :text => "comment!", :to => :all)
-          Postzord::Receiver.new(@user3, :person => @user2.person, :object => @user2.comment("hey", :post => @sm)).receive_object
-          Postzord::Receiver.new(@user3, :person => @user.person, :object => @user.comment("hey", :post => @sm)).receive_object
+          Postzord::Receiver::Private.new(@user3, :person => @user2.person, :object => @user2.comment("hey", :post => @sm)).receive_object
+          Postzord::Receiver::Private.new(@user3, :person => @user.person, :object => @user.comment("hey", :post => @sm)).receive_object
         end
 
         it "updates the notification with a more people if one already exists" do
@@ -135,10 +132,9 @@ describe Notification do
         end
 
         it 'handles double comments from the same person without raising' do
-          Postzord::Receiver.new(@user3, :person => @user2.person, :object => @user2.comment("hey", :post => @sm)).receive_object
+          Postzord::Receiver::Private.new(@user3, :person => @user2.person, :object => @user2.comment("hey", :post => @sm)).receive_object
           Notification.where(:recipient_id => @user3.id, :target_type => @sm.class.base_class, :target_id => @sm.id).first.actors.count.should == 2
         end
-
       end
     end
   end

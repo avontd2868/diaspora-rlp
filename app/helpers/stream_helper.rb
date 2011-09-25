@@ -1,4 +1,4 @@
-#   Copyright (c) 2010, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -10,6 +10,8 @@ module StreamHelper
       "/apps/1?#{{:max_time => @posts.last.created_at.to_i}.to_param}"
     elsif controller.instance_of?(PeopleController)
       person_path(@person, :max_time => @posts.last.created_at.to_i)
+    elsif controller.instance_of?(TagFollowingsController) 
+      tag_followings_path(:max_time => @stream.posts.last.created_at.to_i)
     elsif controller.instance_of?(AspectsController)
       aspects_path(:max_time => @stream.posts.last.send(@stream.order.to_sym).to_i, :a_ids => @stream.aspect_ids)
     else

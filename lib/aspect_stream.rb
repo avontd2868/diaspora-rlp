@@ -1,4 +1,4 @@
-#   Copyright (c) 2011, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -51,9 +51,10 @@ class AspectStream
 
   # @return [ActiveRecord::Association<Person>] AR association of people within stream's given aspects
   def people
-    @people ||= Person.all_from_aspects(aspect_ids, @user)
+    @people ||= Person.all_from_aspects(aspect_ids, @user).includes(:profile)
   end
 
+  # The first aspect in #aspects, given the stream is not for all aspects, or #aspects size is 1
   # @note aspects.first is used for mobile. NOTE(this is a hack and should be fixed)
   # @return [Aspect,Symbol]
   def aspect

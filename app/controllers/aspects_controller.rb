@@ -1,4 +1,4 @@
-#   Copyright (c) 2010, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -12,7 +12,6 @@ class AspectsController < ApplicationController
   respond_to :html, :js
   respond_to :json, :only => [:show, :create]
 
-  helper_method :tags, :tag_followings
   helper_method :selected_people
 
   def index
@@ -136,19 +135,6 @@ class AspectsController < ApplicationController
 
   def ensure_page
     params[:max_time] ||= Time.now + 1
-  end
-
-  def tag_followings
-    if current_user
-      if @tag_followings == nil
-        @tag_followings = current_user.tag_followings
-      end
-      @tag_followings
-    end
-  end
-
-  def tags
-    @tags ||= current_user.followed_tags
   end
 
   private

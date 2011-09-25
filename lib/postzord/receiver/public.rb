@@ -1,15 +1,15 @@
-#   Copyright (c) 2010, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
-#
+
 module Postzord
-  class Receiver
+  module Receiver
     class Public
       attr_accessor :salmon, :author
 
       def initialize(xml)
         @salmon = Salmon::Slap.from_xml(xml) 
-        @author = Webfinger.new(@salmon.author_email).fetch
+        @author = Webfinger.new(@salmon.author_id).fetch
       end
 
       # @return [Boolean]
@@ -25,18 +25,20 @@ module Postzord
         if @object.respond_to?(:relayable?)
           receive_relayable
         else
-          Resque.enqueue(Job::ReceiveLocalBatch, @object.id, self.recipient_user_ids)
+          Resque.enqueue(Jobs::ReceiveLocalBatch, @object.class.to_s, @object.id, self.recipient_user_ids)
         end
       end
 
+      # @return [Object]
       def receive_relayable
         if @object.parent.author.local?
           # receive relayable object only for the owner of the parent object
-          @object.receive(@object.parent.author.user, @author)
+          @object.receive(@object.parent.author.owner, @author)
         end
         # notify everyone who can see the parent object
-        receiver = Postzord::Receiver::LocalPostBatch.new(nil, self.recipient_user_ids)
+        receiver = Postzord::Receiver::LocalBatch.new(@object, self.recipient_user_ids)
         receiver.notify_users
+        @object
       end
 
       # @return [Object]
@@ -51,9 +53,9 @@ module Postzord
         User.all_sharing_with_person(@author).select('users.id').map!{ |u| u.id }
       end
 
-      class RelayableObjectWithoutParent < StandardError ; ; end
       private
 
+      # @return [Boolean]
       def object_can_be_public_and_it_is_not?
         @object.respond_to?(:public) && !@object.public?
       end
