@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   validates :username, :presence => true, :uniqueness => true
   validates_format_of :username, :with => /\A[A-Za-z0-9_]+\z/
   validates_length_of :username, :maximum => 32
+  validates_exclusion_of :username, :in => USERNAME_BLACKLIST
   validates_inclusion_of :language, :in => AVAILABLE_LANGUAGE_CODES
   validates_format_of :unconfirmed_email, :with  => Devise.email_regexp, :allow_blank => true
 
@@ -40,7 +41,7 @@ class User < ActiveRecord::Base
   has_many :services, :dependent => :destroy
   has_many :user_preferences, :dependent => :destroy
   has_many :tag_followings, :dependent => :destroy
-  has_many :followed_tags, :through => :tag_followings, :source => :tag
+  has_many :followed_tags, :through => :tag_followings, :source => :tag, :order => 'tags.name'
 
   has_many :authorizations, :class_name => 'OAuth2::Provider::Models::ActiveRecord::Authorization', :foreign_key => :resource_owner_id
   has_many :applications, :through => :authorizations, :source => :client

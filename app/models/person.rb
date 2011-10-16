@@ -58,6 +58,8 @@ class Person < ActiveRecord::Base
          select("DISTINCT people.*")
   }
 
+  scope :profile_tagged_with, lambda{|tag_name| joins(:profile => :tags).where(:profile => {:tags => {:name => tag_name}}).where('profiles.searchable IS TRUE') }
+
   def self.featured_users
     AppConfig[:featured_users].present? ? Person.where(:diaspora_handle => AppConfig[:featured_users]) : []
   end
@@ -75,7 +77,6 @@ class Person < ActiveRecord::Base
     super
     self.profile ||= Profile.new unless profile_set
   end
-  
   
   def self.find_from_id_or_username(params)
     p = if params[:id].present?
@@ -146,7 +147,7 @@ class Person < ActiveRecord::Base
   end
 
   def self.name_from_attrs(first_name, last_name, diaspora_handle)
-    first_name.blank? ? diaspora_handle : "#{first_name.to_s} #{last_name.to_s}"
+    first_name.blank? ? diaspora_handle : "#{first_name.to_s.strip} #{last_name.to_s.strip}"
   end
 
   def first_name
@@ -272,6 +273,8 @@ class Person < ActiveRecord::Base
       person.update_url(url)
     end 
   end
+
+  
   
   # @param person [Person]
   # @param url [String]
