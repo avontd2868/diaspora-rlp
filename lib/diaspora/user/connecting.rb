@@ -11,6 +11,8 @@ module Diaspora
       # @return [Contact] The newly made contact for the passed in person.
       def share_with(person, aspect)
         contact = self.contacts.find_or_initialize_by_person_id(person.id)
+        return false unless contact.valid?
+
         unless contact.receiving?
           contact.dispatch_request
           contact.receiving = true
@@ -23,20 +25,20 @@ module Diaspora
           notification.update_attributes(:unread=>false)
         end
 
-        register_post_visibilities(contact)
+        register_share_visibilities(contact)
         contact
       end
 
       # This puts the last 100 public posts by the passed in contact into the user's stream.
       # @param [Contact] contact
       # @return [void]
-      def register_post_visibilities(contact)
+      def register_share_visibilities(contact)
         #should have select here, but proven hard to test
         posts = Post.where(:author_id => contact.person_id, :public => true).limit(100)
         p = posts.map do |post|
-          PostVisibility.new(:contact_id => contact.id, :post_id => post.id)
+          ShareVisibility.new(:contact_id => contact.id, :shareable_id => post.id, :shareable_type => 'Post')
         end
-        PostVisibility.import(p) unless posts.empty?
+        ShareVisibility.import(p) unless posts.empty?
         nil
       end
 
@@ -56,7 +58,7 @@ module Diaspora
         end
       end
 
-      def disconnect(bad_contact)
+      def disconnect(bad_contact, opts={})
         person = bad_contact.person
         Rails.logger.info("event=disconnect user=#{diaspora_handle} target=#{person.diaspora_handle}")
         retraction = Retraction.for(self)
@@ -64,7 +66,7 @@ module Diaspora
         Postzord::Dispatcher.build(self, retraction).post
 
         AspectMembership.where(:contact_id => bad_contact.id).delete_all
-        remove_contact(bad_contact)
+        remove_contact(bad_contact, opts)
       end
 
       def disconnected_by(person)

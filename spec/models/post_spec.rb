@@ -11,7 +11,83 @@ describe Post do
   end
 
   describe 'scopes' do
+    describe '.owned_or_visible_by_user' do
+      before do
+        @you = bob
+        @public_post = Factory(:status_message, :public => true)
+        @your_post = Factory(:status_message, :author => @you.person)
+        @post_from_contact = eve.post(:status_message, :text => 'wooo', :to => eve.aspects.where(:name => 'generic').first)
+        @post_from_stranger = Factory(:status_message, :public => false)
+      end
+
+      it 'returns post from your contacts' do
+        StatusMessage.owned_or_visible_by_user(@you).should include(@post_from_contact)
+      end
+
+      it 'returns your posts' do 
+        StatusMessage.owned_or_visible_by_user(@you).should include(@your_post)
+      end
+
+      it 'returns public posts' do
+        StatusMessage.owned_or_visible_by_user(@you).should include(@public_post)
+      end
+
+      it 'returns public post from your contact' do
+        sm = Factory(:status_message, :author => eve.person, :public => true)
+
+        StatusMessage.owned_or_visible_by_user(@you).should include(sm)
+      end
+
+      it 'does not return non contacts, non-public post' do
+        StatusMessage.owned_or_visible_by_user(@you).should_not include(@post_from_stranger)
+      end
+
+      it 'should return the three visible posts' do
+        StatusMessage.owned_or_visible_by_user(@you).count.should == 3
+      end
+    end
+
     describe '.for_a_stream' do
+      it 'calls #for_visible_shareable_sql' do
+        time, order = stub, stub
+        Post.should_receive(:for_visible_shareable_sql).with(time, order).and_return(Post)
+        Post.for_a_stream(time, order)
+      end
+
+      it 'calls includes_for_a_stream' do
+        Post.should_receive(:includes_for_a_stream)
+        Post.for_a_stream(stub, stub)
+      end
+
+      it 'calls excluding_blocks if a user is present' do
+        user = stub
+        Post.should_receive(:excluding_blocks).with(user)
+        Post.for_a_stream(stub, stub, user)
+      end
+    end
+
+    describe '.excluding_blocks' do
+      before do
+        @post = Factory(:status_message, :author => alice.person)
+        @other_post = Factory(:status_message, :author => eve.person)
+
+        bob.blocks.create(:person => alice.person)
+      end
+
+      it 'does not included blocked users posts' do
+        Post.excluding_blocks(bob).should_not include(@post)
+      end
+
+      it 'includes not blocked users posts' do
+        Post.excluding_blocks(bob).should include(@other_post)
+      end
+
+      it 'returns posts if you dont have any blocks' do
+        Post.excluding_blocks(alice).count.should == 2
+      end
+    end
+
+    context 'having some posts' do
       before do
         time_interval = 1000
         time_past = 1000000
@@ -26,28 +102,34 @@ describe Post do
         end
       end
 
-      it 'returns the posts ordered and limited by unix time' do
-        Post.for_a_stream(Time.now + 1, "created_at").should == @posts
-        Post.for_a_stream(Time.now + 1, "updated_at").should == @posts.reverse
+      describe '.by_max_time' do
+        it 'respects time and order' do
+        end
+
+        it 'returns the posts ordered and limited by unix time' do
+          Post.for_a_stream(Time.now + 1, "created_at").should == @posts
+          Post.for_a_stream(Time.now + 1, "updated_at").should == @posts.reverse
+        end
       end
 
-      it 'includes everything in .includes_for_a_stream' do
-        Post.should_receive(:includes_for_a_stream)
-        Post.for_a_stream(Time.now + 1, "created_at")
-      end
-      it 'is limited to 15 posts' do
-        Post.stub(:by_max_time).and_return(Post)
-        Post.stub(:includes_for_a_stream).and_return(stub(:where => Post))
-        Post.should_receive(:limit)
-        Post.for_a_stream(Time.now + 1, "created_at")
+
+      describe '.for_visible_shareable_sql' do
+        it 'calls max_time' do
+          time = Time.now + 1
+          Post.should_receive(:by_max_time).with(time, 'created_at').and_return(Post)
+          Post.for_visible_shareable_sql(time, 'created_at')
+        end
+
+        it 'defaults to 15 posts' do
+          chain = stub.as_null_object
+
+          Post.stub(:by_max_time).and_return(chain)
+          chain.should_receive(:limit).with(15).and_return(Post)
+          Post.for_visible_shareable_sql(Time.now + 1, "created_at")
+        end
+
       end
     end
-
-    describe 'includes for a stream' do
-      it 'inclues author profile and mentions'
-      it 'should include photos and root of reshares(but does not)'
-    end
-
   end
 
 
@@ -221,7 +303,7 @@ describe Post do
   describe "#receive" do
     it 'returns false if the post does not verify' do
       @post = Factory(:status_message, :author => bob.person)
-      @post.should_receive(:verify_persisted_post).and_return(false)
+      @post.should_receive(:verify_persisted_shareable).and_return(false)
       @post.receive(bob, eve.person).should == false
     end
   end
@@ -230,12 +312,12 @@ describe Post do
     before do
       @post = Factory.build(:status_message, :author => bob.person)
       @known_post = Post.new
-      bob.stub(:contact_for).with(eve.person).and_return(stub(:receive_post => true))
+      bob.stub(:contact_for).with(eve.person).and_return(stub(:receive_shareable => true))
     end
 
     context "user knows about the post" do
       before do
-        bob.stub(:find_visible_post_by_id).and_return(@known_post)
+        bob.stub(:find_visible_shareable_by_id).and_return(@known_post)
       end
 
       it 'updates attributes only if mutable' do
@@ -253,7 +335,7 @@ describe Post do
 
     context "the user does not know about the post" do
       before do
-        bob.stub(:find_visible_post_by_id).and_return(nil)
+        bob.stub(:find_visible_shareable_by_id).and_return(nil)
         bob.stub(:notify_if_mentioned).and_return(true)
       end
 
@@ -262,7 +344,7 @@ describe Post do
       end
 
       it 'notifies the user if they are mentioned' do
-        bob.stub(:contact_for).with(eve.person).and_return(stub(:receive_post => true))
+        bob.stub(:contact_for).with(eve.person).and_return(stub(:receive_shareable => true))
         bob.should_receive(:notify_if_mentioned).and_return(true)
 
         @post.send(:receive_persisted, bob, eve.person, @known_post).should == true
@@ -274,17 +356,17 @@ describe Post do
     context "the user does not know about the post" do
       before do
         @post = Factory.build(:status_message, :author => bob.person)
-        bob.stub(:find_visible_post_by_id).and_return(nil)
+        bob.stub(:find_visible_shareable_by_id).and_return(nil)
         bob.stub(:notify_if_mentioned).and_return(true)
       end
 
       it "it receives the post from the contact of the author" do
-        bob.should_receive(:contact_for).with(eve.person).and_return(stub(:receive_post => true))
+        bob.should_receive(:contact_for).with(eve.person).and_return(stub(:receive_shareable => true))
         @post.send(:receive_non_persisted, bob, eve.person).should == true
       end
 
       it 'notifies the user if they are mentioned' do
-        bob.stub(:contact_for).with(eve.person).and_return(stub(:receive_post => true))
+        bob.stub(:contact_for).with(eve.person).and_return(stub(:receive_shareable => true))
         bob.should_receive(:notify_if_mentioned).and_return(true)
 
         @post.send(:receive_non_persisted, bob, eve.person).should == true

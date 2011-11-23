@@ -71,15 +71,16 @@ class Services::Facebook < Service
       ServiceUser.import(data, :on_duplicate_key_update => OVERRIDE_FIELDS_ON_FB_UPDATE + [:updated_at])
     end
   end
-
+  
+  def profile_photo_url
+    "https://graph.facebook.com/#{self.uid}/picture?type=large&access_token=#{URI.escape(self.access_token)}"
+  end
+  
   private
 
   OVERRIDE_FIELDS_ON_FB_UPDATE = [:contact_id, :person_id, :request_id, :invitation_id, :photo_url, :name, :username]
 
   def prevent_service_users_from_being_empty
-    if self.service_users.blank?
-      self.save_friends
-      self.service_users.reload
-    end
+    Resque.enqueue(Jobs::UpdateServiceUsers, self.id)
   end
 end

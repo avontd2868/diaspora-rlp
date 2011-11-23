@@ -14,12 +14,15 @@ class StatusMessage < Post
   acts_as_taggable_on :tags
   extract_tags_from :raw_message
 
-  validates_length_of :text, :maximum => 10000, :message => I18n.t('status_messages.too_long', :count => 10000)
+  validates_length_of :text, :maximum => 65535, :message => I18n.t('status_messages.too_long', :count => 65535)
   xml_name :status_message
   xml_attr :raw_message
 
   has_many :photos, :dependent => :destroy, :foreign_key => :status_message_guid, :primary_key => :guid
-  validate :presence_of_content
+
+  # TODO: disabling presence_of_content() (and its specs in status_message_controller_spec.rb:125) is a quick and dirty fix for federation
+  # a StatusMessage is federated before its photos are so presence_of_content() fails erroneously if no text is present
+  #validate :presence_of_content
 
   attr_accessible :text, :provider_display_name
   attr_accessor :oembed_url
@@ -30,22 +33,18 @@ class StatusMessage < Post
   after_create :queue_gather_oembed_data, :if => :contains_oembed_url_in_text?
 
   #scopes
-  scope :where_person_is_mentioned, lambda{|person| joins(:mentions).where(:mentions => {:person_id => person.id})}
+  scope :where_person_is_mentioned, lambda { |person|
+    joins(:mentions).where(:mentions => {:person_id => person.id})
+  }
 
-  def self.owned_or_visible_by_user(user)
-    joins("LEFT OUTER JOIN post_visibilities ON post_visibilities.post_id = posts.id").
-    joins("LEFT OUTER JOIN contacts ON contacts.id = post_visibilities.contact_id").
-    where(Contact.arel_table[:user_id].eq(user.id).or(
-      StatusMessage.arel_table[:public].eq(true).or(
-        StatusMessage.arel_table[:author_id].eq(user.person.id)
-      )
-    )).select('DISTINCT posts.*')
+  def self.user_tag_stream(user, tag_ids)
+    owned_or_visible_by_user(user).
+      tag_stream(tag_ids)
   end
 
-  def self.tag_stream(user, tag_array, max_time, order)
-    owned_or_visible_by_user(user).
-      joins(:tags).where(:tags => {:name => tag_array}).
-      for_a_stream(max_time, order)
+  def self.public_tag_stream(tag_ids)
+    all_public.
+      tag_stream(tag_ids)
   end
 
   def text(opts = {})
@@ -173,11 +172,16 @@ class StatusMessage < Post
   end
 
   protected
-
   def presence_of_content
     if text_and_photos_blank?
       errors[:base] << 'Status message requires a message or at least one photo'
     end
   end
+
+  private
+  def self.tag_stream(tag_ids)
+    joins(:tags).where(:tags => {:id => tag_ids})
+  end
+
 end
 

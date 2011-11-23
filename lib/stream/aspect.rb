@@ -37,13 +37,13 @@ class Stream::Aspect < Stream::Base
 
   # @return [ActiveRecord::Association<Post>] AR association of posts
   def posts
-    # NOTE(this should be something like Post.all_for_stream(@user, aspect_ids, {}) that calls visible_posts
-    @posts ||= user.visible_posts(:all_aspects? => for_all_aspects?,
-                                   :by_members_of => aspect_ids,
-                                   :type => TYPES_OF_POST_IN_STREAM,
-                                   :order => "#{order} DESC",
-                                   :max_time => max_time
-                   ).for_a_stream(max_time, order)
+    # NOTE(this should be something like Post.all_for_stream(@user, aspect_ids, {}) that calls visible_shareables
+    @posts ||= user.visible_shareables(Post, :all_aspects? => for_all_aspects?,
+                                             :by_members_of => aspect_ids,
+                                             :type => TYPES_OF_POST_IN_STREAM,
+                                             :order => "#{order} DESC",
+                                             :max_time => max_time
+                   )
   end
 
   # @return [ActiveRecord::Association<Person>] AR association of people within stream's given aspects
@@ -81,7 +81,7 @@ class Stream::Aspect < Stream::Base
   # @return [String]
   def title
     if self.for_all_aspects?
-      I18n.t('aspects.aspect_stream.stream')
+      I18n.t('streams.aspects.title')
     else
       self.aspects.to_sentence
     end

@@ -3,7 +3,7 @@
 #   the COPYRIGHT file.
 
 class PhotosController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => :show
 
   helper_method :parent, :photo, :additional_photos, :next_photo, :previous_photo, :ownership
 
@@ -29,7 +29,7 @@ class PhotosController < ApplicationController
         @contacts_of_contact_count = 0
       end
 
-      @posts = current_user.posts_from(@person).where(:type => 'Photo').paginate(:page => params[:page])
+      @posts = current_user.photos_from(@person).paginate(:page => params[:page])
 
       render 'people/show'
 
@@ -71,6 +71,7 @@ class PhotosController < ApplicationController
 
         respond_to do |format|
           format.json{ render(:layout => false , :json => {"success" => true, "data" => @photo}.to_json )}
+          format.html{ render(:layout => false , :json => {"success" => true, "data" => @photo}.to_json )}
         end
       else
         respond_with @photo, :location => photos_path, :error => message
@@ -118,7 +119,7 @@ class PhotosController < ApplicationController
   end
 
   def destroy
-    photo = current_user.posts.where(:id => params[:id]).first
+    photo = current_user.photos.where(:id => params[:id]).first
 
     if photo
       current_user.retract(photo)
@@ -140,15 +141,23 @@ class PhotosController < ApplicationController
   end
 
   def show
-    if photo
-      respond_with photo
+    if user_signed_in?
+      @photo = current_user.find_visible_shareable_by_id(Photo, params[:id])
     else
+      @photo = Photo.where(:id => params[:id], :public => true).first
+    end
+
+    if @photo
+      respond_with @photo
+    elsif user_signed_in?
       redirect_to :back
+    else
+      redirect_to new_user_session_path
     end
   end
 
   def edit
-    if @photo = current_user.posts.where(:id => params[:id]).first
+    if @photo = current_user.photos.where(:id => params[:id]).first
       respond_with @photo
     else
       redirect_to person_photos_path(current_user.person)
@@ -156,7 +165,7 @@ class PhotosController < ApplicationController
   end
 
   def update
-    photo = current_user.posts.where(:id => params[:id]).first
+    photo = current_user.photos.where(:id => params[:id]).first
     if photo
       if current_user.update_post( photo, params[:photo] )
         flash.now[:notice] = I18n.t 'photos.update.notice'
@@ -178,7 +187,7 @@ class PhotosController < ApplicationController
   # helpers
 
   def ownership
-    @ownership ||= current_user.owns? photo
+    @ownership ||= (current_user.present? && current_user.owns?(photo))
   end
 
   def parent
@@ -187,7 +196,7 @@ class PhotosController < ApplicationController
   end
 
   def photo
-    @photo ||= current_user.find_visible_post_by_id(params[:id], :type => 'Photo')
+    @photo ||= current_user.find_visible_shareable_by_id(Photo, params[:id])
   end
 
   def additional_photos
@@ -208,6 +217,11 @@ class PhotosController < ApplicationController
   private
 
   def file_handler(params)
+    # For XHR file uploads, request.params[:qqfile] will be the path to the temporary file
+    # For regular form uploads (such as those made by Opera), request.params[:qqfile] will be an UploadedFile which can be returned unaltered.
+    if not request.params[:qqfile].is_a?(String)
+      params[:qqfile]
+    else
       ######################## dealing with local files #############
       # get file name
       file_name = params[:qqfile]
@@ -229,5 +243,6 @@ class PhotosController < ApplicationController
       Tempfile.send(:define_method, "content_type") {return att_content_type}
       Tempfile.send(:define_method, "original_filename") {return file_name}
       file
+    end
   end
 end

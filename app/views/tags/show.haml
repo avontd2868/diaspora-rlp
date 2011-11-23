@@ -36,7 +36,7 @@
 
 .span-6.tags_people
   %h3
-    = t('people', :count => @stream.tagge_people_count)
+    = t('people', :count => @stream.tagged_people_count)
 
   .side_stream.stream
     = render :partial => 'people/index', :locals => {:people => @stream.tagged_people}
@@ -67,8 +67,8 @@
     %hr
 
     #main_stream.stream
-      - if @stream.posts.length > 0
-        = render 'shared/stream', :posts => @stream.posts
+      - if @stream.stream_posts.length > 0
+        = render 'shared/stream', :posts => @stream.stream_posts
         #pagination
           =link_to(t('more'), next_page_path, :class => 'paginate')
       - else

@@ -7,6 +7,8 @@ When /^I try to sign in$/ do
   @me ||= Factory(:user_with_aspect, :getting_started => false)
   page.driver.visit(new_integration_sessions_path(:user_id => @me.id))
   And %(I press "Login")
+  And %(I should see "Login") # we now are on index.html for Ilya.
+  And %(I follow "Login") # click "Login" to go to your stream
   # To save time as compared to:
   #When %(I go to the new user session page)
   #When %(I fill in "Username" with "#{@me.username}")
@@ -25,7 +27,6 @@ When /^I sign in as "([^"]*)"$/ do |email|
   @me = User.find_by_email(email)
   @me.password ||= 'password'
   Given 'I am signed in'
-  And 'I wait for the ajax to finish'
 end
 
 When /^I sign in with password "([^"]*)"$/ do |password|

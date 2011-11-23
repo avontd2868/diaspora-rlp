@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.10'
+gem 'rails', '3.0.11'
 
 gem 'bundler', '>= 1.0.0'
 gem 'foreman'
@@ -40,7 +40,7 @@ gem 'sqlite3' if ENV['DB'] == 'all' || ENV['DB'] == 'sqlite'
 # file uploading
 
 gem 'aws', '2.3.32' # upgrade to 2.4 breaks 1.8 >.<
-gem 'carrierwave', '0.5.2'
+gem 'carrierwave', '0.5.3'
 gem 'excon', '0.2.4'
 gem 'fastercsv', '1.5.4', :require => false
 gem 'fog', '0.3.25'
@@ -71,7 +71,7 @@ gem 'ruby-oembed'
 gem 'resque', '1.10.0'
 gem 'resque-ensure-connected'
 gem 'resque-timeout', '1.0.0'
-gem 'SystemTimer', '1.2.1', :platforms => :ruby_18
+gem 'SystemTimer', '1.2.3', :platforms => :ruby_18
 
 # reporting
 
@@ -97,6 +97,7 @@ gem 'haml', '3.1.2'
 gem 'mobile-fu'
 gem 'sass', '3.1.7'
 gem 'will_paginate', '3.0.pre2'
+gem 'client_side_validations'
 
 # web
 
@@ -106,7 +107,7 @@ gem 'faraday-stack'
 # web sockets
 
 gem 'em-synchrony', :platforms => :ruby_19
-gem 'em-websocket', :git => 'git://github.com/igrigorik/em-websocket', :ref => 'e278f5a1c4db60be7485'
+gem 'em-websocket'
 
 ### GROUPS ####
 
@@ -129,7 +130,7 @@ group :test do
   gem 'rspec-core', '2.6.0'
   gem 'rspec-instafail', '>= 0.1.7', :require => false
   gem 'rspec-rails', '>= 2.0.0'
-  gem "selenium-webdriver", "~> 2.7.0"
+  gem "selenium-webdriver", "~> 2.10.0"
   gem 'webmock', :require => false
   gem 'sqlite3'
   gem 'mock_redis'

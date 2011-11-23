@@ -7,9 +7,6 @@ require 'spec_helper'
 describe RedisCache do
   before do
     @redis = MockRedis.new
-    #@redis = Redis.new
-    #@redis.keys.each{|p| @redis.del(p)}
-
     @cache = RedisCache.new(bob, :created_at)
     @cache.stub(:redis).and_return(@redis)
   end
@@ -46,15 +43,15 @@ describe RedisCache do
     end
 
     it 'returns the most recent post ids (default created at, limit 15)' do
-      @cache.post_ids.should =~ 15.times.map {|n| n.to_s}
+      @cache.post_ids.should =~ 15.times.map { |n| n.to_s }
     end
 
     it 'returns posts ids after the specified time' do
-      @cache.post_ids(@timestamps[15]).should =~ (15...30).map {|n| n.to_s}
+      @cache.post_ids(@timestamps[15]).should =~ (15...30).map { |n| n.to_s }
     end
 
     it 'returns post ids with a non-default limit' do
-      @cache.post_ids(@timestamp, 20).should =~ 20.times.map {|n| n.to_s}
+      @cache.post_ids(@timestamp, 20).should =~ 20.times.map { |n| n.to_s }
     end
   end
 
@@ -66,7 +63,7 @@ describe RedisCache do
       @cache.ensure_populated!
     end
 
-    it 'clears and poplulates if the cache is not populated' do
+    it 'calls #repopulate' do
       opts = {:here_is => "something"}
       @cache.stub(:cache_exists?).and_return(false)
       @cache.should_receive(:repopulate!).with(opts)
@@ -76,6 +73,11 @@ describe RedisCache do
   end
 
   describe "#repopulate!" do
+    it 'calls #purge!' do
+      @cache.should_receive(:purge!)
+      @cache.repopulate!
+    end
+
     it 'populates' do
       opts = {:here_is => "something"}
       @cache.stub(:trim!).and_return(true)
@@ -90,23 +92,31 @@ describe RedisCache do
     end
   end
 
+  describe '#purge!' do
+    it 'clears the set in redis' do
+      @cache.stub(:redis).and_return(@redis)
+      @redis.should_receive(:del).with(@cache.send(:set_key))
+      @cache.purge!
+    end
+  end
+
   describe "#populate!" do
     it 'queries the db with the visible post sql string' do
       sql = "long_sql"
       order = "created_at DESC"
       @cache.should_receive(:order).and_return(order)
-      bob.should_receive(:visible_posts_sql).with(hash_including(
-                                                    :type => RedisCache.acceptable_types,
-                                                    :limit => RedisCache::CACHE_LIMIT,
-                                                    :order => order)).
-                                             and_return(sql)
+      bob.should_receive(:visible_shareable_sql).with(
+        Post,
+        hash_including(
+          :type => RedisCache.acceptable_types,
+          :limit => RedisCache::CACHE_LIMIT,
+          :order => order)).
+        and_return(sql)
 
       Post.connection.should_receive(:select_all).with(sql).and_return([])
 
       @cache.populate!
     end
-
-    it 'adds the post from the hash to the cache'
   end
 
   describe "#trim!" do
@@ -133,7 +143,7 @@ describe RedisCache do
         @timestamps << created_time
       end
 
-      post_ids = 100.times.map{|n| n.to_s}
+      post_ids = 100.times.map { |n| n.to_s }
       @cache.trim!
       @cache.post_ids(Time.now.to_i, @cache.size).should == post_ids[0...100]
     end

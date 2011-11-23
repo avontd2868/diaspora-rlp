@@ -64,11 +64,15 @@ module ApplicationHelper
     if current_user.contacts.size > 0
       contacts_path
     else
-      featured_users_path
+      community_spotlight_path
     end
   end
 
   def all_services_connected?
     current_user.services.size == AppConfig[:configured_services].size
+  end
+
+  def popover_with_close_html(without_close_html)
+    without_close_html + "#{link_to(image_tag('deletelabel.png'), "#", :class => 'close')}"
   end
 end

@@ -52,8 +52,8 @@ describe Diaspora::UserModules::Connecting do
       it 'calls remove contact' do
         contact = bob.contact_for(alice.person)
 
-        bob.should_receive(:remove_contact).with(contact)
-        bob.disconnect contact
+        bob.should_receive(:remove_contact).with(contact, {})
+        bob.disconnect(contact)
       end
 
       it 'dispatches a retraction' do
@@ -76,13 +76,13 @@ describe Diaspora::UserModules::Connecting do
     end
   end
 
-  describe '#register_post_visibilities' do
+  describe '#register_share_visibilities' do
     it 'creates post visibilites for up to 100 posts' do
       Post.stub_chain(:where, :limit).and_return([Factory(:status_message, :public => true)])
       c = Contact.create!(:user_id => alice.id, :person_id => eve.person.id)
       expect{
-        alice.register_post_visibilities(c)
-      }.to change(PostVisibility, :count).by(1)
+        alice.register_share_visibilities(c)
+      }.to change(ShareVisibility, :count).by(1)
     end
   end
 
@@ -114,8 +114,8 @@ describe Diaspora::UserModules::Connecting do
       }.should change(contact.aspects, :count).by(1)
     end
 
-    it 'calls #register_post_visibilities with a contact' do
-      eve.should_receive(:register_post_visibilities)
+    it 'calls #register_share_visibilities with a contact' do
+      eve.should_receive(:register_share_visibilities)
       eve.share_with(alice.person, eve.aspects.first)
     end
 
@@ -131,7 +131,7 @@ describe Diaspora::UserModules::Connecting do
       it 'dispatches a request on a share-back' do
         eve.share_with(alice.person, eve.aspects.first)
 
-        contact = alice.contacts.new(:person => eve.person)
+        contact = alice.contact_for(eve.person)
         alice.contacts.stub!(:find_or_initialize_by_person_id).and_return(contact)
 
         contact.should_receive(:dispatch_request)

@@ -23,13 +23,16 @@ class Comment < ActiveRecord::Base
   xml_attr :text
   xml_attr :diaspora_handle
 
-  belongs_to :post
+  belongs_to :commentable, :touch => true, :polymorphic => true
+  alias_attribute :post, :commentable
   belongs_to :author, :class_name => 'Person'
 
   validates :text, :presence => true, :length => { :maximum => 2500 }
   validates :parent, :presence => true #should be in relayable (pending on fixing Message)
 
   serialize :youtube_titles, Hash
+
+  scope :including_author, includes(:author => :profile)
 
   before_save do
     self.text.strip! unless self.text.nil?

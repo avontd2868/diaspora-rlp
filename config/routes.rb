@@ -53,9 +53,11 @@ Diaspora::Application.routes.draw do
     delete "tag_followings" => "tag_followings#destroy"
   end
 
+  post   "multiple_tag_followings" => "tag_followings#create_multiple", :as => 'multiple_tag_followings'
 
   get "tag_followings" => "tag_followings#index", :as => 'tag_followings'
   resources :mentions, :only => [:index]
+  resources "tag_followings", :only => [:create]
 
   get 'tags/:name' => 'tags#show', :as => 'tag'
 
@@ -68,15 +70,17 @@ Diaspora::Application.routes.draw do
   # Users and people
 
   resource :user, :only => [:edit, :update, :destroy], :shallow => true do
+    get :getting_started_completed
     get :export
     get :export_photos
   end
 
   controller :users do
-    get 'public/:username'          => :public,          :as => 'users_public'
-    match 'getting_started'         => :getting_started, :as => 'getting_started'
+    get 'public/:username'          => :public,           :as => 'users_public'
+    match 'getting_started'         => :getting_started,  :as => 'getting_started'
+    match 'privacy'                 => :privacy_settings, :as => 'privacy_settings'
     get 'getting_started_completed' => :getting_started_completed
-    get 'confirm_email/:token'      => :confirm_email,   :as => 'confirm_email'
+    get 'confirm_email/:token'      => :confirm_email,    :as => 'confirm_email'
   end
 
   # This is a hack to overide a route created by devise.
@@ -106,14 +110,15 @@ Diaspora::Application.routes.draw do
   resources :contacts,           :except => [:update, :create] do
     get :sharing, :on => :collection
   end
-  resources :aspect_memberships, :only   => [:destroy, :create, :update]
-  resources :post_visibilities,  :only   => [:update]
+  resources :aspect_memberships, :only  => [:destroy, :create, :update]
+  resources :share_visibilities,  :only => [:update]
+  resources :blocks, :only => [:create, :destroy]
 
-  get 'featured' => 'featured_users#index', :as => 'featured'
+  get 'spotlight' => 'community_spotlight#index', :as => 'spotlight'
 
-  get 'featured_users' => "contacts#featured", :as => 'featured_users'
+  get 'community_spotlight' => "contacts#spotlight", :as => 'community_spotlight'
 
-  get 'soup' => "soups#index", :as => 'soup'
+  get 'stream' => "multis#index", :as => 'multi'
 
   resources :people, :except => [:edit, :update] do
     resources :status_messages
@@ -168,6 +173,7 @@ Diaspora::Application.routes.draw do
   namespace :api do
     namespace :v0 do
       get "/users/:username" => 'users#show', :as => 'user'
+      get "/tags/:name" => 'tags#show', :as => 'tag'
     end
   end
 

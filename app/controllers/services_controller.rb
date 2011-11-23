@@ -26,9 +26,26 @@ class ServicesController < ApplicationController
                                                                :uid => auth['uid'])
     current_user.services << service
 
-    flash[:notice] = I18n.t 'services.create.success'
+    if service.persisted?
+      fetch_photo = current_user.person.profile[:image_url].blank?
+
+      current_user.update_profile(current_user.person.profile.from_omniauth_hash(user))
+      Resque.enqueue(Jobs::FetchProfilePhoto, current_user.id, service.id, user["image"]) if fetch_photo
+
+      flash[:notice] = I18n.t 'services.create.success'
+    else
+      flash[:error] = I18n.t 'services.create.failure'
+
+      if existing_service = Service.where(:type => service.type.to_s, :uid => service.uid).first
+        flash[:error] <<  I18n.t('services.create.already_authorized',
+                                    :diaspora_id => existing_service.user.person.profile.diaspora_handle,
+                                    :service_name => provider.camelize )
+:A
+      end
+    end
+
     if current_user.getting_started
-      redirect_to  getting_started_path(:step => 3)
+      redirect_to  getting_started_path
     else
       redirect_to services_url
     end
@@ -49,8 +66,8 @@ class ServicesController < ApplicationController
 
   def finder
     @finder = true
-    service = current_user.services.where(:type => "Services::#{params[:provider].titleize}").first
-    @friends = service ? service.finder(:remote => params[:remote]).paginate( :page => params[:page], :per_page => 15) : []
+    @service = current_user.services.where(:type => "Services::#{params[:provider].titleize}").first
+    @friends = @service ? @service.finder(:remote => params[:remote]).paginate( :page => params[:page], :per_page => 15) : []
   end
 
   def inviter
