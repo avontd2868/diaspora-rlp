@@ -10,6 +10,8 @@ en:
   profile: "Profile"
   account: "Account"
   privacy: "Privacy"
+  privacy_policy: "Privacy Policy"
+  terms_and_conditions: "Terms and Conditions"
   _services: "Services"
   _applications: "Applications"
   _photos: "photos"
@@ -25,6 +27,7 @@ en:
   password: "Password"
   password_confirmation: "Password confirmation"
   are_you_sure: "Are you sure?"
+  are_you_sure_delete_account: "Are you sure you want to close your account? This can't be undone!"
   fill_me_out: "Fill me out"
   back: "Back"
   public: "Public"
@@ -549,6 +552,7 @@ en:
       message: "Message"
       mention: "Mention"
       ignoring: "You are ignoring all posts from %{name}."
+      closed_account: "This account has been closed."
     sub_header:
       you_have_no_tags: "you have no tags!"
       add_some: "add some"
@@ -807,6 +811,8 @@ en:
       unlike: "Unlike"
       dislike: "Dislike"
       shared_with: "Shared with: %{aspect_names}"
+      nsfw: "This post has been flagged as NSFW by its author. %{link}"
+      show: "show"
     footer:
       logged_in_as: "logged in as %{name}"
       your_aspects: "your aspects"
@@ -846,10 +852,12 @@ en:
       following: "Following #%{tag}"
       stop_following: "Stop Following #%{tag}"
       followed_by: 'followed by'
+      none: "The empty tag does not exist!"
   tag_followings:
     create:
       success: "Hooray!  You're now following #%{name}."
       failure: "Failed to follow #%{name}.  Are you already following it?"
+      none: "You cannot follow a blank tag!"
     destroy:
       success: "Alas! You aren't following #%{name} anymore."
       failure: "Failed to stop following #%{name}. Maybe you already stopped following it?"
@@ -865,7 +873,6 @@ en:
       daniels_account: "Daniel's Diaspora account"
       making_the_connection: "Making the Connection"
       connecting_is_simple: "Connecting your Diaspora account is simple!  Just enter your Diaspora ID (<b>%{diaspora_id}</b>) from your cubbies <a href='%{href_link}'>settings page</a> and hit connect."
-      log_in_with_diaspora_is_comming: "Pretty soon, you'll be able to connect to a new application without creating an account separate from your one on Diaspora."
       via: "(via %{link})"
 
   authorizations:
@@ -885,6 +892,14 @@ en:
     mentions:
       title: "@Mentions"
       contacts_title: "People who mentioned you"
+
+    comment_stream:
+      title: "Commented Posts"
+      contacts_title: "People whose posts you commented on"
+
+    like_stream:
+      title: "Like Stream"
+      contacts_title: "People whose posts you like"
 
     followed_tag:
       title: "#Followed Tags"
@@ -919,7 +934,7 @@ en:
     edit:
       export_data: "Export Data"
       photo_export_unavailable: "Photo exporting currently unavailable"
-      close_account: "Close Account"
+      close_account_text: "Close Account"
       change_language: "Change language"
       change_password: "Change password"
       change_email: "Change email"
@@ -944,6 +959,16 @@ en:
       show_community_spotlight: "Show Community Spotlight in Stream?"
       show_getting_started: 'Re-enable Getting Started'
       getting_started: 'New User Prefrences'
+
+      close_account:
+        dont_go: "Hey, please don't go!"
+        make_diaspora_better: "We want you to help us make Diaspora better, so you should help us out instead of leaving. If you do want to leave, we want you to know what happens next."
+        mr_wiggles: 'Mr Wiggles will be sad to see you go'
+        what_we_delete: "We delete all of your posts, profile data, as soon as humanly possible. Your comments will hang around, but be associated with your Diaspora Handle."
+        locked_out: "You will get signed out and locked out of your account."
+        lock_username: "This will lock your username if you decided to sign back up."
+        no_turning_back: "Currently, there is no turning back."
+        if_you_want_this: "If you really want this, type in your password below and click 'Close Account'"
 
     privacy_settings:
       title: "Privacy Settings"
@@ -989,6 +1014,10 @@ en:
     confirm_email:
       email_confirmed: "Email %{email} activated"
       email_not_confirmed: "Email could not be activated. Wrong link?"
+
+  will_paginate:
+    previous_label: "&laquo; previous"
+    next_label: "next &raquo;"
 
   webfinger:
     fetch_failed: "failed to fetch webfinger profile for %{profile_url}"

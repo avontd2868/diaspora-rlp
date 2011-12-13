@@ -91,6 +91,16 @@ describe PeopleController do
       get :index, :q => '#babi.es'
       response.should redirect_to(tag_path('babies', :q => '#babi.es'))
     end
+
+    it 'stay on the page if you search for the empty hash' do
+      get :index, :q => '#'
+      flash[:error].should be_present
+    end
+
+    it 'does not fails if you search for the empty term' do
+      get :index, :q => ''
+      response.should be_success
+    end
   end
 
   describe '#tag_index' do
@@ -149,6 +159,13 @@ describe PeopleController do
     it "404s if no person is found via username" do
       get :show, :username => 'delicious'
       response.code.should == "404"
+    end
+
+    it 'redirects home for closed account' do
+      @person = Factory.create(:person, :closed_account => true)
+      get :show, :id => @person.id
+      response.should be_redirect
+      flash[:notice].should_not be_blank
     end
 
     it 'does not allow xss attacks' do
@@ -330,7 +347,7 @@ describe PeopleController do
       contact = alice.contact_for(bob.person)
       contacts = contact.contacts
       get :contacts, :person_id => bob.person.id
-      assigns(:contacts_of_contact).should == contacts
+      assigns(:contacts_of_contact).should =~ contacts
       response.should be_success
     end
 

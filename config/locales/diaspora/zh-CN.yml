@@ -48,6 +48,7 @@ zh-CN:
       video_title:
         unknown: "未知影片标题"
   are_you_sure: 你确定吗？
+  are_you_sure_delete_account: "Are you sure you want to close your account? This can't be undone!"
   aspect_memberships:
     destroy:
       failure: "从视图中移除好友失败"
@@ -516,6 +517,7 @@ zh-CN:
       remove_contact: "解除好友关系"
       remove_from: "要从 %{aspect} 删除 %{name} 吗？"
     show:
+      closed_account: "This account has been closed."
       does_not_exist: 好友不存在！
       has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
       ignoring: "You are ignoring all posts from %{name}."
@@ -578,6 +580,7 @@ zh-CN:
       permalink: "permalink"
   previous: "上一步"
   privacy: "Privacy"
+  privacy_policy: "Privacy Policy"
   profile: "个人档案"
   profiles:
     edit:
@@ -768,7 +771,9 @@ zh-CN:
       ignore_user: "Ignore %{name}"
       ignore_user_description: "Ignore and remove user from all aspects?"
       like: "喜欢"
+      nsfw: "This post has been flagged as NSFW by its author. %{link}"
       shared_with: "Shared with: %{aspect_names}"
+      show: "show"
       unlike: "不喜欢"
       via: "通过 %{link}"
       viewable_to_anyone: "This post is viewable to anyone on the web"
@@ -801,6 +806,9 @@ zh-CN:
     aspects:
       title: "Your Aspects"
     aspects_stream: "Aspects"
+    comment_stream:
+      contacts_title: "People whose posts you commented on"
+      title: "Commented Posts"
     commented_on: "commented on"
     community_spotlight_stream: "Community Spotlight"
     followed_tag:
@@ -809,6 +817,9 @@ zh-CN:
       follow: "Follow"
       title: "#Followed Tags"
     followed_tags_stream: "#Followed Tags"
+    like_stream:
+      contacts_title: "People whose posts you like"
+      title: "Like Stream"
     mentioned_stream: "@Mentions"
     mentions:
       contacts_title: "People who mentioned you"
@@ -828,6 +839,7 @@ zh-CN:
   tag_followings:
     create:
       failure: "Failed to follow: #%{name}"
+      none: "You cannot follow a blank tag!"
       success: "Successfully following: #%{name}"
     destroy:
       failure: "Failed to stop following: #%{name}"
@@ -838,15 +850,16 @@ zh-CN:
       followed_by: "followed by"
       following: "Following #%{tag}"
       nobody_talking: "尚还没有人在讨论 %{tag}。"
+      none: "The empty tag does not exist!"
       people_tagged_with: "标记为 %{tag} 的人"
       posts_tagged_with: "标记为 #%{tag} 的内容"
       stop_following: "Stop Following #%{tag}"
+  terms_and_conditions: "Terms and Conditions"
   tokens:
     show:
       connect_to_cubbies: "Connect to Cubbi.es"
       connecting_is_simple: "Connecting your Diaspora account is as simple as filling out two fields on your Cubbi.es account page."
       daniels_account: "Daniel's Diaspora account"
-      log_in_with_diaspora_is_comming: "Pretty soon, you'll be able to connect to a new application without creating an account separate from your one on Diaspora."
       love_to_try: "We'd love for you to try it out."
       making_the_connection: "Making the Connection"
       screenshot_explanation: "%{link1}.  This particular cubby is linked to %{link2}."
@@ -870,7 +883,16 @@ zh-CN:
       change_email: "Change E-Mail"
       change_language: "更改语言"
       change_password: "更改密码"
-      close_account: "关闭帐号"
+      close_account:
+        dont_go: "Hey, please don't go!"
+        if_you_want_this: "If you really want this, type in your password below and click 'Close Account'"
+        lock_username: "This will lock your username if you decided to sign back up."
+        locked_out: "You will get signed out and locked out of your account."
+        make_diaspora_better: "We want you to help us make Diaspora better, so you should help us out instead of leaving. If you do want to leave, we want you to know what happens next."
+        mr_wiggles: "Mr Wiggles will be sad to see you go"
+        no_turning_back: "Currently, there is no turning back."
+        what_we_delete: "We delete all of your posts, profile data, as soon as humanly possible. Your comments will hang around, but be associated with your Diaspora Handle."
+      close_account_text: "Close Account"
       comment_on_post: ……当有人对您的内容发表评论时？
       current_password: "当前密码"
       download_photos: "下载我的照片"
@@ -933,3 +955,6 @@ zh-CN:
     not_enabled: "%{account} 的主机似乎没有启用 webfinger"
     xrd_fetch_failed: "从 %{account} 这个帐号取得 xrd 时发生错误"
   welcome: Welcome!
+  will_paginate:
+    next_label: "next &raquo;"
+    previous_label: "&laquo; previous"

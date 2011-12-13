@@ -19,9 +19,15 @@ class PeopleController < ApplicationController
     @aspect = :search
     params[:q] ||= params[:term] || ''
 
-    if (params[:q][0] == 35 || params[:q][0] == '#') && params[:q].length > 1
-      redirect_to tag_path(:name => params[:q].gsub(/[#\.]/, ''), :q => params[:q])
-      return
+    if params[:q][0] == 35 || params[:q][0] == '#'
+      if params[:q].length > 1
+        tag_name = params[:q].gsub(/[#\.]/, '')
+        redirect_to tag_path(:name => tag_name, :q => params[:q])
+        return
+      else
+        flash[:error] = I18n.t('tags.show.none', :name => params[:q])
+        redirect_to :back
+      end
     end
 
     limit = params[:limit] ? params[:limit].to_i : 15
@@ -82,6 +88,11 @@ class PeopleController < ApplicationController
 
     if remote_profile_with_no_user_session?
       raise ActiveRecord::RecordNotFound
+    end
+
+    if @person.closed_account?
+      redirect_to :back, :notice => t("people.show.closed_account")
+      return
     end
 
     @post_type = :all
@@ -171,6 +182,4 @@ class PeopleController < ApplicationController
   def remote_profile_with_no_user_session?
     @person && @person.remote? && !user_signed_in?
   end
-
-
 end

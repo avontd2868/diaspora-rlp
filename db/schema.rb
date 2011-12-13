@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111101202137) do
+ActiveRecord::Schema.define(:version => 20111207233503) do
+
+  create_table "account_deletions", :force => true do |t|
+    t.string  "diaspora_handle"
+    t.integer "person_id"
+  end
 
   create_table "aspect_memberships", :force => true do |t|
     t.integer  "aspect_id",  :null => false
@@ -54,17 +58,17 @@ ActiveRecord::Schema.define(:version => 20111101202137) do
   end
 
   create_table "comments", :force => true do |t|
-    t.text     "text",                                        :null => false
-    t.integer  "commentable_id",                              :null => false
-    t.integer  "author_id",                                   :null => false
-    t.string   "guid",                                        :null => false
+    t.text     "text",                                                      :null => false
+    t.integer  "commentable_id",                                            :null => false
+    t.integer  "author_id",                                                 :null => false
+    t.string   "guid",                                                      :null => false
     t.text     "author_signature"
     t.text     "parent_author_signature"
     t.text     "youtube_titles"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "likes_count",             :default => 0,      :null => false
-    t.string   "commentable_type",        :default => "Post", :null => false
+    t.integer  "likes_count",                           :default => 0,      :null => false
+    t.string   "commentable_type",        :limit => 60, :default => "Post", :null => false
   end
 
   add_index "comments", ["author_id"], :name => "index_comments_on_person_id"
@@ -195,17 +199,17 @@ ActiveRecord::Schema.define(:version => 20111101202137) do
   add_index "o_embed_caches", ["url"], :name => "index_o_embed_caches_on_url", :length => {"url"=>255}
 
   create_table "oauth_access_tokens", :force => true do |t|
-    t.integer  "authorization_id",               :null => false
-    t.string   "access_token",     :limit => 32, :null => false
-    t.string   "refresh_token",    :limit => 32
+    t.integer  "authorization_id",                :null => false
+    t.string   "access_token",     :limit => 127, :null => false
+    t.string   "refresh_token",    :limit => 127
     t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "oauth_authorization_codes", :force => true do |t|
-    t.integer  "authorization_id",               :null => false
-    t.string   "code",             :limit => 32, :null => false
+    t.integer  "authorization_id",                :null => false
+    t.string   "code",             :limit => 127, :null => false
     t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -227,11 +231,12 @@ ActiveRecord::Schema.define(:version => 20111101202137) do
     t.text   "description",                         :null => false
     t.string "application_base_url", :limit => 127, :null => false
     t.string "icon_url",             :limit => 127, :null => false
-    t.string "oauth_identifier",     :limit => 32,  :null => false
-    t.string "oauth_secret",         :limit => 32,  :null => false
-    t.string "nonce",                :limit => 64
+    t.string "oauth_identifier",     :limit => 127, :null => false
+    t.string "oauth_secret",         :limit => 127, :null => false
+    t.string "nonce",                :limit => 127
     t.text   "public_key",                          :null => false
     t.text   "permissions_overview",                :null => false
+    t.string "oauth_redirect_uri"
   end
 
   add_index "oauth_clients", ["application_base_url"], :name => "index_oauth_clients_on_application_base_url", :unique => true
@@ -239,13 +244,14 @@ ActiveRecord::Schema.define(:version => 20111101202137) do
   add_index "oauth_clients", ["nonce"], :name => "index_oauth_clients_on_nonce", :unique => true
 
   create_table "people", :force => true do |t|
-    t.string   "guid",                  :null => false
-    t.text     "url",                   :null => false
-    t.string   "diaspora_handle",       :null => false
-    t.text     "serialized_public_key", :null => false
+    t.string   "guid",                                     :null => false
+    t.text     "url",                                      :null => false
+    t.string   "diaspora_handle",                          :null => false
+    t.text     "serialized_public_key",                    :null => false
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "closed_account",        :default => false
   end
 
   add_index "people", ["diaspora_handle"], :name => "index_people_on_diaspora_handle", :unique => true
@@ -253,6 +259,7 @@ ActiveRecord::Schema.define(:version => 20111101202137) do
   add_index "people", ["owner_id"], :name => "index_people_on_owner_id", :unique => true
 
   create_table "photos", :force => true do |t|
+    t.integer  "tmp_old_id"
     t.integer  "author_id",                              :null => false
     t.boolean  "public",              :default => false, :null => false
     t.string   "diaspora_handle"
@@ -372,12 +379,12 @@ ActiveRecord::Schema.define(:version => 20111101202137) do
   add_index "services", ["user_id"], :name => "index_services_on_user_id"
 
   create_table "share_visibilities", :force => true do |t|
-    t.integer  "shareable_id",                       :null => false
+    t.integer  "shareable_id",                                     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "hidden",         :default => false,  :null => false
-    t.integer  "contact_id",                         :null => false
-    t.string   "shareable_type", :default => "Post", :null => false
+    t.boolean  "hidden",                       :default => false,  :null => false
+    t.integer  "contact_id",                                       :null => false
+    t.string   "shareable_type", :limit => 60, :default => "Post", :null => false
   end
 
   add_index "share_visibilities", ["contact_id"], :name => "index_post_visibilities_on_contact_id"

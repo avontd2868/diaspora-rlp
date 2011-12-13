@@ -48,6 +48,7 @@ en_pirate:
       video_title:
         unknown: "Unknown Video Title"
   are_you_sure: "Are you sure?"
+  are_you_sure_delete_account: "Are you sure you want to close your account? This can't be undone!"
   aspect_memberships:
     destroy:
       failure: "Blast! Failed to kick matey out yer crew"
@@ -111,9 +112,9 @@ en_pirate:
         here_to_help: "Diaspora community is here to help!"
         need_help: "Need Help?"
         satisfaction: "%{link}: Community-powered support"
-        tag_bug: "#bug"
-        tag_feature: "#feature"
-        tag_question: "#question"
+        tag_bug: "bug"
+        tag_feature: "feature"
+        tag_question: "question"
         tutorials_wiki_and_forum: "%{tutorial} & %{wiki} & %{forum}: Community-powered tutorials, how-to, and news"
       introduce_yourself: "This is your stream.  Jump in and introduce yourself."
       keep_us_running: "Keep %{pod} running fast, buy our servers their monthly coffee fix!"
@@ -516,6 +517,7 @@ en_pirate:
       remove_contact: "remove contact"
       remove_from: "Remove %{name} from %{aspect}?"
     show:
+      closed_account: "This account has been closed."
       does_not_exist: "Person does not exist!"
       has_not_shared_with_you_yet: "%{name} has not shared any posts with you yet!"
       ignoring: "You are ignoring all posts from %{name}."
@@ -578,6 +580,7 @@ en_pirate:
       permalink: "permalink"
   previous: "previous"
   privacy: "Privacy"
+  privacy_policy: "Privacy Policy"
   profile: "Profile"
   profiles:
     edit:
@@ -768,7 +771,9 @@ en_pirate:
       ignore_user: "Ignore %{name}"
       ignore_user_description: "Ignore and remove user from all aspects?"
       like: "Like"
+      nsfw: "This post has been flagged as NSFW by its author. %{link}"
       shared_with: "Fired at: %{aspect_names}"
+      show: "show"
       unlike: "Unlike"
       via: "via %{link}"
       viewable_to_anyone: "This post is viewable to anyone on the web"
@@ -801,6 +806,9 @@ en_pirate:
     aspects:
       title: "Your Aspects"
     aspects_stream: "Aspects"
+    comment_stream:
+      contacts_title: "People whose posts you commented on"
+      title: "Commented Posts"
     commented_on: "commented on"
     community_spotlight_stream: "Community Spotlight"
     followed_tag:
@@ -809,6 +817,9 @@ en_pirate:
       follow: "Follow"
       title: "#Followed Tags"
     followed_tags_stream: "#Followed Tags"
+    like_stream:
+      contacts_title: "People whose posts you like"
+      title: "Like Stream"
     mentioned_stream: "@Mentions"
     mentions:
       contacts_title: "People who mentioned you"
@@ -828,6 +839,7 @@ en_pirate:
   tag_followings:
     create:
       failure: "Failed to follow: #%{name}"
+      none: "You cannot follow a blank tag!"
       success: "Successfully following: #%{name}"
     destroy:
       failure: "Failed to stop following: #%{name}"
@@ -838,15 +850,16 @@ en_pirate:
       followed_by: "followed by"
       following: "Following #%{tag}"
       nobody_talking: "Nobody is talking about %{tag} yet."
+      none: "The empty tag does not exist!"
       people_tagged_with: "People tagged with %{tag}"
       posts_tagged_with: "Posts tagged with #%{tag}"
       stop_following: "Stop Following #%{tag}"
+  terms_and_conditions: "Terms and Conditions"
   tokens:
     show:
       connect_to_cubbies: "Connect to Cubbi.es"
       connecting_is_simple: "Connecting your Diaspora account is simple!  Just enter your Diaspora ID (<b>%{diaspora_id}</b>) from your cubbies <a href='%{href_link}'>settings page</a> and hit connect."
       daniels_account: "Daniel's Diaspora account"
-      log_in_with_diaspora_is_comming: "Pretty soon, you'll be able to connect to a new application without creating an account separate from your one on Diaspora."
       love_to_try: "We'd love for you to try it out."
       making_the_connection: "Making the Connection"
       screenshot_explanation: "%{link1}.  This particular cubby is linked to %{link2}."
@@ -870,7 +883,16 @@ en_pirate:
       change_email: "Change email"
       change_language: "Change language"
       change_password: "Change password"
-      close_account: "Close Account"
+      close_account:
+        dont_go: "Hey, please don't go!"
+        if_you_want_this: "If you really want this, type in your password below and click 'Close Account'"
+        lock_username: "This will lock your username if you decided to sign back up."
+        locked_out: "You will get signed out and locked out of your account."
+        make_diaspora_better: "We want you to help us make Diaspora better, so you should help us out instead of leaving. If you do want to leave, we want you to know what happens next."
+        mr_wiggles: "Mr Wiggles will be sad to see you go"
+        no_turning_back: "Currently, there is no turning back."
+        what_we_delete: "We delete all of your posts, profile data, as soon as humanly possible. Your comments will hang around, but be associated with your Diaspora Handle."
+      close_account_text: "Close Account"
       comment_on_post: "...someone comments on your post?"
       current_password: "Current password"
       download_photos: "download my photos"
@@ -933,3 +955,6 @@ en_pirate:
     not_enabled: "webfinger does not seem to be enabled for %{account}'s host"
     xrd_fetch_failed: "there was an error getting the xrd from account %{account}"
   welcome: Welcome!
+  will_paginate:
+    next_label: "next &raquo;"
+    previous_label: "&laquo; previous"
