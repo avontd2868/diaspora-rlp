@@ -3,6 +3,7 @@
 #   the COPYRIGHT file.
 
 
+
 de_formal:
   javascripts:
     aspect_dropdown:
@@ -46,6 +47,28 @@ de_formal:
       duplicate: "Sie haben diesen Beitrag bereits weitergesagt!"
     search_for: "Nach {{name}} suchen"
     show_more: "Mehr zeigen"
+    stream:
+      likes:
+        few: "<%= count %> Likes"
+        many: "<%= count %> Likes"
+        one: "<%= count %> Like"
+        other: "<%= count %> Likes"
+        two: "<%= count %> Likes"
+        zero: "<%= count %> Likes"
+      more_comments:
+        few: "Show <%= count %> more comments"
+        many: "Show <%= count %> more comments"
+        one: "Show <%= count %> more comment"
+        other: "Show <%= count %> more comments"
+        two: "Show <%= count %> more comments"
+        zero: "Show <%= count %> more comments"
+      reshares:
+        few: "<%= count %> Reshares"
+        many: "<%= count %> Reshares"
+        one: "<%= count %> Reshare"
+        other: "<%= count %> Reshares"
+        two: "<%= count %> Reshares"
+        zero: "<%= count %> Reshares"
     tags:
       wasnt_that_interesting: "OK, ich nehme an, #{{tagName}} war nicht so interessant..."
     timeago:
@@ -57,8 +80,8 @@ de_formal:
       minutes: "%d Minuten"
       month: "etwa einem Monat"
       months: "%d Monaten"
-      prefixAgo: "vor"
-      prefixFromNow: "in"
+      prefixAgo: vor
+      prefixFromNow: in
       seconds: "wenigen Sekunden"
       suffixAgo: ""
       suffixFromNow: ""
@@ -67,5 +90,3 @@ de_formal:
     videos:
       unknown: "Unbekanntes Videoformat"
       watch: "Dieses Video auf {{provider}} ansehen"
-    web_sockets:
-      disconnected: "Der Websocket ist geschlossen. Beiträge werden nicht länger in Echtzeit aktualisiert."

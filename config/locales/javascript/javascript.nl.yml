@@ -3,10 +3,11 @@
 #   the COPYRIGHT file.
 
 
+
 nl:
   javascripts:
     aspect_dropdown:
-      add_to_aspect: "Voeg toe aan aspect"
+      add_to_aspect: "Voeg contact toe"
       all_aspects: "Alle aspecten"
       error: "Couldn't start sharing with {{name}}.  Are you ignoring them?"
       select_aspects: "Selecteer aspecten"
@@ -27,17 +28,30 @@ nl:
       hide: "verberg reacties"
       show: "laat reacties zien"
     confirm_dialog: "Weet je het zeker?"
+    delete: Verwijder
     failed_to_like: "Leuk vinden mislukt!"
     failed_to_post_message: "Bericht plaatsen mislukt!"
     getting_started:
       alright_ill_wait: "Prima, ik wacht wel."
       hey: "Hey, {{name}}!"
-      no_tags: "Hey, you haven't followed any tags!  Continue anyway?"
+      no_tags: "Hey, je volgt geen tags! Toch doorgaan?"
       preparing_your_stream: "Preparing your personialized stream..."
+    header:
+      contacts: Contacten
+      log_out: "Log uit"
+      mark_all_as_read: "Markeer alles gelezen"
+      messages: Berichten
+      notifications: Notificaties
+      profile: Profiel
+      recent_notifications: "Recente Notificaties"
+      search: "Vind mensen of #tags"
+      settings: Instellingen
+      view_all: "Bekijk alle"
+    ignore: Negeer
     infinite_scroll:
       no_more: "Geen posts meer."
     photo_uploader:
-      looking_good: "OMG, you look awesome!"
+      looking_good: "Wow, wat ben je knap!"
     publisher:
       at_least_one_aspect: "Je moet op zijn minst één aspect publiceren"
       limited: "Gelimiteerd - je post is alleen zichtbaar voor de mensen waarmee je hem deelt"
@@ -46,6 +60,38 @@ nl:
       duplicate: "Je hebt deze post al doorgegeven!"
     search_for: "Zoek naar {{name}}"
     show_more: "laat meer zien"
+    stream:
+      comment: Reageer
+      hide: Verberg
+      like: "Vind ik leuk"
+      likes:
+        few: "<%= count %> mensen vinden dit leuk"
+        many: "<%= count %> mensen vinden dit leuk"
+        one: "<%= count %> mensen vinden dit leuk"
+        other: "<%= count %> mensen vinden dit leuk"
+        two: "<%= count %> mensen vinden dit leuk"
+        zero: "<%= count %> mensen vinden dit leuk"
+      limited: "Beperkt zichtbaar"
+      more_comments:
+        few: "Toon nog <%= count %> reacties"
+        many: "Toon nog <%= count %> reacties"
+        one: "Toon nog <%= count %> reacties"
+        other: "Toon nog <%= count %> reacties"
+        two: "Toon nog <%= count %> reacties"
+        zero: "Toon nog <%= count %> reacties"
+      nsfw: "Deze post is aangemerkt als NSFW door de auteur."
+      original_post_deleted: "Originele post verwijderd door de auteur."
+      public: Openbaar
+      reshare: Doorgeven
+      reshares:
+        few: "<%= count %> Doorgaven"
+        many: "<%= count %> Doorgaven"
+        one: "<%= count %> Doorgaven"
+        other: "<%= count %> Doorgaven"
+        two: "<%= count %> Doorgaven"
+        zero: "<%= count %> doorgaven"
+      show: Toon
+      unlike: "Vind ik niet meer leuk"
     tags:
       wasnt_that_interesting: "OK, I suppose #{{tagName}} wasn't all that interesting..."
     timeago:
@@ -57,15 +103,11 @@ nl:
       minutes: "%d minuten"
       month: "ongeveer een maand"
       months: "%d maanden"
-      prefixAgo: ""
-      prefixFromNow: ""
       seconds: "iets minder dan een minuut"
-      suffixAgo: "geleden"
+      suffixAgo: geleden
       suffixFromNow: "vanaf nu"
       year: "ongeveer een jaar"
       years: "%d jaar"
     videos:
       unknown: "Onbekend video type"
       watch: "Bekijk deze video op {{provider}}"
-    web_sockets:
-      disconnected: "De websocket is gesloten; posts worden niet langer live gestreamd."

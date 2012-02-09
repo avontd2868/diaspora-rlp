@@ -17,8 +17,32 @@ class Reshare < Post
     self.public = true
   end
 
+  after_create do
+    self.root.update_reshares_counter
+  end
+
+  after_destroy do
+    self.root.update_reshares_counter if self.root.present?
+  end
+
   def root_diaspora_id
     self.root.author.diaspora_handle
+  end
+
+  def o_embed_cache
+    self.root ? root.o_embed_cache : super
+  end
+
+  def raw_message
+    self.root ? root.raw_message : super
+  end
+
+  def mentioned_people
+    self.root ? root.mentioned_people : super
+  end
+
+  def photos
+    self.root ? root.photos : nil
   end
 
   def receive(recipient, sender)
@@ -36,7 +60,7 @@ class Reshare < Post
   def notification_type(user, person)
     Notifications::Reshared if root.author == user.person
   end
-  
+
   private
 
   def after_parse
@@ -46,7 +70,7 @@ class Reshare < Post
     return if Post.exists?(:guid => self.root_guid)
 
     fetched_post = self.class.fetch_post(root_author, self.root_guid)
-    
+
     if fetched_post
       #Why are we checking for this?
       if root_author.diaspora_handle != fetched_post.diaspora_handle
@@ -71,7 +95,7 @@ class Reshare < Post
 
   def root_must_be_public
     if self.root && !self.root.public
-      errors[:base] << "you must reshare public posts"
+      errors[:base] << "Only posts which are public may be reshared."
       return false
     end
   end

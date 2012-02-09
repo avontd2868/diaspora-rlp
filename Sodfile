@@ -1,6 +1,0 @@
-production:
-  user: root
-  repo: git@github.com:geraspora/diaspora-rlp.git
-  app_dir: /usr/local/app
-  cookbook: debian
-  ruby_version: ree-1.8.7-2011.03

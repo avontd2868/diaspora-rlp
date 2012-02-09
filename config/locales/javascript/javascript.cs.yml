@@ -3,13 +3,13 @@
 #   the COPYRIGHT file.
 
 
+
 cs:
   javascripts:
     aspect_dropdown:
       add_to_aspect: "Přidat kontakt"
       all_aspects: "Všechny aspekty"
       error: "Couldn't start sharing with {{name}}.  Are you ignoring them?"
-      select_aspects: "Select aspects"
       started_sharing_with: "You have started sharing with {{name}}!"
       stopped_sharing_with: "You have stopped sharing with {{name}}."
       toggle:
@@ -19,10 +19,6 @@ cs:
         other: "Ve {{count}} aspektech"
         two: "Ve {{count}} aspektech"
         zero: "Vybrat aspekty"
-    aspect_navigation:
-      deselect_all: "Deselect all"
-      no_aspects: "No aspects selected"
-      select_all: "Select all"
     comments:
       hide: "skrýt komentáře"
       show: "zobrazit všechny komentáře"
@@ -30,14 +26,10 @@ cs:
     failed_to_like: "Oblíbení se nezdařilo!"
     failed_to_post_message: "Odeslání příspěvku se nezdařilo!"
     getting_started:
-      alright_ill_wait: "Alright, I'll wait."
       hey: "Hey, {{name}}!"
-      no_tags: "Hey, you haven't followed any tags!  Continue anyway?"
       preparing_your_stream: "Preparing your personialized stream..."
     infinite_scroll:
       no_more: "Žádné další příspěvky."
-    photo_uploader:
-      looking_good: "OMG, you look awesome!"
     publisher:
       at_least_one_aspect: "Musíte publikovat alespoň do jednoho aspektu"
       limited: "Omezený - váše zpráva bude přístupná pouze lidem z vybraných aspektů"
@@ -46,19 +38,40 @@ cs:
       duplicate: "Tato zprávu už sdílíte!"
     search_for: "Hledat {{name}}"
     show_more: "zobrazit více"
+    stream:
+      likes:
+        few: "<%= count %> Likes"
+        many: "<%= count %> Likes"
+        one: "<%= count %> Like"
+        other: "<%= count %> Likes"
+        two: "<%= count %> Likes"
+        zero: "<%= count %> Likes"
+      more_comments:
+        few: "Show <%= count %> more comments"
+        many: "Show <%= count %> more comments"
+        one: "Show <%= count %> more comment"
+        other: "Show <%= count %> more comments"
+        two: "Show <%= count %> more comments"
+        zero: "Show <%= count %> more comments"
+      reshares:
+        few: "<%= count %> Reshares"
+        many: "<%= count %> Reshares"
+        one: "<%= count %> Reshare"
+        other: "<%= count %> Reshares"
+        two: "<%= count %> Reshares"
+        zero: "<%= count %> Reshares"
     tags:
       wasnt_that_interesting: "OK, I suppose #{{tagName}} wasn't all that interesting..."
     timeago:
       day: "1 dnem"
       days: "%d dny"
-      hour: "hodinou"
+      hour: hodinou
       hours: "%d hodinami"
-      minute: "minutou"
+      minute: minutou
       minutes: "%d minutami"
       month: "1 měsícem"
       months: "%d měsíci"
-      prefixAgo: "před"
-      prefixFromNow: ""
+      prefixAgo: před
       seconds: "méně než minutou"
       suffixAgo: ""
       suffixFromNow: ""
@@ -67,5 +80,3 @@ cs:
     videos:
       unknown: "Neznámý typ videa"
       watch: "Podívejte se na tohle video na {{provider}}"
-    web_sockets:
-      disconnected: "Websocket je uzavřen, příspěvky již nebude možno sledovat živě."

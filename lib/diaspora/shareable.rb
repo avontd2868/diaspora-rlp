@@ -4,7 +4,6 @@
 
 module Diaspora
   module Shareable
-    require File.join(Rails.root, 'lib/diaspora/web_socket')
     include Diaspora::Webhooks
 
     def self.included(model)
@@ -62,14 +61,6 @@ module Diaspora
       write_attribute(:diaspora_handle, nd)
     end
 
-    def user_refs
-      if AspectVisibility.exists?(:shareable_id => self.id, :shareable_type => self.class.base_class.to_s)
-        self.share_visibilities.count + 1
-      else
-        self.share_visibilities.count
-      end
-    end
-
     # @param [User] user The user that is receiving this shareable.
     # @param [Person] person The person who dispatched this shareable to the
     # @return [void]
@@ -107,6 +98,11 @@ module Diaspora
       end
     end
 
+    # @return [Integer]
+    def update_reshares_counter
+      self.class.where(:id => self.id).
+        update_all(:reshares_count => self.reshares.count)
+    end
 
     protected
 

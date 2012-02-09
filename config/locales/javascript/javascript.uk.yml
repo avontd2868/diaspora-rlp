@@ -3,6 +3,7 @@
 #   the COPYRIGHT file.
 
 
+
 uk:
   javascripts:
     aspect_dropdown:
@@ -46,10 +47,32 @@ uk:
       duplicate: "Настільки круто, так? Ви вже поділилися цим записом!"
     search_for: "Шукати {{name}}"
     show_more: "показати більше"
+    stream:
+      likes:
+        few: "<%= count %> Likes"
+        many: "<%= count %> Likes"
+        one: "<%= count %> Like"
+        other: "<%= count %> Likes"
+        two: "<%= count %> Likes"
+        zero: "<%= count %> Likes"
+      more_comments:
+        few: "Show <%= count %> more comments"
+        many: "Show <%= count %> more comments"
+        one: "Show <%= count %> more comment"
+        other: "Show <%= count %> more comments"
+        two: "Show <%= count %> more comments"
+        zero: "Show <%= count %> more comments"
+      reshares:
+        few: "<%= count %> Reshares"
+        many: "<%= count %> Reshares"
+        one: "<%= count %> Reshare"
+        other: "<%= count %> Reshares"
+        two: "<%= count %> Reshares"
+        zero: "<%= count %> Reshares"
     tags:
       wasnt_that_interesting: "OK, мабуть, стежити за міткою #{{tagName}} було не так вже цікаво..."
     timeago:
-      day: "день"
+      day: день
       days: "%d днів[-я]"
       hour: "близько години"
       hours: "близько %d годин"
@@ -57,15 +80,13 @@ uk:
       minutes: "%d хвилин[-и]"
       month: "близько місяця"
       months: "%d місяця[-ів]"
-      prefixAgo: "близько"
-      prefixFromNow: "через"
+      prefixAgo: близько
+      prefixFromNow: через
       seconds: "декілька секунд"
-      suffixAgo: "назад"
+      suffixAgo: назад
       suffixFromNow: "з цієї миті"
       year: "близько року"
       years: "%d років"
     videos:
       unknown: "Невідомий відеоформат"
       watch: "Дивитися це відео на {{provider}}"
-    web_sockets:
-      disconnected: "WebSocket закритий; повідомлення більше не транслюватимуться в прямому ефірі."

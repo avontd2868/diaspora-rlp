@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111207233503) do
+ActiveRecord::Schema.define(:version => 20120203220932) do
 
   create_table "account_deletions", :force => true do |t|
     t.string  "diaspora_handle"
@@ -315,6 +316,8 @@ ActiveRecord::Schema.define(:version => 20111207233503) do
     t.string   "root_guid",             :limit => 30
     t.integer  "comments_count",                      :default => 0
     t.integer  "o_embed_cache_id"
+    t.integer  "reshares_count",                      :default => 0
+    t.datetime "interacted_at"
   end
 
   add_index "posts", ["author_id", "root_guid"], :name => "index_posts_on_author_id_and_root_guid", :unique => true
@@ -335,12 +338,13 @@ ActiveRecord::Schema.define(:version => 20111207233503) do
     t.date     "birthday"
     t.string   "gender"
     t.text     "bio"
-    t.boolean  "searchable",                      :default => true, :null => false
-    t.integer  "person_id",                                         :null => false
+    t.boolean  "searchable",                      :default => true,  :null => false
+    t.integer  "person_id",                                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "location"
     t.string   "full_name",        :limit => 70
+    t.boolean  "nsfw",                            :default => false
   end
 
   add_index "profiles", ["full_name", "searchable"], :name => "index_profiles_on_full_name_and_searchable"
@@ -461,6 +465,9 @@ ActiveRecord::Schema.define(:version => 20111207233503) do
     t.string   "confirm_email_token",                :limit => 30
     t.datetime "locked_at"
     t.boolean  "show_community_spotlight_in_stream",                :default => true,  :null => false
+    t.boolean  "auto_follow_back",                                  :default => false
+    t.integer  "auto_follow_back_aspect_id"
+    t.text     "hidden_shareables"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

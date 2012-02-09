@@ -2,17 +2,18 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require File.join(Rails.root, 'lib', 'diaspora', 'redis_cache')
+require File.join(Rails.root, 'lib', 'evil_query')
+
+
+#TODO: THIS FILE SHOULD NOT EXIST, EVIL SQL SHOULD BE ENCAPSULATED IN EvilQueries,
+#throwing all of this stuff in user violates demeter like WHOA
 
 module Diaspora
   module UserModules
     module Querying
-
       def find_visible_shareable_by_id(klass, id, opts={} )
-        key = opts.delete(:key) || :id
-        post = klass.where(key => id).joins(:contacts).where(:contacts => {:user_id => self.id}).where(opts).select(klass.table_name+".*").first
-        post ||= klass.where(key => id, :author_id => self.person.id).where(opts).first
-        post ||= klass.where(key => id, :public => true).where(opts).first
+        key = (opts.delete(:key) || :id)
+        ::EvilQuery::VisibleShareableById.new(self, klass, key, id, opts).post!
       end
 
       def visible_shareables(klass, opts={})
@@ -23,31 +24,17 @@ module Diaspora
 
       def visible_shareable_ids(klass, opts={})
         opts = prep_opts(klass, opts)
-        cache = nil
-
-        if use_cache?(opts)
-          cache = RedisCache.new(self, opts[:order_field])
-
-          #total hax
-          if self.contacts.where(:sharing => true, :receiving => true).count > 0 
-            cache.ensure_populated!(opts)
-          end
-
-          name = klass.to_s.downcase
-          shareable_ids = cache.send(name+"_ids", opts[:max_time], opts[:limit] +1)
-        end
-
-        if perform_db_query?(shareable_ids, cache, opts)
-          visible_ids_from_sql(klass, opts)
-        else
-          shareable_ids
-        end
+        visible_ids_from_sql(klass, opts)
       end
 
       # @return [Array<Integer>]
       def visible_ids_from_sql(klass, opts={})
         opts = prep_opts(klass, opts)
-        klass.connection.select_values(visible_shareable_sql(klass, opts)).map { |id| id.to_i }
+        opts[:klass] = klass
+        opts[:by_members_of] ||= self.aspect_ids
+
+        post_ids = klass.connection.select_values(visible_shareable_sql(klass, opts)).map { |id| id.to_i }
+        post_ids += klass.connection.select_values(construct_public_followings_sql(opts).to_sql).map {|id| id.to_i }
       end
 
       def visible_shareable_sql(klass, opts={})
@@ -68,13 +55,32 @@ module Diaspora
       end
 
       def construct_shareable_from_others_query(opts)
-        conditions = {:pending => false, :share_visibilities => {:hidden => opts[:hidden]}, :contacts => {:user_id => self.id, :receiving => true} }
+        conditions = {
+            :pending => false,
+            :share_visibilities => {:hidden => opts[:hidden]},
+            :contacts => {:user_id => self.id, :receiving => true}
+        }
+
         conditions[:type] = opts[:type] if opts.has_key?(:type)
+
         query = opts[:klass].joins(:contacts).where(conditions)
 
         if opts[:by_members_of]
           query = query.joins(:contacts => :aspect_memberships).where(
             :aspect_memberships => {:aspect_id => opts[:by_members_of]})
+        end
+
+        ugly_select_clause(query, opts)
+      end
+
+      def construct_public_followings_sql(opts)
+        aspects = Aspect.where(:id => opts[:by_members_of])
+        person_ids = Person.connection.select_values(people_in_aspects(aspects).select("people.id").to_sql)
+
+        query = opts[:klass].where(:author_id => person_ids, :public => true, :pending => false)
+
+        unless(opts[:klass] == Photo)
+          query = query.where(:type => opts[:type])
         end
 
         ugly_select_clause(query, opts)
@@ -115,8 +121,9 @@ module Diaspora
 
       def people_in_aspects(requested_aspects, opts={})
         allowed_aspects = self.aspects & requested_aspects
-        person_ids = contacts_in_aspects(allowed_aspects).collect{|contact| contact.person_id}
-        people = Person.where(:id => person_ids)
+        aspect_ids = allowed_aspects.map(&:id)
+
+        people = Person.in_aspects(aspect_ids)
 
         if opts[:type] == 'remote'
           people = people.where(:owner_id => nil)
@@ -130,57 +137,22 @@ module Diaspora
         contact_for(person).aspects
       end
 
-      def contacts_in_aspects aspects
-        aspects.inject([]) do |contacts,aspect|
-          contacts | aspect.contacts
-        end
-      end
-
       def posts_from(person)
-        self.shareables_from(Post, person)
+        ::EvilQuery::ShareablesFromPerson.new(self, Post, person).make_relation!
       end
 
       def photos_from(person)
-        self.shareables_from(Photo, person)
-      end
-
-      def shareables_from(klass, person)
-        return self.person.send(klass.table_name).where(:pending => false).order("#{klass.table_name}.created_at DESC") if person == self.person
-        con = Contact.arel_table
-        p = klass.arel_table
-        shareable_ids = []
-        if contact = self.contact_for(person)
-          shareable_ids = klass.connection.select_values(
-            contact.share_visibilities.where(:hidden => false, :shareable_type => klass.to_s).select('share_visibilities.shareable_id').to_sql
-          )
-        end
-        shareable_ids += klass.connection.select_values(
-          person.send(klass.table_name).where(:public => true).select(klass.table_name+'.id').to_sql
-        )
-
-        klass.where(:id => shareable_ids, :pending => false).select('DISTINCT '+klass.table_name+'.*').order(klass.table_name+".created_at DESC")
+        ::EvilQuery::ShareablesFromPerson.new(self, Photo, person).make_relation!
       end
 
       protected
-      # @return [Boolean]
-
-      def use_cache?(opts)
-        RedisCache.configured? && RedisCache.supported_order?(opts[:order_field]) && opts[:all_aspects?].present?
-      end
-
-      # @return [Boolean]
-      def perform_db_query?(shareable_ids, cache, opts)
-        return true if cache == nil
-        return false if cache.size <= opts[:limit]
-        shareable_ids.blank? || shareable_ids.length < opts[:limit]
-      end
 
       # @return [Hash]
       def prep_opts(klass, opts)
         defaults = {
-          :order => 'created_at DESC',
-          :limit => 15,
-          :hidden => false
+            :order => 'created_at DESC',
+            :limit => 15,
+            :hidden => false
         }
         defaults[:type] = Stream::Base::TYPES_OF_POST_IN_STREAM if klass == Post
         opts = defaults.merge(opts)

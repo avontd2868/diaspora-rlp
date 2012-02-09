@@ -5,26 +5,23 @@ require File.join(Rails.root, 'app', 'models', 'acts_as_taggable_on', 'tag')
 require File.join(Rails.root, 'lib', 'stream', 'tag')
 
 class TagsController < ApplicationController
-  skip_before_filter :which_action_and_user
   skip_before_filter :set_grammatical_gender
   before_filter :ensure_page, :only => :show
 
   helper_method :tag_followed?
 
   respond_to :html, :only => [:show]
-  respond_to :json, :only => [:index]
+  respond_to :json, :only => [:index, :show]
 
   def index
-    if params[:q] && params[:q].length > 1 && request.format.json?
+    if params[:q] && params[:q].length > 1
       params[:q].gsub!("#", "")
       params[:limit] = !params[:limit].blank? ? params[:limit].to_i : 10
       @tags = ActsAsTaggableOn::Tag.autocomplete(params[:q]).limit(params[:limit] - 1)
       prep_tags_for_javascript
 
       respond_to do |format|
-        format.json{
-          render(:json => @tags.to_json, :status => 200)
-        }
+        format.json{ render(:json => @tags.to_json, :status => 200) }
       end
     else
       respond_to do |format|
@@ -37,9 +34,8 @@ class TagsController < ApplicationController
   def show
     @stream = Stream::Tag.new(current_user, params[:name], :max_time => max_time, :page => params[:page])
 
-    if params[:only_posts]
-      render :partial => 'shared/stream', :locals => {:posts => @stream.stream_posts}
-      return
+    respond_with do |format|
+      format.json{ render_for_api :backbone, :json => @stream.stream_posts, :root => :posts }
     end
   end
 

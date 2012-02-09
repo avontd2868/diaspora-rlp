@@ -3,6 +3,7 @@
 #   the COPYRIGHT file.
 
 
+
 cy:
   javascripts:
     aspect_dropdown:
@@ -38,27 +39,43 @@ cy:
       no_more: "Dim mwy o swyddi."
     photo_uploader:
       looking_good: "OMG, rydych chi'n ymddangos yn neis iawn!"
-    publisher:
-      at_least_one_aspect: "You must publish to at least one aspect"
-      limited: "Limited - your post will only be seen by people you are sharing with"
-      public: "Public - your post will be visible to everyone and found by search engines"
     reshares:
       duplicate: "Mae hynny'n dda, eh? Rydych chi wedi rhannu'r bost eisoes!"
     search_for: "Chwilio am {{name}}"
     show_more: "dangos mwy"
+    stream:
+      likes:
+        few: "<%= count %> Likes"
+        many: "<%= count %> Likes"
+        one: "<%= count %> Like"
+        other: "<%= count %> Likes"
+        two: "<%= count %> Likes"
+        zero: "<%= count %> Likes"
+      more_comments:
+        few: "Show <%= count %> more comments"
+        many: "Show <%= count %> more comments"
+        one: "Show <%= count %> more comment"
+        other: "Show <%= count %> more comments"
+        two: "Show <%= count %> more comments"
+        zero: "Show <%= count %> more comments"
+      reshares:
+        few: "<%= count %> Reshares"
+        many: "<%= count %> Reshares"
+        one: "<%= count %> Reshare"
+        other: "<%= count %> Reshares"
+        two: "<%= count %> Reshares"
+        zero: "<%= count %> Reshares"
     tags:
       wasnt_that_interesting: "OK, mae'n debyg nid yw #{{tagName}} yn ddiddorol iawn..."
     timeago:
-      day: "diwrnod"
+      day: diwrnod
       days: "%d diwrnod"
-      hour: "awr"
+      hour: awr
       hours: "%d awr"
       minute: "tua funud"
       minutes: "%d munud"
-      month: "mis"
+      month: mis
       months: "%d mis"
-      prefixAgo: ""
-      prefixFromNow: ""
       seconds: "rhai na munud"
       suffixAgo: "yn ôl"
       suffixFromNow: "o hŷd"
@@ -67,5 +84,3 @@ cy:
     videos:
       unknown: "Math o fideo anhysbys"
       watch: "Gwyliwch y fideo ar {{provider}}"
-    web_sockets:
-      disconnected: "The websocket is closed; posts will no longer be streamed live."

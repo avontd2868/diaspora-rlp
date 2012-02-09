@@ -3,7 +3,6 @@
 #   the COPYRIGHT file.
 
 class StatusMessage < Post
-  include Diaspora::Socketable
   include Diaspora::Taggable
 
   include ActionView::Helpers::TextHelper
@@ -18,28 +17,19 @@ class StatusMessage < Post
 
   has_many :photos, :dependent => :destroy, :foreign_key => :status_message_guid, :primary_key => :guid
 
-  # TODO: disabling presence_of_content() (and its specs in status_message_controller_spec.rb:125) is a quick and dirty fix for federation
   # a StatusMessage is federated before its photos are so presence_of_content() fails erroneously if no text is present
-  #validate :presence_of_content
+  # therefore, we put the validation in a before_destory callback instead of a validation
+  before_destroy :presence_of_content
 
   attr_accessible :text, :provider_display_name
   attr_accessor :oembed_url
 
   after_create :create_mentions
-
   after_create :queue_gather_oembed_data, :if => :contains_oembed_url_in_text?
 
   #scopes
   scope :where_person_is_mentioned, lambda { |person|
     joins(:mentions).where(:mentions => {:person_id => person.id})
-  }
-  
-  scope :commented_by, lambda { |person|
-    select('DISTINCT posts.*').joins(:comments).where(:comments => {:author_id => person.id})
-  }
-
-  scope :liked_by, lambda { |person|
-    joins(:likes).where(:likes => {:author_id => person.id})
   }
 
   def self.guids_for_author(person)
@@ -67,9 +57,14 @@ class StatusMessage < Post
   def raw_message=(text)
     write_attribute(:text, text)
   end
-  
-  def nsfw?
-    self.raw_message.include?('#nsfw')
+
+  def attach_photos_by_ids(photo_ids)
+    return [] unless photo_ids.present?
+    self.photos << Photo.where(:id => photo_ids, :author_id => self.author_id).all
+  end
+
+  def nsfw
+    self.raw_message.match(/#nsfw/i) || super
   end
 
   def formatted_message(opts={})
@@ -81,8 +76,7 @@ class StatusMessage < Post
   end
 
   def format_mentions(text, opts = {})
-    regex = /@\{([^;]+); ([^\}]+)\}/
-    form_message = text.to_str.gsub(regex) do |matched_string|
+    form_message = text.to_str.gsub(Mention::REGEX) do |matched_string|
       people = self.mentioned_people
       person = people.detect{ |p|
         p.diaspora_handle == $~[2] unless p.nil?
@@ -106,6 +100,10 @@ class StatusMessage < Post
     end
   end
 
+  def mentioned_people_names
+    self.mentioned_people.map(&:name).join(', ')
+  end
+
   def create_mentions
     mentioned_people_from_string.each do |person|
       self.mentions.create(:person => person)
@@ -121,8 +119,7 @@ class StatusMessage < Post
   end
 
   def mentioned_people_from_string
-    regex = /@\{([^;]+); ([^\}]+)\}/
-    identifiers = self.raw_message.scan(regex).map do |match|
+    identifiers = self.raw_message.scan(Mention::REGEX).map do |match|
       match.last
     end
     identifiers.empty? ? [] : Person.where(:diaspora_handle => identifiers)
@@ -144,18 +141,11 @@ class StatusMessage < Post
     XML
   end
 
-  def socket_to_user(user_or_id, opts={})
-    unless opts[:aspect_ids]
-      user_id = user_or_id.instance_of?(Fixnum) ? user_or_id : user_or_id.id
-      aspect_ids = AspectMembership.connection.select_values(
-        AspectMembership.joins(:contact).where(:contacts => {:user_id => user_id, :person_id => self.author_id}).select('aspect_memberships.aspect_id').to_sql
-      )
-      opts.merge!(:aspect_ids => aspect_ids)
-    end
-    super(user_or_id, opts)
+  def after_dispatch(sender)
+    self.update_and_dispatch_attached_photos(sender)
   end
 
-  def after_dispatch sender
+  def update_and_dispatch_attached_photos(sender)
     unless self.photos.empty?
       self.photos.update_all(:pending => false, :public => self.public)
       for photo in self.photos
@@ -177,8 +167,8 @@ class StatusMessage < Post
 
   def queue_gather_oembed_data
     Resque.enqueue(Jobs::GatherOEmbedData, self.id, self.oembed_url)
-  end 
-  
+  end
+
   def contains_oembed_url_in_text?
     require 'uri'
     urls = URI.extract(self.raw_message, ['http', 'https'])
@@ -187,8 +177,8 @@ class StatusMessage < Post
 
   protected
   def presence_of_content
-    if text_and_photos_blank?
-      errors[:base] << 'Status message requires a message or at least one photo'
+    unless text_and_photos_blank?
+      errors[:base] << "Cannot destory a StatusMessage with text and/or photos present"
     end
   end
 
@@ -196,6 +186,5 @@ class StatusMessage < Post
   def self.tag_stream(tag_ids)
     joins(:tags).where(:tags => {:id => tag_ids})
   end
-
 end
 
