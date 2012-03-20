@@ -15,6 +15,10 @@ var Publisher = {
     return Publisher.cachedInput = Publisher.cachedInput || Publisher.form().find('#status_message_fake_text');
   },
 
+  wrapper: function(){
+    return Publisher.cachedWrapper = Publisher.cachedWrapper || Publisher.form().find('#publisher_textarea_wrapper');
+  },
+
   hiddenInput: function(){
     return Publisher.cachedHiddenInput= Publisher.cachedHiddenInput || Publisher.form().find('#status_message_text');
   },
@@ -37,10 +41,8 @@ var Publisher = {
 
   clear: function(){
     $("#photodropzone").find('li').remove();
-    Publisher.input()
-      .removeClass("with_attachments")
-      .css('paddingBottom', '')
-      .mentionsInput("reset");
+    Publisher.input().mentionsInput("reset");
+    Publisher.wrapper().removeClass("with_attachments");
   },
 
   bindServiceIcons: function(){
@@ -152,7 +154,6 @@ var Publisher = {
   },
 
   textChange : function(){
-      console.log("yohoho")
     Publisher.determineSubmitAvailability();
     Publisher.input().mentionsInput("val", function(value) {
       Publisher.hiddenInput().val(value);
@@ -196,14 +197,6 @@ var Publisher = {
 
     Publisher.bindServiceIcons();
     Publisher.bindAspectToggles();
-
-    /* close text area */
-    Publisher.form().delegate("#hide_publisher", "click", function(){
-      $.each(Publisher.form().find("textarea"), function(idx, element){
-        $(element).val("");
-      });
-      Publisher.close();
-    });
 
     Mentions.initialize(Publisher.input());
 

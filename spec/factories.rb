@@ -130,6 +130,12 @@ FactoryGirl.define do
     end
   end
 
+  factory :invitation_code do
+    sequence(:token){|n| "sdfsdsf#{n}"}
+    association :user
+    count 0
+  end
+
   factory :service do |service|
     nickname "sirrobertking"
     type "Services::Twitter"
@@ -197,6 +203,11 @@ FactoryGirl.define do
     name "partytimeexcellent"
   end
 
+  factory(:o_embed_cache) do
+    url "http://youtube.com/kittens"
+    data {{'data' => 'foo'}}
+  end
+
   factory(:tag_following) do
     association(:tag, :factory => :tag)
     association(:user, :factory => :user)
@@ -211,4 +222,27 @@ FactoryGirl.define do
     association(:person, :factory => :person)
     association(:post, :factory => :status_message)
   end
+
+  #templates
+  factory(:multi_photo, :parent => :status_message_with_photo) do
+    after_build do |sm|
+      2.times{ Factory(:photo, :author => sm.author, :status_message => sm, :pending => false, :public => public)}
+    end
+  end
+
+  factory(:status_with_photo_backdrop, :parent => :status_message_with_photo)
+
+  factory(:photo_backdrop, :parent => :status_message_with_photo) do
+    text ""
+  end
+
+  factory(:note, :parent => :status_message) do
+    text ActiveSupport::SecureRandom.hex(1000)
+  end
+
+  factory(:rich_media, :parent => :status_message) do
+    association(:o_embed_cache)
+  end
+
+  factory(:status, :parent => :status_message)
 end

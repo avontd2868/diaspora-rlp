@@ -5,7 +5,6 @@
 require 'spec_helper'
 
 describe User do
-
   describe "private key" do
     it 'has a key' do
       alice.encryption_key.should_not be nil
@@ -32,28 +31,6 @@ describe User do
       it 'does not save the corresponding user if it has not changed' do
         Person.any_instance.should_not_receive(:save)
         alice.save
-      end
-    end
-
-    describe '#infer_email_from_invitation_provider' do
-      it 'sets corresponding email if invitation_service is email' do
-        addr = '12345@alice.com'
-        alice.invitation_service = 'email'
-        alice.invitation_identifier = addr
-
-        lambda {
-          alice.infer_email_from_invitation_provider
-        }.should change(alice, :email)
-      end
-
-      it 'does not set an email if invitation_service is not email' do
-        addr = '1233123'
-        alice.invitation_service = 'facebook'
-        alice.invitation_identifier = addr
-
-        lambda {
-          alice.infer_email_from_invitation_provider
-        }.should_not change(alice, :email)
       end
     end
   end
@@ -298,14 +275,6 @@ describe User do
     end
   end
 
-  describe '#seed_aspects' do
-    it 'follows the default account' do
-      Webfinger.stub_chain(:new, :fetch).and_return(Factory(:person))
-      expect{
-       eve.seed_aspects
-      }.to change(eve.contacts, :count).by(1)
-    end
-  end
 
   describe ".build" do
     context 'with valid params' do
@@ -409,70 +378,13 @@ describe User do
     end
   end
 
-  describe '.find_by_invitation' do
-    let(:invited_user) {
-      inv = Factory.build(:invitation, :recipient => @recipient, :service => @type, :identifier => @identifier)
-      User.find_by_invitation(inv)
-    }
 
-    context 'send a request to an existing' do
-      before do
-        @recipient = alice
-      end
-
-      context 'active user' do
-        it 'by service' do
-          @type = 'facebook'
-          @identifier = '123456'
-
-          @recipient.services << Services::Facebook.new(:uid => @identifier)
-          @recipient.save
-
-          invited_user.should == @recipient
-        end
-
-        it 'by email' do
-          @type = 'email'
-          @identifier = alice.email
-
-          invited_user.should == @recipient
-        end
-      end
-
-      context 'invited user' do
-        it 'by service and identifier' do
-          @identifier = alice.email
-          @type = 'email'
-          invited_user.should == alice
-        end
-      end
-
-      context 'not on server (not yet invited)' do
-        it 'returns nil' do
-          @recipient = nil
-          @identifier = 'foo@bar.com'
-          @type = 'email'
-          invited_user.should be_nil
-        end
-      end
-    end
-  end
-
-  describe '.find_or_create_by_invitation'
-
-  describe '.create_from_invitation!' do
-    before do
-      @identifier = 'max@foobar.com'
-      @inv = Factory.build(:invitation, :admin => true, :service => 'email', :identifier => @identifier)
-      @user = User.create_from_invitation!(@inv)
-    end
-
-    it 'creates a persisted user' do
-      @user.should be_persisted
-    end
-
-    it 'sets the email if the service is email' do
-      @user.email.should == @inv.identifier
+  describe '#process_invite_acceptence' do
+    it 'sets the inviter on user' do
+      inv = InvitationCode.create(:user => bob)
+      user = Factory(:user)
+      user.process_invite_acceptence(inv)
+      user.invited_by_id.should == bob.id
     end
   end
 
@@ -696,30 +608,6 @@ describe User do
       @like2 = bob.like!(@message)
     end
 
-    describe 'User#like' do
-      before do
-        @status = bob.post(:status_message, :text => "hello", :to => @bobs_aspect.id)
-      end
-
-      it "should be able to like on one's own status" do
-        like = alice.like!(@status)
-        @status.reload.likes.first.should == like
-      end
-
-      it "should be able to like on a contact's status" do
-        like = bob.like!(@status)
-        @status.reload.likes.first.should == like
-      end
-
-      it "does not allow multiple likes" do
-        alice.like!(@status)
-
-        lambda {
-          alice.like!(@status)
-        }.should_not change(@status, :likes)
-      end
-    end
-
     describe '#like_for' do
       it 'returns the correct like' do
         alice.like_for(@message).should == @like
@@ -875,54 +763,6 @@ describe User do
     end
   end
 
-  describe "#accept_invitation!" do
-    before do
-      fantasy_resque do
-        @invitation = Factory(:invitation, :sender => eve, :identifier => 'invitee@example.org', :aspect => eve.aspects.first)
-      end
-
-      @invitation.reload
-      @form_params = {
-                       :invitation_token => "abc",
-                       :email    => "a@a.com",
-                       :username => "user",
-                       :password => "secret",
-                       :password_confirmation => "secret",
-                       :person => {
-                         :profile => {:first_name => "Bob", :last_name  => "Smith"}
-                       }
-                     }
-    end
-
-    context 'after invitation acceptance' do
-      it 'destroys the invitations' do
-        user = @invitation.recipient.accept_invitation!(@form_params)
-        user.invitations_to_me.count.should == 0
-      end
-
-      it "should create the person with the passed in params" do
-        lambda {
-          @invitation.recipient.accept_invitation!(@form_params)
-        }.should change(Person, :count).by(1)
-      end
-
-      it 'resolves incoming invitations into contact requests' do
-        user = @invitation.recipient.accept_invitation!(@form_params)
-        eve.contacts.where(:person_id => user.person.id).count.should == 1
-      end
-    end
-
-    context 'from an admin' do
-      it 'should work' do
-        i = nil
-        fantasy_resque do
-          i = Invitation.create!(:admin => true, :service => 'email', :identifier => "new_invitee@example.com")
-        end
-        i.reload
-        i.recipient.accept_invitation!(@form_params)
-      end
-    end
-  end
 
   describe '#retract' do
     before do

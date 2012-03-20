@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120203220932) do
+ActiveRecord::Schema.define(:version => 20120301143226) do
 
   create_table "account_deletions", :force => true do |t|
     t.string  "diaspora_handle"
@@ -65,7 +65,6 @@ ActiveRecord::Schema.define(:version => 20120203220932) do
     t.string   "guid",                                                      :null => false
     t.text     "author_signature"
     t.text     "parent_author_signature"
-    t.text     "youtube_titles"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "likes_count",                           :default => 0,      :null => false
@@ -109,6 +108,14 @@ ActiveRecord::Schema.define(:version => 20120203220932) do
   end
 
   add_index "conversations", ["author_id"], :name => "conversations_author_id_fk"
+
+  create_table "invitation_codes", :force => true do |t|
+    t.string   "token"
+    t.integer  "user_id"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "invitations", :force => true do |t|
     t.text     "message"
@@ -244,6 +251,17 @@ ActiveRecord::Schema.define(:version => 20120203220932) do
   add_index "oauth_clients", ["name"], :name => "index_oauth_clients_on_name", :unique => true
   add_index "oauth_clients", ["nonce"], :name => "index_oauth_clients_on_nonce", :unique => true
 
+  create_table "participations", :force => true do |t|
+    t.string   "guid"
+    t.integer  "target_id"
+    t.string   "target_type",             :limit => 60, :null => false
+    t.integer  "author_id"
+    t.text     "author_signature"
+    t.text     "parent_author_signature"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "people", :force => true do |t|
     t.string   "guid",                                     :null => false
     t.text     "url",                                      :null => false
@@ -299,7 +317,6 @@ ActiveRecord::Schema.define(:version => 20120203220932) do
     t.string   "remote_photo_name"
     t.string   "random_string"
     t.string   "processed_image"
-    t.text     "youtube_titles"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "unprocessed_image"
