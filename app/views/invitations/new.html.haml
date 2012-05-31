@@ -19,7 +19,7 @@
       = form_tag new_user_invitation_path  do
         %h4
           = t('email')
-        = text_field_tag 'email_inviter[emails]' ,nil, :title => t('.comma_seperated_plz'), :placeholder => 'foo@bar.com, max@foo.com...'
+        = text_field_tag 'email_inviter[emails]' ,nil, :title => t('.comma_separated_plz'), :placeholder => 'foo@bar.com, max@foo.com...'
         %br
 
         %h4
@@ -27,10 +27,6 @@
         = select_tag('email_inviter[locale]',  options_from_collection_for_select(available_language_options, "second", "first", :selected => current_user.language))
 
         %br
-
-        %h4
-          = t('.personal_message')
-        = text_area_tag 'email_inviter[message]',nil, :rows => 3, :value => t('.check_out_diaspora')
 
         %p
           = submit_tag t('.send_an_invitation')

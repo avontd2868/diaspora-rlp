@@ -19,8 +19,7 @@ begin
       t.fork = true # You may get faster startup if you set this to false
       t.profile = 'default'
       cucumber_opts = ""
-      cucumber_opts << " -f pretty" unless ENV["TRAVIS"]
-      cucumber_opts << ((ENV["GROUP"] == "oauth") ? " --tags @oauth-group" : " --tags ~@oauth-group")
+      cucumber_opts << " -f pretty" 
       t.cucumber_opts =  cucumber_opts
     end
 

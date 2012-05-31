@@ -80,7 +80,66 @@ en:
       invalid_fields: "Invalid Fields"
       correct_the_following_errors_and_try_again: "Correct the following errors and try again."
 
-
+  admins:
+    admin_bar:
+      pages: "Pages"
+      user_search: "User Search"
+      weekly_user_stats: "Weekly User Stats"
+      pod_stats: "Pod Stats"
+      correlations: "Correlations"
+      resque_overview: "Resque Overview"
+    correlations:
+      correlations_count: "Correlations with Sign In Count:"
+    user_search:
+      you_currently: "you currently have %{user_invitation} invites left %{link}"
+      add_invites: "add invites"
+      email_to: "Email to Invite"
+      users: 
+        zero: "%{count} users found"
+        one: "%{count} user found"
+        two: "%{count} users found"
+        few: "%{count} users found"
+        many: "%{count} users found"
+        other: "%{count} users found"
+    stats:
+      week: "Week"
+      2weeks: "2 Week"
+      month: "Month"
+      daily: "Daily"
+      usage_statistic: "Usage Statistics"
+      go: "go"
+      display_results: "Displaying results from the <b>%{segment}</b> segment"
+      posts:
+        zero: "%{count} posts"
+        one: "%{count} post"
+        two: "%{count} posts"
+        few: "%{count} posts"
+        many: "%{count} posts"
+        other: "%{count} posts"
+      comments:
+        zero: "%{count} comments"
+        one: "%{count} comment"
+        two: "%{count} comments"
+        few: "%{count} comments"
+        many: "%{count} comments"
+        other: "%{count} comments"
+      shares:
+        zero: "%{count} shares"
+        one: "%{count} share"
+        two: "%{count} shares"
+        few: "%{count} shares"
+        many: "%{count} shares"
+        other: "%{count} shares"
+      users:
+        zero: "%{count} users"
+        one: "%{count} user"
+        two: "%{count} users"
+        few: "%{count} users"
+        many: "%{count} users"
+        other: "%{count} users"
+      current_segment: "The current segment is averaging <b>%{post_yest}</b> posts per user, from <b>%{post_day}</b>"
+      50_most: "50 Most Popular Tags"
+      tag_name: "Tag Name: <b>%{name_tag}</b> Count: <b>%{count_tag}</b>"
   application:
     helper:
       unknown_person: "unknown person"
@@ -158,7 +217,8 @@ en:
       friends: "Friends"
     index:
       donate: "Donate"
-      keep_us_running: "Keep %{pod} running fast and buy servers their coffee fix with a monthly donation!"
+      keep_pod_running: "Keep %{pod} running fast and buy servers their coffee fix with a monthly donation!"
+      keep_diaspora_running: "Keep Diaspora development fast with a monthly donation!"
       no_tags: "+ Find a tag to follow"
       unfollow_tag: "Stop following #%{tag}"
       handle_explanation: "This is your Diaspora ID. Like an email address, you can give this to people to reach you."
@@ -186,6 +246,7 @@ en:
         tag_feature: "feature"
         tutorials_wiki_and_forum: "%{tutorial} & %{wiki} & %{forum}: Community-powered tutorials, how-to, and news"
         email_feedback: "%{link} your feedback, if you prefer"
+        email_link: "Email"
       cubbies:
         heading: "Connect to Cubbi.es"
         explanation: "Cubbi.es is the first Diaspora application under development."
@@ -201,6 +262,7 @@ en:
     aspect_stream:
       stay_updated: "Stay Updated"
       stay_updated_explanation: "Your main stream is populated with all of your contacts, tags you follow, and posts from some creative members of the community."
+      make_something: "Make something"
 
   aspect_memberships:
     destroy:
@@ -211,9 +273,8 @@ en:
   bookmarklet:
     heading: "Bookmarklet"
     post_success: "Posted! Closing!"
-    post_something: "Post something to Diaspora"
-    explanation: "Post to Diaspora from anywhere by bookmarking %{link}."
-    explanation_link_text: "this link"
+    post_something: "Post to Diaspora"
+    explanation: "Post to Diaspora from anywhere by bookmarking this link => %{link}."
 
   comments:
     zero: "no comments"
@@ -304,21 +365,6 @@ en:
       birthday: "%B %d"
       birthday_with_year: "%B %d %Y"
 
-  home:
-    show:
-      share_what_you_want: "Share what you want, with whom you want."
-      tagline_first_half: "Share what you want,"
-      tagline_second_half: "with whom you want."
-      already_account: "already have an account?"
-      login_here: "log in here"
-      choice: "Choice"
-      choice_explanation: "Diaspora lets you sort your connections into groups called aspects. Unique to Diaspora, aspects ensure that your photos, stories and jokes are shared only with the people you intend."
-      ownership: "Ownership"
-      ownership_explanation: "You own your pictures, and you shouldn’t have to give that up just to share them. You maintain ownership of everything you share on Diaspora, giving you full control over how it's distributed."
-      simplicity: "Simplicity"
-      simplicity_explanation: "Diaspora makes sharing clean and easy – and this goes for privacy too. Inherently private, Diaspora doesn’t make you wade through pages of settings and options just to keep your profile secure."
-      learn_about_host: "Learn about how to host your own Diaspora server."
-
   invitation_codes:
     excited: "%{name} is excited to see you here."
   invitations:
@@ -333,7 +379,7 @@ en:
       language: "Language"
       invite_someone_to_join: "Invite someone to join Diaspora!"
       if_they_accept_info: "if they accept, they will be added to the aspect you invited them."
-      comma_seperated_plz: "You can enter multiple email addresses separated by commas."
+      comma_separated_plz: "You can enter multiple email addresses separated by commas."
       check_out_diaspora: "Hey! You should check out Diaspora*"
       to: "To"
       personal_message: "Personal message"
@@ -483,6 +529,7 @@ en:
     index:
       notifications: "Notifications"
       mark_all_as_read: "Mark All as Read"
+      mark_unread: "Mark unread"
       and_others:
         zero: "and nobody else"
         one: "and one more"
@@ -540,14 +587,14 @@ en:
         
         Click this link to get started
         
-        %{invite_url}
-        <%= invite_code_url(@invitation_code)%>
+        [%{invite_url}][1]
         
         
         Love,
         
         The Diaspora* email robot!
-  
+        
+        [1]: %{invite_url}
   people:
     zero: "no people"
     one: "1 person"
@@ -698,8 +745,15 @@ en:
 
       enter_email: "Enter an email"
       enter_username: "Pick a username (only letters, numbers, and underscores)"
-      enter_password: "Enter a password"
+      enter_password: "Enter a password (six character minimum)"
       enter_password_again: "Enter the same password as before"
+      hey_make: "HEY,<br/>MAKE<br/>SOMETHING."
+      diaspora: "<3 Diaspora*"
+      sign_up: "SIGN UP"
+      email: "EMAIL"
+      username: "USERNAME"
+      password: "PASSWORD"
+      continue: "Continue"
     create:
       success: "You've joined Diaspora!"
     edit:
@@ -831,6 +885,7 @@ en:
       invite_your_friends: "Invite your friends"
       from_facebook: "From Facebook"
       by_email: "By email"
+      share_this: "Share this link via email, blog, or favorite social network!"
     reshare:
       reshare: "Reshare"
     public_explain:
@@ -852,6 +907,7 @@ en:
       connect_to_comment: "Connect to this user to comment on their post"
       currently_unavailable: 'commenting currently unavailable'
       via: "via %{link}"
+      via_mobile: "via mobile"
       ignore_user: "Ignore %{name}"
       ignore_user_description: "Ignore and remove user from all aspects?"
       hide_and_mute: "Hide and mute post"
@@ -927,6 +983,10 @@ en:
     index:
       revoke_access: "Revoke Access"
       no_applications: "You haven't registered any applications yet."
+    new:
+      cubbies_will: "Cubbies will be able to post photos on your behalf"
+      authorize: "Authorize"
+      nope: "No"
 
   streams:
     community_spotlight_stream: "Community Spotlight"
@@ -971,13 +1031,6 @@ en:
     activity:
       title: "My Activity"
   users:
-    logged_out:
-      signed_out: "You've signed out of Diaspora*"
-      go_mobile: "Now go mobile."
-      simply_visit: "Simply visit"
-      on_your_mobile_device: "on your mobile device to access Diaspora* mobile."
-      works_on_modern: "Works on all modern smartphones"
-
     edit:
       export_data: "Export Data"
       photo_export_unavailable: "Photo exporting currently unavailable"

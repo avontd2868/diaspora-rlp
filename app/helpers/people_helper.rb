@@ -9,9 +9,9 @@ module PeopleHelper
     if search_query.blank?
       content_tag(:h2, t('people.index.no_results'))
     else
-      content_tag(:h2, :id => 'search_title') do 
+      content_tag(:h2, :id => 'search_title') do
         t('people.index.results_for').html_safe + ' ' +
-        content_tag(:span, search_query, :class => 'term') 
+        content_tag(:span, search_query, :class => 'term')
       end
     end
   end
@@ -19,6 +19,7 @@ module PeopleHelper
   def request_partial single_aspect_form
     if single_aspect_form
       'requests/new_request_with_aspect_to_person'
+
     else
       'requests/new_request_to_person'
     end
@@ -47,9 +48,8 @@ module PeopleHelper
     "<a data-hovercard='#{remote_or_hovercard_link}' #{person_href(person)} class='#{opts[:class]}' #{ ("target=" + opts[:target]) if opts[:target]}>#{h(person.name)}</a>".html_safe
   end
 
-  def person_image_tag(person, size=nil)
-    size ||= :thumb_small
-    "<img alt=\"#{h(person.name)}\" class=\"avatar\" data-person_id=\"#{person.id}\" src=\"#{person.profile.image_url(size)}\" title=\"#{h(person.name)}\">".html_safe
+  def person_image_tag(person, size = :thumb_small)
+    image_tag(person.profile.image_url(size), :alt => person.name, :class => 'avatar', :title => person.name, 'data-person_id' => person.id)
   end
 
   def person_image_link(person, opts={})
@@ -66,13 +66,12 @@ module PeopleHelper
   def person_href(person, opts={})
     "href=\"#{local_or_remote_person_path(person, opts)}\"".html_safe
   end
-  
-  
+
   # Rails.application.routes.url_helpers is needed since this is indirectly called from a model
   def local_or_remote_person_path(person, opts={})
     opts.merge!(:protocol => AppConfig[:pod_uri].scheme, :host => AppConfig[:pod_uri].authority)
     absolute = opts.delete(:absolute)
-    
+
     if person.local?
       username = person.diaspora_handle.split('@')[0]
       unless username.include?('.')
@@ -84,7 +83,7 @@ module PeopleHelper
         end
       end
     end
-    
+
     if absolute
       return Rails.application.routes.url_helpers.person_url(person, opts)
     else

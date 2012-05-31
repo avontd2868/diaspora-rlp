@@ -5,6 +5,7 @@ class InvitationCode < ActiveRecord::Base
 
   before_create :generate_token, :set_default_invite_count
 
+  delegate :beta?, :to => :user
   def to_param
     token 
   end
@@ -23,7 +24,7 @@ class InvitationCode < ActiveRecord::Base
 
   def generate_token
     begin
-      self.token = ActiveSupport::SecureRandom.hex(6)
+      self.token = SecureRandom.hex(6)
     end while InvitationCode.exists?(:token => self[:token])
   end
 

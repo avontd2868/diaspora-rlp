@@ -3,17 +3,36 @@
 #   the COPYRIGHT file.
 
 Diaspora::Application.routes.draw do
+  if Rails.env.production?
+    mount RailsAdmin::Engine => '/admin_panel', :as => 'rails_admin'
+  end
+
+
+  get "/atom.xml" => redirect('http://blog.diasporafoundation.org/feed/atom') #too many stupid redirects :()
+  
+  get 'oembed' => 'posts#oembed', :as => 'oembed'
   # Posting and Reading
   resources :reshares
 
   resources :status_messages, :only => [:new, :create]
 
-  resources :posts, :only => [:show, :destroy] do
-    resources :likes, :only => [:create, :destroy, :index]
+  resources :posts do
+    member do
+      get :next
+      get :previous
+      get :interactions
+    end
+
+    resources :likes, :only => [:create, :destroy, :index ]
     resources :participations, :only => [:create, :destroy, :index]
     resources :comments, :only => [:new, :create, :destroy, :index]
   end
+
+  match "/framer" => redirect("/posts/new")
+
   get 'p/:id' => 'posts#show', :as => 'short_post'
+  get 'posts/:id/iframe' => 'posts#iframe', :as => 'iframe'
+
   # roll up likes into a nested resource above
   resources :comments, :only => [:create, :destroy] do
     resources :likes, :only => [:create, :destroy, :index]
@@ -32,16 +51,18 @@ Diaspora::Application.routes.draw do
   get "commented" => "streams#commented", :as => "commented_stream"
   get "aspects" => "streams#aspects", :as => "aspects_stream"
   
-
   resources :aspects do
     put :toggle_contact_visibility
   end
 
   get 'bookmarklet' => 'status_messages#bookmarklet'
+  get 'new_bookmarklet' => 'status_messages#new_bookmarklet'
 
   resources :photos, :except => [:index] do
     put :make_profile_photo
   end
+
+  post "upload_wallpaper" => 'profiles#upload_wallpaper_image'
 
   # ActivityStreams routes
   scope "/activity_streams", :module => "activity_streams", :as => "activity_streams" do
@@ -102,7 +123,8 @@ Diaspora::Application.routes.draw do
   get 'users/invitation/accept' => 'invitations#edit'
   get 'invitations/email' => 'invitations#email', :as => 'invite_email'
   get 'users/invitations' => 'invitations#new', :as => 'new_user_invitation'
-
+  post 'users/invitations' => 'invitations#create', :as => 'new_user_invitation'
+  
   get 'login' => redirect('/users/sign_in')
 
   scope 'admins', :controller => :admins do
@@ -115,6 +137,8 @@ Diaspora::Application.routes.draw do
   end
 
   resource :profile, :only => [:edit, :update]
+  resources :profiles, :only => [:show]
+
 
   resources :contacts,           :except => [:update, :create] do
     get :sharing, :on => :collection
@@ -202,9 +226,6 @@ Diaspora::Application.routes.draw do
   if AppConfig[:mount_resque_web]
     mount Resque::Server.new, :at => '/resque-jobs', :as => "resque_web"
   end
-
-  # Logout Page (go mobile)
-  get 'logged_out' => 'users#logged_out', :as => 'logged_out'
 
   # Startpage
   root :to => 'home#show'

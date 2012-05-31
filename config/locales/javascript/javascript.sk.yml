@@ -38,6 +38,7 @@ sk:
       preparing_your_stream: "Pripravuje sa vaša upravená nástenka..."
     header:
       admin: "Administrátor"
+      close: "zatvoriť"
       contacts: "Kontakty"
       home: "Úvodná stránka"
       log_out: "Odhlásiť sa"
@@ -54,14 +55,18 @@ sk:
       no_more: "Žiadne ďalšie príspevky."
     my_activity: "Moja aktivita"
     my_stream: "Nástenka"
+    people:
+      not_found: "...a nikto sa nenašiel."
     photo_uploader:
       looking_good: "No teda, vyzeráš super!"
     publisher:
       at_least_one_aspect: "Musíte publikovať aspoň jednu kategóriu"
-      limited: "Obmedzené - váš príspevok uvidia len ľudia, s ktorými sa oň podelíte"
-      public: "Verejný - váš príspevok pomocou vyhľadávačov uvidí a nájde každý"
+      limited: "Vyhradený – váš príspevok uvidia len ľudia, s ktorými sa oň podelíte"
+      public: "Verejný – váš príspevok pomocou vyhľadávačov uvidí a nájde každý"
     reshares:
-      duplicate: "To je dobré, čo? Tento príspevok ste už raz znova zdieľali!"
+      duplicate: "Je to dobré, čo? O tento príspevok ste sa už raz znova podelili!"
+      post: "Znova ukázať priateľom príspevok, ktorý napísal(a) <%= name %>?"
+      successful: "Tento príspevok ste úspešne znova ukázali priateľom!"
     search_for: "Hľadať <%= name %>"
     show_more: "Zobraziť viac"
     stream:
@@ -94,7 +99,7 @@ sk:
       unfollow: "Nesledovať"
       unlike: "Už sa mi to nepáči"
     tags:
-      wasnt_that_interesting: "OK, značka #<%= tagName %> asi vôbec nebola zaujímavá..."
+      wasnt_that_interesting: "OK, značka #<%= tagName %> asi vôbec nebola veľmi zaujímavá."
     timeago:
       day: "včera"
       days: "pred %d dňami"
@@ -117,6 +122,7 @@ sk:
     viewer:
       comment: "Komentár"
       follow_post: "Sledovať príspevok"
+      home: "ÚVODNÁ STRÁNKA"
       like: "Páči sa mi to"
       reshare: "Ukázať príspevok priateľom"
       reshared: "Znova ukázané"

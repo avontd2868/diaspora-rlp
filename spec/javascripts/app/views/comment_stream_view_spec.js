@@ -29,14 +29,6 @@ describe("app.views.CommentStream", function(){
     })
   })
 
-  describe("createComment", function(){
-    it("clears the new comment textarea", function(){
-      $(this.view.el).html($("<textarea/>", {"class" : 'comment_box'}).val("hey"))
-      this.view.createComment()
-      expect(this.view.$(".comment_box").val()).toBe("")
-    })
-  })
-
   describe("appendComment", function(){
     it("appends this.model as 'parent' to the comment", function(){
       var comment = new app.models.Comment(factory.comment())
@@ -44,6 +36,22 @@ describe("app.views.CommentStream", function(){
       spyOn(comment, "set")
       this.view.appendComment(comment)
       expect(comment.set).toHaveBeenCalled()
+    })
+  })
+
+  describe("expandComments", function() {
+    it("refills the comment textbox on success", function() {
+      jasmine.Ajax.useMock();
+
+      this.view.render();
+
+      this.view.$("textarea").val("great post!");
+
+      this.view.expandComments();
+
+      mostRecentAjaxRequest().response({ comments : [] });
+
+      expect(this.view.$("textarea").val()).toEqual("great post!");
     })
   })
 })

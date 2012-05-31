@@ -19,39 +19,33 @@ alice = Factory(:user_with_aspect, :username => "alice", :password => 'evankorth
 bob   = Factory(:user_with_aspect, :username => "bob", :password => 'evankorth')
 eve   = Factory(:user_with_aspect, :username => "eve", :password => 'evankorth')
 
+def url_hash(name)
+  image_url = "/assets/user/#{name}.jpg"
+  {
+    :image_url => image_url,
+    :image_url_small => image_url,
+    :image_url_medium => image_url
+  }
+end
+
+
 print "Creating seeded users... "
-alice.person.profile.update_attributes(:first_name => "Alice", :last_name => "Smith",
-  :image_url => "/images/user/uma.jpg",
-  :image_url_small => "/images/user/uma.jpg",
-  :image_url_medium => "/images/user/uma.jpg")
-bob.person.profile.update_attributes(:first_name => "Bob", :last_name => "Grimm",
-  :image_url => "/images/user/wolf.jpg",
-  :image_url_small => "/images/user/wolf.jpg",
-  :image_url_medium => "/images/user/wolf.jpg")
-eve.person.profile.update_attributes(:first_name => "Eve", :last_name => "Doe",
-  :image_url => "/images/user/angela.jpg",
-  :image_url_small => "/images/user/angela.jpg",
-  :image_url_medium => "/images/user/angela.jpg")
+alice.person.profile.update_attributes({:first_name => "Alice", :last_name => "Smith"}.merge(url_hash('uma')))
+bob.person.profile.update_attributes({:first_name => "Bob", :last_name => "Grimm"}.merge(url_hash('wolf')))
+eve.person.profile.update_attributes({:first_name => "Eve", :last_name => "Doe"}.merge(url_hash('angela')))
 puts "done!"
+
 
 print "Connecting users... "
 connect_users(bob, bob.aspects.first, alice, alice.aspects.first)
 connect_users(bob, bob.aspects.first, eve, eve.aspects.first)
 puts "done!"
 
-print "Adding Facebook contacts... "
-bob_facebook = Factory(:service, :type => 'Services::Facebook', :user_id => bob.id, :uid => bob.username)
-ServiceUser.import((1..40).map{|n| Factory.build(:service_user, :service => bob_facebook)} +
-                   [Factory.build(:service_user, :service => bob_facebook, :uid => eve.username, :person => eve.person,
-                                 :contact => bob.contact_for(eve.person))])
-
-eve_facebook = Factory(:service, :type => 'Services::Facebook', :user_id => eve.id, :uid => eve.username)
-ServiceUser.import((1..40).map{|n| Factory.build(:service_user, :service => eve_facebook) } +
-                   [Factory.build(:service_user, :service => eve_facebook, :uid => bob.username, :person => bob.person,
-                                  :contact => eve.contact_for(bob.person))])
-
-
+print "making Bob an admin and beta... "
+Role.add_beta(bob.person)
+Role.add_admin(bob.person)
 puts "done!"
+
 
 require File.join(File.dirname(__FILE__), '..', 'spec', 'support', 'fake_resque')
 require File.join(File.dirname(__FILE__), '..', 'spec', 'support', 'user_methods')
@@ -80,4 +74,3 @@ puts " done!"
 
 puts "Successfully seeded the db with users eve, bob, and alice (password: 'evankorth')"
 puts ""
-

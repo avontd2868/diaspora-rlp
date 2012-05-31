@@ -117,7 +117,6 @@ eo:
         tag_question: "demando"
         tutorials_wiki_and_forum: "%{tutorial} & %{wiki} & %{forum}: Instruiloj, lerniloj kaj novaĵoj funkciigitaj de la komunumo"
       introduce_yourself: "Tio estas via torento. Ensaltu kaj prezentu vin mem."
-      keep_us_running: "Helpu %{pod} rapide funkcii kaj aĉetu por niaj servkomputiloj ilian kaforiparon per ĉiumonata donatado!"
       new_here:
         follow: "Sekvu %{link} kaj bonvenu novajn uzantojn al Diaspora*!"
         learn_more: "Lerni pli"
@@ -179,7 +178,6 @@ eo:
       success: "Ni vidu kion ili emas diri! #sayhello"
   bookmarklet:
     explanation: "Vi povas afiŝi al DIASPORA* el ĉie per paĝosigno montranta al %{link}."
-    explanation_link_text: "ĉi tiu ligilo"
     heading: "Legosigneto"
     post_something: "Afiŝi ion al DIASPORA*"
     post_success: "Afiŝita! Fermanta!"
@@ -262,20 +260,6 @@ eo:
   fill_me_out: "Kompletu min"
   find_people: "Trovi homojn aŭ #etikedojn"
   hide: "Kaŝi"
-  home:
-    show:
-      already_account: "ĉu vi jam havas konton?"
-      choice: "Elekto"
-      choice_explanation: "DIASPORA* ebligas vin klasigi viajn kontaktojn en grupojn, kiuj nomiĝas „aspektoj“. Unike al DIASPORA*, aspektoj certigas, ke vi nur konigas viajn bildojn, rakontojn, kaj ŝercojn al homojal kiuj vi tion intencas."
-      learn_about_host: "Lernu pri kiel starigi propran Diaspora-servilon."
-      login_here: "ensalutu ĉi tie"
-      ownership: "Proprieto"
-      ownership_explanation: "Vi posedas viajn bildojn, kaj vi ne devus rezigni tiun, por konigi ilin. Vi ankoraŭ havas proprieton de ĉio, kiun vi konigas per Diaspora, donante al vi kompletan administradon pri kiel aĵoj disdoniĝas."
-      share_what_you_want: "Konigu kion vi volas, al kiu vi volas."
-      simplicity: "Simpleco"
-      simplicity_explanation: "DIASPORA* purigas kaj faciligas konigadon – kaj ankaŭ privatecon. DIASPORA* ne direktas tra multaj paĝoj de agordoj kaj opcioj por sekurigi vian profilon ĉar ĝi estas planita por privateco."
-      tagline_first_half: "Dividu kion vi volas,"
-      tagline_second_half: "kun kiu vi volas."
   invitations:
     a_facebook_user: "Facebook uzanto"
     check_token:
@@ -293,7 +277,6 @@ eo:
     new:
       already_invited: "Tiuj homoj ankoraŭ ne akceptis vian inviton:"
       aspect: "Aspekto"
-      comma_seperated_plz: "Vi povas aldoni multajn retpoŝtadresojn, apartate per komoj."
       if_they_accept_info: "se tiu akceptos, tiu aldoniĝos al la aspekto, en kiun vi invitis tiun."
       invite_someone_to_join: "Invitu iun aniĝi al DIASPORA*!"
       language: "Lingvo"
@@ -903,12 +886,6 @@ eo:
       what_are_you_in_to: "Pri kio vi ŝatokupiĝas?"
       what_facebook_does: "al Diaspora. Tio tiros vian nomon kaj foton, kaj ebligos krucreferencadon."
       who_are_you: "Kiu vi estas?"
-    logged_out:
-      go_mobile: "Nun uzu poŝtelefonan!"
-      on_your_mobile_device: "per via poŝtelefono uzi DIASPORA* poŝtelefonan."
-      signed_out: "Vi elsalutis je DIASPORA*."
-      simply_visit: "Nur iru al"
-      works_on_modern: "Funkcias per ĉiuj modernaj poŝtelefonoj"
     privacy_settings:
       ignored_users: "Ignoritaj Uzantoj"
       stop_ignoring: "Ĉesi ignori"

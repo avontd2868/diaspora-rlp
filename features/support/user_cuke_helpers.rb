@@ -6,7 +6,7 @@ module UserCukeHelpers
         :getting_started => false
     }
 
-    user = Factory(:user, default_attrs.merge!(overrides))
+    user = Factory(:user, default_attrs.merge(overrides))
     add_standard_aspects(user)
     user
   end
@@ -14,6 +14,12 @@ module UserCukeHelpers
   def add_standard_aspects(user)
     user.aspects.create(:name => "Besties")
     user.aspects.create(:name => "Unicorns")
+  end
+
+  def login_as(user, pass)
+    fill_in 'user_username', :with=>user
+    fill_in 'user_password', :with=>pass
+    click_button :submit
   end
 end
 

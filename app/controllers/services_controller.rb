@@ -3,6 +3,11 @@
 #   the COPYRIGHT file.
 
 class ServicesController < ApplicationController
+  # We need to take a raw POST from an omniauth provider with no authenticity token.
+  # See https://github.com/intridea/omniauth/issues/203
+  # See also http://www.communityguides.eu/articles/16
+  skip_before_filter :verify_authenticity_token, :only => :create
+
   before_filter :authenticate_user!
 
   respond_to :html
@@ -44,11 +49,7 @@ class ServicesController < ApplicationController
       end
     end
 
-    if current_user.getting_started
-      redirect_to  getting_started_path
-    else
-      redirect_to services_url
-    end
+    render :text => ("<script>window.close()</script>")
   end
 
   def failure
@@ -62,11 +63,6 @@ class ServicesController < ApplicationController
     @service.destroy
     flash[:notice] = I18n.t 'services.destroy.success'
     redirect_to services_url
-  end
+    end
 
-  def finder
-    @finder = true
-    @service = current_user.services.where(:type => "Services::#{params[:provider].titleize}").first
-    @friends = @service ? @service.finder(:remote => params[:remote]).paginate( :page => params[:page], :per_page => 15) : []
-  end
 end

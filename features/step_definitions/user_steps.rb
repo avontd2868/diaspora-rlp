@@ -99,11 +99,10 @@ Then /^I should have (\d) contacts? in "([^"]*)"$/ do |n_contacts, aspect_name|
 end
 
 When /^I (?:add|remove) the person (?:to|from) my "([^\"]*)" aspect$/ do |aspect_name|
-  steps %Q{
-    And I press the first ".toggle.button"
-    And I click on selector ".dropdown.active .dropdown_list li[data-aspect_id=#{@me.aspects.where(:name => aspect_name).first.id}]"
-    And I press the first ".toggle.button"
-  }
+    aspects_dropdown = find(".aspect_membership .toggle.button:first")
+    aspects_dropdown.click
+    find(".dropdown.active .dropdown_list li:contains('#{aspect_name}')").click
+    aspects_dropdown.click
 end
 
 When /^I post a status with the text "([^\"]*)"$/ do |text|
@@ -113,7 +112,8 @@ end
 And /^I follow the "([^\"]*)" link from the last sent email$/ do |link_text|
   email_text = Devise.mailer.deliveries.first.body.to_s
   email_text = Devise.mailer.deliveries.first.html_part.body.raw_source if email_text.blank?
-  doc = Nokogiri(email_text)
+  doc = Nokogiri("<div>" + email_text + "</div>")
+
   links = doc.css('a')
   link = links.detect{ |link| link.text == link_text }
   link = links.detect{ |link| link.attributes["href"].value.include?(link_text)} unless link
@@ -129,6 +129,11 @@ Then /^I should have (\d+) email delivery$/ do |n|
   ActionMailer::Base.deliveries.length.should == n.to_i
 end
 
+Then /^I should not see "([^\"]*)" in the last sent email$/ do |text|
+  email_text = Devise.mailer.deliveries.first.body.to_s
+  email_text = Devise.mailer.deliveries.first.html_part.body.raw_source if email_text.blank?
+  email_text.should_not match(text)
+end
 
 When /^"([^\"]+)" has posted a status message with a photo$/ do |email|
   user = User.find_for_database_authentication(:username => email)
@@ -184,7 +189,6 @@ When /^I fill in the new user form$/ do
   step 'I fill in "user_username" with "ohai"'
   step 'I fill in "user_email" with "ohai@example.com"'
   step 'I fill in "user_password" with "secret"'
-  step 'I fill in "user_password_confirmation" with "secret"'
 end
 
 And /^I should be able to friend Alice$/ do

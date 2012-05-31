@@ -39,6 +39,10 @@ class StatusMessagesController < ApplicationController
     end
   end
 
+  def new_bookmarklet
+    render :layout => nil
+  end
+
   def create
     params[:status_message][:aspect_ids] = [*params[:aspect_ids]]
     normalize_public_flag!
@@ -53,10 +57,11 @@ class StatusMessagesController < ApplicationController
       receiving_services = Service.titles(services)
 
       current_user.dispatch_post(@status_message, :url => short_post_url(@status_message.guid), :service_types => receiving_services)
-      
-      # @status_message.photos.each do |photo|
-      #   current_user.dispatch_post(photo)
-      # end
+
+      #this is done implicitly, somewhere else, but it doesnt work, says max. :'(
+      @status_message.photos.each do |photo|
+        current_user.dispatch_post(photo)
+      end
 
       current_user.participate!(@status_message)
 
@@ -65,14 +70,15 @@ class StatusMessagesController < ApplicationController
       end
 
       respond_to do |format|
-        format.html { redirect_to :back}
-        format.mobile{ redirect_to stream_path}
-        format.json{ render :json => @status_message.as_api_response(:backbone), :status => 201 }
+        format.html { redirect_to :back }
+        format.mobile { redirect_to stream_path }
+        format.json { render :json => PostPresenter.new(@status_message, current_user), :status => 201 }
       end
     else
       respond_to do |format|
-        format.json { render :nothing, :status => 403 }
         format.html { redirect_to :back }
+        format.mobile { redirect_to stream_path }
+        format.json { render :nothing => true , :status => 403 }
       end
     end
   end

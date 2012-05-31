@@ -1,6 +1,6 @@
 class UserPresenter
   attr_accessor :user
-  
+
   def initialize(user)
     self.user = user
   end
@@ -9,15 +9,34 @@ class UserPresenter
     self.user.person.as_api_response(:backbone).update(
       { :notifications_count => notifications_count,
         :unread_messages_count => unread_messages_count,
-        :admin => admin
+        :admin => admin,
+        :aspects => aspects,
+        :services => services,
+        :following_count => self.user.contacts.receiving.count,
+        :configured_services => self.configured_services,
+        :wallpaper => self.wallpaper
       }
     ).to_json(options)
   end
 
-  protected
+  def services
+    ServicePresenter.as_collection(user.services)
+  end
+
+  def configured_services
+    user.services.map{|service| service.provider }
+  end
+
+  def wallpaper
+    user.person.profile.wallpaper.url
+  end
+
+  def aspects
+    AspectPresenter.as_collection(user.aspects)
+  end
 
   def notifications_count
-    @notification_count ||= user.unread_notifications.count 
+    @notification_count ||= user.unread_notifications.count
   end
 
   def unread_messages_count

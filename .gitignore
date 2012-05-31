@@ -1,8 +1,3 @@
-#trademark sillyness
-#app/views/home/_show.html.haml
-#app/views/home/_show.mobile.haml
-public/images/ball_small.png
-public/images/ball.png
 # Configuration files
 config/app_config.yml
 config/app.yml
@@ -66,3 +61,7 @@ dump.rdb
 
 #Rubinius's JIT
 *.rbc
+
+# Ignore precompiled assets
+# Heroku or Capistrano can and should regenerate them on every deploy
+public/assets

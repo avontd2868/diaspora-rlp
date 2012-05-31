@@ -10,6 +10,15 @@ namespace :migrations do
     ShareVisibilityConverter.copy_hidden_share_visibilities_to_users
   end
 
+  desc 'puts out information about old invited users'
+  task :invitations => [:environment] do
+    puts "email, invitation_token, :invited_by_id, :invitation_identifier"
+    User.where('username is NULL').select([:id, :email, :invitation_token, :invited_by_id, :invitation_identifier]).find_in_batches do |users|
+      users.each{|x| puts "#{x.email}, #{x.invitation_token}, #{x.invited_by_id}, #{x.invitation_identifier}" }
+    end
+    puts "done"
+  end
+
   desc 'absolutify all existing image references'
   task :absolutify_image_references do
     require File.join(File.dirname(__FILE__), '..', '..', 'config', 'environment')
@@ -64,5 +73,40 @@ namespace :migrations do
       end
     }
 
+  end
+
+  # removes hashtags with uppercase letters and re-attaches
+  # the posts to the lowercase version
+  task :rewire_uppercase_hashtags => :environment do
+    evil_tags = ActsAsTaggableOn::Tag.where("lower(name) != name")
+    puts "found #{evil_tags.count} tags to convert..."
+
+    evil_tags.each_with_index do |tag, i|
+      good_tag = ActsAsTaggableOn::Tag.find_or_create_by_name(tag.name.downcase)
+      puts "++ '#{tag.name}' has #{tag.taggings.count} records attached"
+      deleteme = []
+
+      tag.taggings.each do |tagging|
+        deleteme << tagging
+      end
+
+      deleteme.each do |tagging|
+        #tag.taggings.delete(tagging)
+        good_tag.taggings << tagging
+      end
+
+      puts "-- converted '#{tag.name}' to '#{good_tag.name}' with #{deleteme.count} records"
+      puts "\n## #{i} tags processed\n\n" if (i % 50 == 0)
+    end
+  end
+
+  task :remove_uppercase_hashtags => :environment do
+    evil_tags = ActsAsTaggableOn::Tag.where("lower(name) != name")
+    evil_tags.each do |tag|
+      next if tag.taggings.count > 0 # non-ascii tags
+
+      puts "removing '#{tag.name}'..."
+      tag.destroy
+    end
   end
 end
