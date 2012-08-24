@@ -48,7 +48,24 @@ fi:
       user_search: "Käyttäjähaku"
       weekly_user_stats: "Viikottaiset käyttäjätiedot"
     stats:
+      50_most: "50 suosituinta tagia"
+      comments:
+        one: "%{count} kommentti"
+        other: "%{count} kommenttia"
+        zero: "%{count} kommenttia"
       go: "mene"
+      posts:
+        one: "%{count} viesti"
+        other: "%{count} viestiä"
+        zero: "%{count} viestiä"
+      shares:
+        one: "%{count} jako"
+        other: "%{count} jakoa"
+        zero: "%{count} jakoa"
+      users:
+        one: "%{count} käyttäjä"
+        other: "%{count} käyttäjää"
+        zero: "%{count} käyttäjää"
     user_search:
       add_invites: "lisää kutsuja"
       email_to: "Lähetä sähköpostia kutsuaksesi"
@@ -136,6 +153,7 @@ fi:
         tutorials_wiki_and_forum: "%{tutorial} & %{wiki} & %{forum}: Yhteisön laatimia oppaita, ohjeita ja uutisia"
       introduce_yourself: "Tämä on virtasi. Hyppää sekaan ja esittele itsesi."
       keep_diaspora_running: "Pidä Diasporan kehitys nopeana kuukausittaisten lahjoitusten avulla!"
+      keep_pod_running: "Pidä %{pod} vauhdissa tarjoamalla palvelimille kupponen kahvia kuukausittaisella lahjoituksella!"
       new_here:
         follow: "Seuraa tagia %{link} ja toivota uudet käyttäjät tervetulleiksi Diasporaan!"
         learn_more: "Lue lisää"
@@ -189,6 +207,7 @@ fi:
       revoke_access: "Estä pääsy"
     new:
       authorize: "Valtuuta"
+      cubbies_will: "Cubbies pystyy julkaisemaan kuvia sinun tililläsi"
       nope: "Ei"
   back: "Takaisin"
   blocks:
@@ -287,6 +306,8 @@ fi:
     helper:
       correct_the_following_errors_and_try_again: "Korjaa seuraavat virheet ja yritä uudelleen."
       invalid_fields: "Vialliset arvot"
+    login_try_again: "<a href='%{login_link}'>Kirjaudu sisään</a> ja yritä uudelleen."
+    post_not_public: "Viesti, jota yrität lukea, ei ole julkinen!"
   fill_me_out: "Täytä tiedot"
   find_people: "Etsi ihmisiä tai #tageja"
   hide: "Piilota"
@@ -432,19 +453,13 @@ fi:
       two: "%{actors} ovat maininneet sinut %{post_link}ssä."
       zero: "%{actors} on maininnut sinut %{post_link}ssä."
     mentioned_deleted:
-      few: "%{actors} mainitsi sinut poistetussa viestissä."
-      many: "%{actors} mainitsi sinut poistetussa viestissä."
       one: "%{actors} mainitsi sinut poistetussa viestissä."
-      other: "%{actors} mainitsi sinut poistetussa viestissä."
-      two: "%{actors} mainitsivat sinut poistetussa viestissä."
+      other: "%{actors} mainitsivat sinut poistetussa viestissä."
       zero: "%{actors} mainitsi sinut poistetussa viestissä."
     post: "viesti"
     private_message:
-      few: "%{actors} lähetti sinulle viestin."
-      many: "%{actors} lähetti sinulle viestin."
       one: "%{actors} lähetti sinulle viestin."
-      other: "%{actors} lähetti sinulle viestin."
-      two: "%{actors} lähettivät sinulle viestin."
+      other: "%{actors} lähettivät sinulle viestin."
       zero: "%{actors} lähetti sinulle viestin."
     reshared:
       few: "%{actors} ovat jakaneet %{post_link}si uudelleen."
@@ -482,16 +497,18 @@ fi:
       message: |-
           Hei!
 
-          Sinut on kutsuttu liittymään Diaspora*:an!
+          Sinut on kutsuttu liittymään Diasporaan!
 
-          Klikkaa tätä linkkiä aloittaaksesi.
+          Klikkaa tätä linkkiä aloittaaksesi
 
-          %{invite_url}
+          [%{invite_url}][1]
 
 
           Rakkaudella,
 
-          Diaspora*:n sähköpostirobotti!
+          Diasporan sähköpostirobotti!
+
+          [1]: %{invite_url}
     invited_you: "%{name} kutsui sinut Diaspora*:an"
     liked:
       liked: "%{name} tykkäsi kirjoituksestasi"
@@ -619,12 +636,9 @@ fi:
       not_found: "Valitettavasti viestiä ei löytynyt."
       permalink: "pysyvä linkki"
       photos_by:
-        few: "%{count} photos by %{author}"
-        many: "%{count} photos by %{author}"
-        one: "One photo by %{author}"
-        other: "%{count} photos by %{author}"
-        two: "Two photos by %{author}"
-        zero: "No photos by %{author}"
+        one: "Yksi kuva käyttäjältä %{author}"
+        other: "%{count} kuvaa käyttäjältä %{author}"
+        zero: "Ei kuvia käyttäjältä %{author}"
       reshare_by: "Uudelleenjaettu käyttäjältä %{author}"
   previous: "edellinen"
   privacy: "Yksityisyys"
@@ -727,7 +741,7 @@ fi:
   search: "Haku"
   services:
     create:
-      already_authorized: "Käyttäjä %{diaspora_id} on jo ottanut käyttöön %{service_name} nimisen käyttäjätilin."
+      already_authorized: "Käyttäjä, jonka Diaspora-ID on %{diaspora_id}, on jo ottanut käyttöön kyseisen %{service_name}-käyttäjätilin."
       failure: "Tunnistautuminen epäonnistui."
       success: "Tunnistus onnistui."
     destroy:
@@ -735,6 +749,7 @@ fi:
     failure:
       error: "palvelun yhdistämisessä tapahtui virhe"
     finder:
+      fetching_contacts: "Diaspora etsii %{service}-ystäviäsi. Katso uudelleen muutaman minuutin kuluttua."
       no_friends: "Facebook-kavereita ei löytynyt."
       service_friends: "%{service}-kaverit"
     index:

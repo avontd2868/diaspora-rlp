@@ -4,6 +4,7 @@ Diaspora is a privacy-aware, personally-controlled, do-it-all open source social
 
 [![Build Status](https://secure.travis-ci.org/diaspora/diaspora.png)](http://travis-ci.org/diaspora/diaspora)
 [![Dependency Status](https://gemnasium.com/diaspora/diaspora.png?travis)](https://gemnasium.com/diaspora/diaspora)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/diaspora/diaspora)
 
 ************************
 Diaspora is currently going through a huge refactoring push, the code is changing fast!
@@ -28,7 +29,7 @@ looking to contribute to D*.  This script assumes you have [a basic Rails setup 
 ```
 
 
-### Step 2: Run the the development server
+### Step 2: Run the development server
 ```
   rails s
 ```
@@ -52,6 +53,8 @@ To help everyone involved, please review our [Pull Request Guidelines](https://g
 to make sure all contributions are submitted smoothly.
 
 Documentation is available on our [wiki](https://github.com/diaspora/diaspora/wiki)
+
+Also, feel free to jump in and check things that need to be done in our [Community Pivotal Tracker](https://www.pivotaltracker.com/projects/61641#)
 
 Before submitting code, please sign our [Contributor License Agreement](https://github.com/diaspora/diaspora/wiki/New-CLA--12-13-10) [Sign Here](https://spreadsheets.google.com/a/joindiaspora.com/spreadsheet/viewform?formkey=dFdRTnY0TGtfaklKQXZNUndsMlJ2eGc6MQ)
 

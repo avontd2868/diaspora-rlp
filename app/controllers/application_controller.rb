@@ -1,4 +1,4 @@
-#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2012, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   before_filter :set_git_header if (AppConfig[:git_update] && AppConfig[:git_revision])
   before_filter :set_grammatical_gender
+  before_filter :mobile_switch
 
   inflection_method :grammatical_gender => :gender
 
@@ -103,6 +104,17 @@ class ApplicationController < ActionController::Base
 
   def grammatical_gender
     @grammatical_gender || nil
+  end
+
+  # use :mobile view for mobile and :html for everything else
+  # (except if explicitly specified, e.g. :json, :xml)
+  def mobile_switch
+    if session[:mobile_view] == true && request.format.html?
+      request.format = :mobile
+    elsif request.format.tablet?
+      # we currently don't have any special tablet views...
+      request.format = :html
+    end
   end
 
   def after_sign_in_path_for(resource)

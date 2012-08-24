@@ -4,11 +4,18 @@
 
 
 class Postzord::Receiver
-  require File.join(Rails.root, 'lib/postzord/receiver/private')
-  require File.join(Rails.root, 'lib/postzord/receiver/public')
+  require Rails.root.join('lib', 'postzord', 'receiver', 'private')
+  require Rails.root.join('lib', 'postzord', 'receiver', 'public')
 
   def perform!
     self.receive!
+  end
+
+  def author_does_not_match_xml_author?
+    if (@author.diaspora_handle != xml_author)
+      FEDERATION_LOGGER.info("event=receive status=abort reason='author in xml does not match retrieved person' payload_type=#{@object.class} sender=#{@author.diaspora_handle}")
+      return true
+    end
   end
 end
 

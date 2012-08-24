@@ -79,14 +79,14 @@ module Diaspora
     # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
     # Javascripts
     config.assets.precompile += [ "aspect-contacts.js", "contact-list.js", "finder.js",
-      "home.js", "ie.js", "inbox.js", "jquery.js", "jquery_ujs.js", "jquery.textchange.min.js",
+      "home.js", "ie.js", "inbox.js", "jquery.js", "jquery_ujs.js", "jquery.textchange.js",
       "login.js", "mailchimp.js", "main.js", "mobile.js", "profile.js", "people.js", "photos.js",
       "profile.js", "publisher.js", "templates.js", "validation.js" ]
 
     # Stylesheets
     config.assets.precompile += [ "blueprint.css", "bootstrap.css", "bootstrap-complete.css",
-      "bootstrap-responsive.css", "default.css", "login.css", "mobile.css", "new-templates.css",
-      "rtl.css" ]
+      "bootstrap-responsive.css", "default.css", "error_pages.css", "login.css", "mobile.css",
+      "new-templates.css", "rtl.css" ]
 
     # Rails Admin - these assets need to be added here since the Engine initializer
     # doesn't run with initialize_on_precompile disabled. This list is taken

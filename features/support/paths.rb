@@ -31,6 +31,8 @@ module NavigationHelpers
         person_path(@me.person,  :ex => true)
       when /^the new stream$/
         stream_path(:ex => true)
+      when /^forgot password page$/
+          new_user_password_path
       when /^"(\/.*)"/
         $1
       else
@@ -40,6 +42,11 @@ module NavigationHelpers
 
   def login_page
     path_to "the new user session page"
+  end
+
+  def post_path_by_content text
+    p = Post.find_by_text(text)
+    post_path(p)
   end
 end
 
