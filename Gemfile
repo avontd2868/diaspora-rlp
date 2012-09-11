@@ -3,11 +3,11 @@ source 'http://rubygems.org'
 gem 'bundler', '> 1.1.0'
 ruby '1.9.3' if ENV['HEROKU']
 
-gem 'rails', '3.2.6'
+gem 'rails', '3.2.8'
 
-gem 'foreman', '0.46'
+gem 'foreman', '0.57'
 
-gem 'thin', '~> 1.3.1',    :require => false
+gem 'thin', '~> 1.4.1',    :require => false
 gem 'rails_autolink'
 
 # cross-origin resource sharing
@@ -20,7 +20,7 @@ gem 'devise', '1.5.3'
 
 gem 'remotipart', '~> 1.0'
 
-gem 'omniauth', '1.0.3'
+gem 'omniauth', '1.1.1'
 gem 'omniauth-facebook'
 gem 'omniauth-tumblr'
 gem 'omniauth-twitter'
@@ -36,7 +36,7 @@ gem 'newrelic_rpm'
 gem "rpm_contrib", "~> 2.1.7"
 
 group :production do # we don't install these on travis to speed up test runs
-  gem 'rails_admin', '~> 0.0.3'
+  gem 'rails_admin', :git => 'git://github.com/halida/rails_admin.git'
   gem 'fastercsv', '1.5.5', :require => false
   gem 'rack-ssl', :require => 'rack/ssl'
   gem 'rack-rewrite', '~> 1.2.1', :require => false
@@ -49,7 +49,7 @@ end
 # configuration
 
 group :heroku do
-  gem 'pg'
+  gem 'pg', '0.14.1'
   gem 'unicorn', '~> 4.3.0', :require => false
 end
 
@@ -57,9 +57,9 @@ gem 'settingslogic', :git => 'https://github.com/binarylogic/settingslogic.git'
 # database
 
 gem "activerecord-import", "~> 0.2.9"
-gem 'foreigner', '~> 1.1.0'
+gem 'foreigner', '~> 1.2.1'
 gem 'mysql2', '0.3.11' if ENV['DB'].nil? || ENV['DB'] == 'all' || ENV['DB'] == 'mysql'
-gem 'pg' if ENV['DB'] == 'all' || ENV['DB'] == 'postgres'
+gem 'pg', '0.14.1' if ENV['DB'] == 'all' || ENV['DB'] == 'postgres'
 gem 'sqlite3' if ENV['DB'] == 'all' || ENV['DB'] == 'sqlite'
 
 # file uploading
@@ -87,28 +87,28 @@ gem 'ruby-oembed', '~> 0.8.7'
 
 # queue
 
-gem 'resque', '1.20.0'
+gem 'resque', '1.22.0'
 gem 'resque-timeout', '1.0.0'
 gem 'SystemTimer', '1.2.3', :platforms => :ruby_18
 
 # tags
 
-gem 'acts-as-taggable-on', :git => "https://github.com/mbleigh/acts-as-taggable-on.git"
+gem 'acts-as-taggable-on', '2.3.3'
 
 # URIs and HTTP
 
 gem 'addressable', '~> 2.2', :require => 'addressable/uri'
 gem 'http_accept_language', '~> 1.0.2'
-gem 'typhoeus', '~> 0.4.2'
+gem 'typhoeus', '~> 0.3.3'
 
 # views
 
-gem 'haml', '3.1.6.rc.1'
+gem 'haml', '3.1.7'
 gem 'mobile-fu'
 
 gem 'will_paginate'
 gem 'client_side_validations'
-gem 'gon'
+gem 'gon', '~> 4.0'
 
 # assets
 
@@ -146,14 +146,14 @@ group :test do
 
   gem 'capybara', '~> 1.1.2'
   gem 'cucumber-rails', '1.3.0', :require => false
-  gem 'database_cleaner', '0.7.1'
+  gem 'database_cleaner', '0.8'
 
   gem 'timecop'
   gem 'factory_girl_rails', '1.7.0'
-  gem 'fixture_builder', '0.3.3'
+  gem 'fixture_builder', '0.3.4'
   gem 'fuubar', '>= 1.0'
   gem 'rspec-instafail', '>= 0.1.7', :require => false
-  gem 'selenium-webdriver', '~> 2.22.1'
+  gem 'selenium-webdriver', '~> 2.25'
 
   gem 'webmock', '~> 1.7', :require => false
 
@@ -172,7 +172,7 @@ end
 
 group :development do
   gem 'heroku'
-  gem 'heroku_san', '3.0.2', :platforms => :mri_19
+  gem 'heroku_san', '3.0.4', :platforms => :mri_19
   gem 'capistrano', :require => false
   gem 'capistrano_colors', :require => false
   gem 'capistrano-ext', :require => false
