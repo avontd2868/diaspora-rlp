@@ -52,15 +52,10 @@ describe RegistrationsController do
     end
   end
 
-
-
   describe "#create" do
     context "with valid parameters" do
       before do
         AppConfig.settings.enable_registrations = true
-      end
-
-      before do
         user = FactoryGirl.build(:user)
         User.stub!(:build).and_return(user)
       end
@@ -84,7 +79,7 @@ describe RegistrationsController do
       it "redirects to the home path" do
         get :create, @valid_params
         response.should be_redirect
-        response.location.should match /^#{root_url}\??$/
+        response.location.should match /^#{stream_url}\??$/
       end
     end
 

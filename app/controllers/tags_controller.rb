@@ -1,8 +1,6 @@
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
-require Rails.root.join('app', 'models', 'acts_as_taggable_on', 'tag')
-require Rails.root.join('lib', 'stream', 'tag')
 
 class TagsController < ApplicationController
   skip_before_filter :set_grammatical_gender
@@ -32,8 +30,12 @@ class TagsController < ApplicationController
   end
 
   def show
-    @stream = Stream::Tag.new(current_user, params[:name], :max_time => max_time, :page => params[:page])
+    redirect_to(:action => :show, :name => downcased_tag_name) && return if tag_has_capitals?
 
+    if user_signed_in?
+      gon.tagFollowings = tags
+    end
+    @stream = Stream::Tag.new(current_user, params[:name], :max_time => max_time, :page => params[:page])
     respond_with do |format|
       format.json { render :json => @stream.stream_posts.map { |p| LastThreeCommentsDecorator.new(PostPresenter.new(p, current_user)) }}
     end
@@ -45,20 +47,21 @@ class TagsController < ApplicationController
     TagFollowing.user_is_following?(current_user, params[:name])
   end
 
+  def tag_has_capitals?
+    mb_tag = params[:name].mb_chars
+    mb_tag.downcase != mb_tag
+  end
+
+  def downcased_tag_name
+    params[:name].mb_chars.downcase.to_s
+  end
+
   def prep_tags_for_javascript
     @tags.map! do |tag|
-      {
-        :name  => ("#" + tag.name),
-        :value => ("#" + tag.name),
-        :url   => tag_path(tag.name)
-      }
+      { :name  => ("#" + tag.name) }
     end
 
-    @tags << {
-      :name  => ('#' + params[:q]),
-      :value => ("#" + params[:q]),
-      :url   => tag_path(params[:q].downcase)
-    }
+    @tags << { :name  => ('#' + params[:q]) }
     @tags.uniq!
   end
 end

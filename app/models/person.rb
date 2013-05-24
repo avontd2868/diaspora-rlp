@@ -2,9 +2,6 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require 'uri'
-require Rails.root.join('lib', 'hcard')
-
 class Person < ActiveRecord::Base
   include ROXML
   include Encryptor::Public
@@ -165,12 +162,6 @@ class Person < ActiveRecord::Base
       end
       ["contacts.user_id #{order}", "profiles.last_name ASC", "profiles.first_name ASC"]
     }.call
-  end
-
-  def self.public_search(query, opts={})
-    return [] if query.to_s.blank? || query.to_s.length < 3
-    sql, tokens = self.search_query_string(query)
-    Person.searchable.where(sql, *tokens)
   end
 
   def name(opts = {})

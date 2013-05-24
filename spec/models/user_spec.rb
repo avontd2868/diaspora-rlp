@@ -407,28 +407,6 @@ describe User do
     end
   end
 
-  describe "#can_add?" do
-    it "returns true if there is no existing connection" do
-      alice.can_add?(eve.person).should be_true
-    end
-
-    it "returns false if the user and the person are the same" do
-      alice.can_add?(alice.person).should be_false
-    end
-
-    it "returns false if the users are already connected" do
-      alice.can_add?(bob.person).should be_false
-    end
-
-    it "returns false if the user has already sent a request to that person" do
-      alice.share_with(eve.person, alice.aspects.first)
-      alice.reload
-      eve.reload
-      alice.can_add?(eve.person).should be_false
-    end
-  end
-
-
   describe '#process_invite_acceptence' do
     it 'sets the inviter on user' do
       inv = InvitationCode.create(:user => bob)
@@ -609,22 +587,22 @@ describe User do
       alice.disable_mail = false
       alice.save
 
-      Resque.should_receive(:enqueue).with(Jobs::Mail::StartedSharing, alice.id, 'contactrequestid').once
-      alice.mail(Jobs::Mail::StartedSharing, alice.id, 'contactrequestid')
+      Workers::Mail::StartedSharing.should_receive(:perform_async).with(alice.id, 'contactrequestid').once
+      alice.mail(Workers::Mail::StartedSharing, alice.id, 'contactrequestid')
     end
 
-    it 'does not enqueue a mail job if the correct corresponding job has a prefrence entry' do
+    it 'does not enqueue a mail job if the correct corresponding job has a preference entry' do
       alice.user_preferences.create(:email_type => 'started_sharing')
-      Resque.should_not_receive(:enqueue)
-      alice.mail(Jobs::Mail::StartedSharing, alice.id, 'contactrequestid')
+      Workers::Mail::StartedSharing.should_not_receive(:perform_async)
+      alice.mail(Workers::Mail::StartedSharing, alice.id, 'contactrequestid')
     end
 
     it 'does not send a mail if disable_mail is set to true' do
        alice.disable_mail = true
        alice.save
        alice.reload
-       Resque.should_not_receive(:enqueue)
-      alice.mail(Jobs::Mail::StartedSharing, alice.id, 'contactrequestid')
+       Workers::Mail::StartedSharing.should_not_receive(:perform_async)
+      alice.mail(Workers::Mail::StartedSharing, alice.id, 'contactrequestid')
     end
   end
 
@@ -743,12 +721,12 @@ describe User do
     describe '#mail_confirm_email' do
       it 'enqueues a mail job on user with unconfirmed email' do
         user.update_attribute(:unconfirmed_email, "alice@newmail.com")
-        Resque.should_receive(:enqueue).with(Jobs::Mail::ConfirmEmail, alice.id).once
+        Workers::Mail::ConfirmEmail.should_receive(:perform_async).with(alice.id).once
         alice.mail_confirm_email.should eql(true)
       end
 
       it 'enqueues NO mail job on user without unconfirmed email' do
-        Resque.should_not_receive(:enqueue).with(Jobs::Mail::ConfirmEmail, alice.id)
+        Workers::Mail::ConfirmEmail.should_not_receive(:perform_async).with(alice.id)
         alice.mail_confirm_email.should eql(false)
       end
     end
@@ -840,7 +818,7 @@ describe User do
         @post.reshares << reshare
 
         dispatcher = mock
-        Postzord::Dispatcher.should_receive(:build).with(bob, @retraction, {:additional_subscribers => [person]}).and_return(dispatcher)
+        Postzord::Dispatcher.should_receive(:build).with(bob, @retraction, {:additional_subscribers => [person], :services => anything}).and_return(dispatcher)
         dispatcher.should_receive(:post)
 
         bob.retract(@post)
@@ -865,7 +843,7 @@ describe User do
 
     it "queues up a job to send the reset password instructions" do
       user = FactoryGirl.create :user
-      Resque.should_receive(:enqueue).with(Jobs::ResetPassword, user.id)
+      Workers::ResetPassword.should_receive(:perform_async).with(user.id)
       user.send_reset_password_instructions
     end
   end

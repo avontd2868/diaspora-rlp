@@ -1,4 +1,4 @@
-#   Copyright (c) 2010-2012, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2013, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -45,7 +45,6 @@ pt-PT:
       correlations: "Correlações"
       pages: "Páginas"
       pod_stats: "Estatísticas do Pod"
-      resque_overview: "Visão Global do Resque"
       user_search: "Pesquisar Utilizador"
       weekly_user_stats: "Estatísticas Semanais de Utilizador"
     correlations:
@@ -157,6 +156,8 @@ pt-PT:
       donate: "Doar"
       handle_explanation: "Esta é a sua identificação na Diaspora. Tal como um endereço de email, pode dá-la a quem desejar que o contacte."
       help:
+        any_problem: "Algum Problema?"
+        contact_podmin: "Contacte o administrador do seu servidor"
         do_you: "Tem:"
         email_feedback: "%{link} o seu feedback, se preferir"
         email_link: "Email"
@@ -164,6 +165,7 @@ pt-PT:
         find_a_bug: "... um %{link} para reportar?"
         have_a_question: "... uma %{link}?"
         here_to_help: "A comunidade do Diaspora está aqui!"
+        mail_podmin: "E-Mail do Administrador"
         need_help: "Precisa de ajuda?"
         tag_bug: "erro"
         tag_feature: "funcionalidade"
@@ -278,11 +280,13 @@ pt-PT:
       people_sharing: "Pessoas a partilhar consigo:"
     spotlight:
       community_spotlight: "Destaque da comunidade"
+      suggest_member: "Sugerir um membro"
     two: "%{count} contactos"
     zero: "contactos"
   conversations:
     create:
       fail: "Mensagem inválida"
+      no_contact: "Cuidado, tens de adicionar o contacto primeiro!"
       sent: "A mensagem foi enviada"
     destroy:
       success: "A conversa foi removida com sucesso"
@@ -338,10 +342,12 @@ pt-PT:
     create:
       already_contacts: "Já está ligado a esta pessoa"
       already_sent: "Já convidou esta pessoa."
+      empty: "Por favor insira pelo menos um endereço de email."
       no_more: "Não tem mais convites."
+      note_already_sent: "Convites já foram enviados para: %{emails}"
       own_address: "Não pode enviar um convite para o seu próprio endereço."
       rejected: "Os seguintes endereços de email tiveram problemas: "
-      sent: "Os convites foram enviados para:"
+      sent: "Convites foram enviados para: %{emails}"
     edit:
       accept_your_invitation: "Aceite o seu convite"
       your_account_awaits: "A sua conta está à espera!"
@@ -408,23 +414,17 @@ pt-PT:
   no_results: "Não foram encontrados resultados"
   notifications:
     also_commented:
-      few: "%{actors} também comentaram na %{post_link} de %{post_author}."
-      many: "%{actors} também comentaram %{post_link} de %{post_author}."
-      one: "%{actors} também comentou %{post_link} de %{post_author}."
-      other: "%{actors} também comentaram %{post_link} de %{post_author}."
-      two: "%{actors} também comentaram no %{post_link} de %{post_author}."
-      zero: "%{actors} também comentaram %{post_link} de %{post_author}."
+      one: "%{actors} também comentou em %{post_link} de %{post_author}."
+      other: "%{actors} também comentaram em %{post_link} de %{post_author}."
+      zero: "%{actors} também comentaram em %{post_link} de %{post_author}."
     also_commented_deleted:
       one: "%{actors} comentou uma publicação apagada."
       other: "%{actors} comentaram uma publicação apagada."
       zero: "%{actors} comentaram uma publicação apagada."
     comment_on_post:
-      few: "%{actors} comentaram na sua %{post_link}."
-      many: "%{actors} comentaram na sua %{post_link}."
       one: "%{actors} comentou na sua %{post_link}."
       other: "%{actors} comentaram na sua %{post_link}."
-      two: "%{actors} comentaram no seu %{post_link}."
-      zero: "%{actors} comentou na sua %{post_link}."
+      zero: "%{actors} comentaram na sua %{post_link}."
     helper:
       new_notifications:
         few: "%{count} novas notificações"
@@ -472,12 +472,9 @@ pt-PT:
       zero: "%{actors} mencionaram-no numa publicação apagada."
     post: "publicação"
     private_message:
-      few: "%{actors} enviaram-lhe uma mensagem."
-      many: "%{actors} enviaram-lhe uma mensagem."
       one: "%{actors} enviou-lhe uma mensagem."
       other: "%{actors} enviaram-lhe uma mensagem."
-      two: "%{actors} enviaram-lhe uma mensagem."
-      zero: "%{actors} enviou-lhe uma mensagem."
+      zero: "%{actors} enviaram-lhe uma mensagem."
     reshared:
       one: "%{actors} partilhou o seu %{post_link}."
       other: "%{actors} partilharam o seu %{post_link}."
@@ -1002,6 +999,8 @@ pt-PT:
     getting_started:
       awesome_take_me_to_diaspora: "Excelente! Quero ir para o Diaspora*"
       community_welcome: "A comunidade do Diaspora está feliz por o ter consigo!"
+      connect_to_facebook: "Podemos acelerar as coisas um pouco %{link} ao Diaspora. Isto irá puxar o seu nome e fotografia, e activar cruzamento de publicações."
+      connect_to_facebook_link: "ligando à sua conta de Facebook"
       hashtag_explanation: "Os hashtags permitem-lhe falar sobre e seguir os seus interesses. Também são uma ótima forma de conhecer novas pessoas no Diaspora."
       hashtag_suggestions: "Siga etiquetas como #arte, #cinema, #gif, etc."
       saved: "Guardado!"

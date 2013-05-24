@@ -1,4 +1,4 @@
-#   Copyright (c) 2010-2012, Diaspora Inc.  This file is
+#   Copyright (c) 2010-2013, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
@@ -45,7 +45,6 @@ zh-TW:
       correlations: "關聯性"
       pages: "分頁"
       pod_stats: "Pod統計資料"
-      resque_overview: "Resque 狀態概要"
       user_search: "使用者搜尋"
       weekly_user_stats: "使用者統計週報"
     correlations:

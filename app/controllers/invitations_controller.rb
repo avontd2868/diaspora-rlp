@@ -2,14 +2,16 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require Rails.root.join('lib', 'email_inviter')
-
 class InvitationsController < ApplicationController
 
   before_filter :authenticate_user!, :only => [:new, :create]
 
   def new
     @invite_code = current_user.invitation_code
+
+    @invalid_emails = html_safe_string_from_session_array(:invalid_email_invites)
+    @valid_emails   = html_safe_string_from_session_array(:valid_email_invites)
+
     respond_to do |format|
       format.html do
         render :layout => false
@@ -48,10 +50,32 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    inviter = EmailInviter.new(params[:email_inviter][:emails], current_user, params[:email_inviter])
-    inviter.send!
+    emails = params[:email_inviter][:emails].split(',').map(&:strip).uniq
 
-    redirect_to :back, :notice => t('invitations.create.sent', :emails => inviter.emails.join(', '))
+    valid_emails, invalid_emails = emails.partition { |email| valid_email?(email) }
+
+    session[:valid_email_invites] = valid_emails
+    session[:invalid_email_invites] = invalid_emails
+
+    unless valid_emails.empty?
+      inviter = EmailInviter.new(valid_emails.join(','), current_user,
+                                 params[:email_inviter])
+      inviter.send!
+    end
+
+    if emails.empty?
+      flash[:error] = t('invitations.create.empty')
+    elsif invalid_emails.empty?
+      flash[:notice] =  t('invitations.create.sent', :emails => valid_emails.join(', '))
+    elsif valid_emails.empty?
+      flash[:error] = t('invitations.create.rejected') +  invalid_emails.join(', ')
+    else
+      flash[:error] = t('invitations.create.sent', :emails => valid_emails.join(', '))
+      flash[:error] << '. '
+      flash[:error] << t('invitations.create.rejected') +  invalid_emails.join(', ')
+    end
+
+    redirect_to :back
   end
 
   def check_if_invites_open
@@ -60,5 +84,18 @@ class InvitationsController < ApplicationController
 
       redirect_to :back
     end
+  end
+
+  private
+  def valid_email?(email)
+    User.email_regexp.match(email).present?
+  end
+
+  def html_safe_string_from_session_array(key)
+    return "" unless session[key].present?
+    return "" unless session[key].respond_to?(:join)
+    value = session[key].join(', ').html_safe
+    session[key] = nil
+    return value
   end
 end

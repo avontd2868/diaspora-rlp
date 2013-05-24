@@ -7,13 +7,13 @@ class User
   alias_method :share_with_original, :share_with
 
   def share_with(*args)
-    fantasy_resque do
+    inlined_jobs do
       share_with_original(*args)
     end
   end
 
   def post(class_name, opts = {})
-    fantasy_resque do
+    inlined_jobs do
       p = build_post(class_name, opts)
       if p.save!
         self.aspects.reload
@@ -30,12 +30,5 @@ class User
       end
       p
     end
-  end
-
-  def post_at_time(time)
-    to_aspect = self.aspects.length == 1 ? self.aspects.first : self.aspects.where(:name => "generic")
-    p = self.post(:status_message, :text => 'hi', :to => to_aspect)
-    p.created_at = time
-    p.save!
   end
 end

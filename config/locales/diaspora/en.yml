@@ -89,7 +89,7 @@ en:
       weekly_user_stats: "Weekly User Stats"
       pod_stats: "Pod Stats"
       correlations: "Correlations"
-      resque_overview: "Resque Overview"
+      sidekiq_monitor: "Sidekiq monitor"
     correlations:
       correlations_count: "Correlations with Sign In Count:"
     user_search:
@@ -240,6 +240,9 @@ en:
         tutorials_wiki_and_forum: "%{tutorial} & %{wiki} & %{forum}: Community-powered tutorials, how-to, and news"
         email_feedback: "%{link} your feedback, if you prefer"
         email_link: "Email"
+        any_problem: "Any Problem?"
+        contact_podmin: "Contact the administrator of your pod!"
+        mail_podmin: "Podmin E-Mail"
       cubbies:
         heading: "Connect to Cubbi.es"
         explanation: "Cubbi.es is the first Diaspora application under development."
@@ -314,6 +317,7 @@ en:
       many_people_are_you_sure: "Are you sure you want to start a private conversation with more than %{suggested_limit} contacts? Posting to this aspect may be a better way to contact them."
     spotlight:
       community_spotlight: "Community Spotlight"
+      suggest_member: "Suggest a member"
 
   conversations:
     index:
@@ -341,6 +345,7 @@ en:
     create:
       sent: "Message sent"
       fail: "Invalid message"
+      no_contact: "Hey, you need to add the contact first!"
     new_message:
       fail: "Invalid message"
     destroy:
@@ -362,6 +367,8 @@ en:
       already_sent: "You already invited this person."
       already_contacts: "You are already connected with this person"
       own_address: "You can't send an invitation to your own address."
+      empty: "Please enter at least one email address."
+      note_already_sent: "Invitations have already been sent to: %{emails}"
     new:
       language: "Language"
       invite_someone_to_join: "Invite someone to join Diaspora!"
@@ -519,18 +526,18 @@ en:
     invite:
       message: |-
         Hello!
-        
+
         You have been invited to join Diaspora*!
-        
+
         Click this link to get started
-        
+
         [%{invite_url}][1]
-        
-        
+
+
         Love,
-        
+
         The Diaspora* email robot!
-        
+
         [1]: %{invite_url}
   people:
     zero: "no people"
@@ -743,6 +750,7 @@ en:
       connect_to_tumblr: "Connect to Tumblr"
       edit_services: "Edit services"
       no_services: 'You have not connected any services yet.'
+      services_explanation: 'Connecting to services gives you the ability to publish your posts to them as you write them in Diaspora.'
     create:
       success: "Authentication successful."
       failure: "Authentication failed."
@@ -781,10 +789,12 @@ en:
     publisher:
       posting: "Posting..."
       share: "Share"
+      preview: "Preview"
       post_a_message_to: "Post a message to %{aspect}"
       make_public: "make public"
       all: "all"
       upload_photos: "Upload photos"
+      get_location: "Get your location"
       all_contacts: "all contacts"
       share_with: "share with"
       whats_on_your_mind: "What's on your mind?"
@@ -822,7 +832,7 @@ en:
       share: "Share"
       outside: "Public messages will be available for others outside of Diaspora to see."
       logged_in: "logged in to %{service}"
-      manage: "manage connected services"
+      manage: "Manage connected services"
       atom_feed: "Atom feed"
     notification:
       new: "New %{type} from %{from}"
@@ -989,7 +999,7 @@ en:
         dont_go: "Hey, please don't go!"
         make_diaspora_better: "We want you to help us make Diaspora better, so you should help us out instead of leaving. If you do want to leave, we want you to know what happens next."
         mr_wiggles: 'Mr Wiggles will be sad to see you go'
-        what_we_delete: "We delete all of your posts, profile data, as soon as humanly possible. Your comments will hang around, but be associated with your Diaspora ID."
+        what_we_delete: "We will delete all of your posts and profile data as soon as humanly possible. Your comments will hang around, but they would be associated with your Diaspora ID instead of your name."
         locked_out: "You will get signed out and locked out of your account."
         lock_username: "This will lock your username if you decided to sign back up."
         no_turning_back: "Currently, there is no turning back."

@@ -2,12 +2,11 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require 'typhoeus'
-require 'active_support/base64'
-
 class HydraWrapper
 
   OPTS = {:max_redirects => 3, :timeout => 25000, :method => :post,
+          :verbose => AppConfig.settings.typhoeus_verbose?,
+          :ssl_cacert => AppConfig.environment.certificate_authorities.get,
           :headers => {'Expect'            => '',
                        'Transfer-Encoding' => ''}
          }

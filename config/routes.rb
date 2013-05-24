@@ -2,14 +2,20 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
+require 'sidekiq/web'
+
 Diaspora::Application.routes.draw do
   if Rails.env.production?
     mount RailsAdmin::Engine => '/admin_panel', :as => 'rails_admin'
   end
 
+  constraints ->(req) { req.env["warden"].authenticate?(scope: :user) &&
+                        req.env['warden'].user.admin? } do
+    mount Sidekiq::Web => '/sidekiq', :as => 'sidekiq'
+  end
 
   get "/atom.xml" => redirect('http://blog.diasporafoundation.org/feed/atom') #too many stupid redirects :()
-  
+
   get 'oembed' => 'posts#oembed', :as => 'oembed'
   # Posting and Reading
   resources :reshares
@@ -48,7 +54,7 @@ Diaspora::Application.routes.draw do
   get "liked" => "streams#liked", :as => "liked_stream"
   get "commented" => "streams#commented", :as => "commented_stream"
   get "aspects" => "streams#aspects", :as => "aspects_stream"
-  
+
   resources :aspects do
     put :toggle_contact_visibility
   end
@@ -74,13 +80,8 @@ Diaspora::Application.routes.draw do
   end
 
   resources :tags, :only => [:index]
-  scope "tags/:name" do
-    post   "tag_followings" => "tag_followings#create", :as => 'tag_tag_followings'
-    delete "tag_followings" => "tag_followings#destroy", :as => 'tag_tag_followings'
-  end
 
-  post   "multiple_tag_followings" => "tag_followings#create_multiple", :as => 'multiple_tag_followings'
-  resources "tag_followings", :only => [:create]
+  resources "tag_followings", :only => [:create, :destroy, :index]
 
   get 'tags/:name' => 'tags#show', :as => 'tag'
 
@@ -119,7 +120,7 @@ Diaspora::Application.routes.draw do
   get 'invitations/email' => 'invitations#email', :as => 'invite_email'
   get 'users/invitations' => 'invitations#new', :as => 'new_user_invitation'
   post 'users/invitations' => 'invitations#create', :as => 'new_user_invitation'
-  
+
   get 'login' => redirect('/users/sign_in')
 
   scope 'admins', :controller => :admins do
@@ -150,6 +151,7 @@ Diaspora::Application.routes.draw do
     resources :photos
     get :contacts
     get "aspect_membership_button" => :aspect_membership_dropdown, :as => "aspect_membership_button"
+    get :hovercard
 
     member do
       get :last_post
@@ -209,11 +211,6 @@ Diaspora::Application.routes.draw do
 
   #Protocol Url
   get 'protocol' => redirect("https://github.com/diaspora/diaspora/wiki/Diaspora%27s-federation-protocol")
-
-  # Resque web
-  if AppConfig.admins.inline_resque_web?
-    mount Resque::Server.new, :at => '/resque-jobs', :as => "resque_web"
-  end
 
   # Startpage
   root :to => 'home#show'

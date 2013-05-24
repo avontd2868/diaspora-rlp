@@ -3,8 +3,6 @@
 #   the COPYRIGHT file.
 
 class Photo < ActiveRecord::Base
-  require 'carrierwave/orm/activerecord'
-
   include Diaspora::Federated::Shareable
   include Diaspora::Commentable
   include Diaspora::Shareable
@@ -128,12 +126,8 @@ class Photo < ActiveRecord::Base
     }
   end
 
-  def thumb_hash
-    {:thumb_url => url(:thumb_medium), :id => id, :album_id => nil}
-  end
-
   def queue_processing_job
-    Resque.enqueue(Jobs::ProcessPhoto, self.id)
+    Workers::ProcessPhoto.perform_async(self.id)
   end
 
   def mutable?

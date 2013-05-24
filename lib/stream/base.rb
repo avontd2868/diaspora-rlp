@@ -1,4 +1,3 @@
-require Rails.root.join("lib", "publisher")
 class Stream::Base
   TYPES_OF_POST_IN_STREAM = ['StatusMessage', 'Reshare', 'ActivityStreams::Photo']
 
@@ -48,11 +47,6 @@ class Stream::Base
     people_ids = self.stream_posts.map{|x| x.author_id}
     Person.where(:id => people_ids).
       includes(:profile)
-  end
-
-  # @return [String]
-  def contacts_link_title
-    I18n.translate('aspects.selected_contacts.view_all_contacts')
   end
 
   # @return [String] def contacts_title 'change me in lib/base_stream.rb!'

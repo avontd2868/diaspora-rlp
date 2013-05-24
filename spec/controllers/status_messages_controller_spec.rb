@@ -7,7 +7,6 @@ require 'spec_helper'
 describe StatusMessagesController do
   before do
     @aspect1 = alice.aspects.first
-    @aspect2 = bob.aspects.first
 
     request.env["HTTP_REFERER"] = ""
     sign_in :user, alice
@@ -55,8 +54,7 @@ describe StatusMessagesController do
 
   describe '#new' do
     it 'succeeds' do
-      get :new,
-        :person_id => bob.person.id
+      get :new, :person_id => bob.person.id
       response.should be_success
     end
 
@@ -204,11 +202,12 @@ describe StatusMessagesController do
       end
 
       it "sets the pending bit of referenced photos" do
-        fantasy_resque do
+        inlined_jobs do
           post :create, @hash
-          @photo1.reload.pending.should be_false
-          @photo2.reload.pending.should be_false
         end
+        
+        @photo1.reload.pending.should be_false
+        @photo2.reload.pending.should be_false
       end
     end
   end

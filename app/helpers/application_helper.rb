@@ -7,6 +7,16 @@ module ApplicationHelper
     AppConfig.settings.pod_name.present? ? AppConfig.settings.pod_name : "DIASPORA*"
   end
 
+  def pod_version
+    AppConfig.version.number.present? ? AppConfig.version.number : ""
+  end
+
+  def changelog_url
+    url = "https://github.com/diaspora/diaspora/blob/master/Changelog.md"
+    url.sub!('/master/', "/#{AppConfig.git_revision}/") if AppConfig.git_revision.present?
+    url
+  end
+
   def how_long_ago(obj)
     timeago(obj.created_at)
   end
@@ -41,15 +51,7 @@ module ApplicationHelper
   end
 
   def popover_with_close_html(without_close_html)
-    without_close_html + link_to(image_tag('deletelabel.png'), "#", :class => 'close')
-  end
-
-  def diaspora_id_host
-    User.diaspora_id_host
-  end
-
-  def modernizer_responsive_tag
-    javascript_tag("Modernizr.mq('(min-width:0)') ||  document.write(unescape('#{j javascript_include_tag("mbp-respond.min")}'));")
+    without_close_html + link_to(content_tag(:div, nil, :class => 'icons-deletelabel'), "#", :class => 'close')
   end
 
   # Require jQuery from CDN if possible, falling back to vendored copy, and require

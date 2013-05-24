@@ -17,8 +17,6 @@ describe ServicesController do
 
   before do
     @user   = alice
-    @aspect = @user.aspects.first
-
     sign_in :user, @user
     @controller.stub!(:current_user).and_return(@user)
     mock_access_token.stub!(:token => "12345", :secret => "56789")
@@ -78,7 +76,7 @@ describe ServicesController do
         profile[:image_url] = "/non/default/image.jpg"
         profile.save
 
-        Resque.should_not_receive(:enqueue)
+        Workers::FetchProfilePhoto.should_not_receive(:perform_async)
 
         post :create, :provider => 'twitter'
       end
@@ -88,7 +86,7 @@ describe ServicesController do
         profile[:image_url] = nil
         profile.save
 
-        Resque.should_receive(:enqueue).with(Jobs::FetchProfilePhoto, @user.id, anything(), "https://service.com/fallback_lowres.jpg")
+        Workers::FetchProfilePhoto.should_receive(:perform_async).with(@user.id, anything(), "https://service.com/fallback_lowres.jpg")
 
         post :create, :provider => 'twitter'
       end
@@ -106,5 +104,4 @@ describe ServicesController do
       }.should change(@user.services, :count).by(-1)
     end
   end
-
 end
